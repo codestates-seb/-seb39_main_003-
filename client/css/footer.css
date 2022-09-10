@@ -1,0 +1,53 @@
+/*footer*/
+footer {
+    width: 100%;
+    height: 200px;
+    background-color: black;
+}
+footer > .footer_r > .teck_footer_logo > p {
+    font-size: 12px;
+    color: whitesmoke;
+}
+.footer_r {
+    width: 100%;
+    max-width: 1320px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+}
+.teck {
+    display: flex;
+    justify-content: left;
+   
+}
+.teck_button {
+    min-width: 148px;
+    margin-right: 25px;
+    margin-top: 25px;
+    color: gray;
+    text-align: center;
+}
+.teck_button:hover {
+    color: white;
+    background-color: gray;
+}
+.teck_footer_logo {
+    width: 100%;
+    height: 200px;
+}
+.teck_logo {
+    width: 100%;
+    height: 100px;
+    margin-top: 25px;
+    text-align: right;
+}
+@media (max-width: 992px) {
+    .teck_logo {
+        display: none;
+    }
+}
+a {
+    text-decoration: none;
+}
