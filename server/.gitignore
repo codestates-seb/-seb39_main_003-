@@ -22,7 +22,7 @@
 
 # yml, properties #
 *.yml
-*.properties
+application.properties
 
 # MAC #
 .DS_Store
