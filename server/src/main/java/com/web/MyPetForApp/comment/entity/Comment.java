@@ -32,4 +32,15 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
     private Board board;
+
+    // Comment-Board 양방향 연관관계 편의 메서드
+    public void setBoard(Board board){
+        if(this.board != null){
+            this.board.getComments().remove(this);
+        }
+        this.board = board;
+        if(!board.getComments().contains(this)){
+            board.addComment(this);
+        }
+    }
 }

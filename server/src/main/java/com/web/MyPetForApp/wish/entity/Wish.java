@@ -22,18 +22,24 @@ public class Wish {
     @JoinColumn(name = "ITEM_ID")
     private Item item;
 
-    // Member 양방향 연관관계 편의 메서드
-    public void addMember(Member member){
+    // Member-Wish 양방향 연관관계 편의 메서드
+    public void setMember(Member member){
+        if(this.member != null){
+            this.member.getWishes().remove(this);
+        }
         this.member = member;
-        if(!this.member.getWishes().contains(this)){
-            this.member.getWishes().add(this);
+        if(!member.getWishes().contains(this)){
+            member.addWish(this);
         }
     }
-    // Item 양방향 연관관계 편의 메서드
-    public void addItem(Item item){
+    // Item-Wish 양방향 연관관계 편의 메서드
+    public void setItem(Item item){
+        if(this.item != null){
+            this.item.getWishes().remove(this);
+        }
         this.item = item;
-        if(!this.item.getWishes().contains(this)){
-            this.item.getWishes().add(this);
+        if(!item.getWishes().contains(this)){
+            item.addWish(this);
         }
     }
 }

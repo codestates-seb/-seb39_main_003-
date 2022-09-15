@@ -43,29 +43,14 @@ public class Member {
     @Column
     private String profileImg;
 
-//    @OneToMany(mappedBy = "member") // 게시글 목록 필요??
-//    private List<Board> boards = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "member") // 댓글 목록 필요??
-//    private List<Comment> comments = new ArrayList<>();
-
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Wish> wishes = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "member") // 문의 목록 필요??
-//    private List<Qna> qnas = new ArrayList<>();
-
     @OneToMany(mappedBy = "member")
     private List<CartItem> cartItems = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "member") // 후기 목록 필요??
-//    private List<Review> reviews = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "member") // 상품 목록 필요??
-//    private List<Item> items = new ArrayList<>();
 
     // Member-Order 양방향 연관관계 편의 메서드
     public void addOrder(Order order){
@@ -76,18 +61,36 @@ public class Member {
     }
     // Member-Wish 양방향 연관관계 편의 메서드
     public void addWish(Wish wish){
-        this.wishes.add(wish);
+        wishes.add(wish);
         if(wish.getMember() != this){
-            wish.addMember(this);
+            wish.setMember(this);
         }
     }
     //Member-CartItem 양방향 연관관계 편의 메서드
     public void addCartItem(CartItem cartItem){
-        this.cartItems.add(cartItem);
+        cartItems.add(cartItem);
         if(cartItem.getMember() != this){
-            cartItem.addMember(this);
+            cartItem.setMember(this);
         }
     }
+
+//    @OneToMany(mappedBy = "member") // 게시글 목록 필요??
+//    private List<Board> boards = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "member") // 댓글 목록 필요??
+//    private List<Comment> comments = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "member") // 문의 목록 필요??
+//    private List<Qna> qnas = new ArrayList<>();
+
+
+//    @OneToMany(mappedBy = "member") // 후기 목록 필요??
+//    private List<Review> reviews = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "member") // 상품 목록 필요??
+//    private List<Item> items = new ArrayList<>();
+
+
 
 
 }

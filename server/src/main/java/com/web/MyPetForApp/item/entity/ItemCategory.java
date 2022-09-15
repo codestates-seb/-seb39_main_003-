@@ -1,5 +1,6 @@
 package com.web.MyPetForApp.item.entity;
 
+import com.web.MyPetForApp.board.entity.Board;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,4 +21,11 @@ public class ItemCategory {
     @OneToMany(mappedBy = "itemCategory")
     private List<Item> items = new ArrayList<>();
 
+    // ItemCategory-Item 양방향 연관관계 편의 메서드
+    public void addItem(Item item){
+        this.items.add(item);
+        if(item.getItemCategory() != this){
+            item.setItemCategory(this);
+        }
+    }
 }

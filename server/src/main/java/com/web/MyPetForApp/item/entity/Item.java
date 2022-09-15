@@ -1,5 +1,6 @@
 package com.web.MyPetForApp.item.entity;
 
+import com.web.MyPetForApp.board.entity.BoardCategory;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.order.entity.OrderItem;
@@ -80,17 +81,36 @@ public class Item {
     @OneToMany(mappedBy = "item")
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    // Wish 양방향 연관관계 편의 메서드
+    // Item-Wish 양방향 연관관계 편의 메서드
     public void addWish(Wish wish){
         this.wishes.add(wish);
         if(wish.getItem() != this){
-            wish.addItem(this);
+            wish.setItem(this);
         }
     }
+    // Item-Order 양방향 연관관계 편의 메서드
     public void addOrderItem(OrderItem orderItem){
         this.orderItems.add(orderItem);
         if(orderItem.getItem() != this){
             orderItem.setItem(this);
+        }
+    }
+    // Item-CartItem 양방향 연관관계 편의 메서드
+    public void addCartItem(CartItem cartItem){
+        this.cartItems.add(cartItem);
+        if(cartItem.getItem() != this){
+            cartItem.setItem(this);
+        }
+    }
+
+    // Board-BoardCategory 양방향 연관관계 편의 메서드
+    public void setItemCategory(ItemCategory itemCategory){
+        if(this.itemCategory != null){
+            this.itemCategory.getItems().remove(this);
+        }
+        this.itemCategory = itemCategory;
+        if(!itemCategory.getItems().contains(this)){
+            itemCategory.addItem(this);
         }
     }
 }

@@ -29,9 +29,7 @@ public class OrderItem {
         if(this.order != null){
             this.order.getOrderItems().remove(this);
         }
-
         this.order = order;
-
         if(!order.getOrderItems().contains(this)){
             order.addOrderItem(this);
         }
@@ -41,9 +39,7 @@ public class OrderItem {
         if(this.item != null){
             this.item.getOrderItems().remove(this);
         }
-
         this.item = item;
-
         if(!item.getOrderItems().contains(this)){
             item.addOrderItem(this);
         }

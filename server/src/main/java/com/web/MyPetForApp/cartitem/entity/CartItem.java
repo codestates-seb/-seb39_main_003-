@@ -36,18 +36,24 @@ public class CartItem {
     @JoinColumn(name = "ITEM_ID")
     private Item item;
 
-    // Member-CartItem 양방향 연관관계 편의 메서드
-    public void addMember(Member member){
+    // CartItem-Member 양방향 연관관계 편의 메서드
+    public void setMember(Member member){
+        if(this.member != null){
+            this.member.getCartItems().remove(this);
+        }
         this.member = member;
-        if(!this.member.getCartItems().contains(this)){
-            this.member.getCartItems().add(this);
+        if(!member.getCartItems().contains(this)){
+            member.addCartItem(this);
         }
     }
-    // Item-CartItem 양방향 연관관계 편의 메서드
-    public void addItem(Item item){
+    // CartItem-Item 양방향 연관관계 편의 메서드
+    public void setItem(Item item){
+        if(this.item != null){
+            this.item.getCartItems().remove(this);
+        }
         this.item = item;
-        if(!this.item.getCartItems().contains(this)){
-            this.item.getCartItems().add(this);
+        if(!item.getCartItems().contains(this)){
+            item.addCartItem(this);
         }
     }
 }
