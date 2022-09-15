@@ -1,0 +1,141 @@
+*{
+    box-sizing: border-box;
+}
+/*커뮤니티 탭*/
+.ctabterritory{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.ctabterritory > .cbackground{
+    width: 100%;
+    padding: 10px 10px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    font-weight: bold;
+    background-color: #EEF1FF;
+}
+.ctabtext{
+    font-size: large;
+    color: #000000;
+    text-decoration: none;
+}
+.ctabtext:hover{
+    color: rgb(146 99 255);
+}
+/*커뮤니티 검색창*/
+.csearchterritory{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+.csearchterritory > .cbackground{
+    width: 20%;
+    
+    padding: 5px;
+    margin: 20px;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #F9F9F9;
+}
+.csearch{
+    width: 15vw;
+    padding: 3px;
+    margin: 3px;
+    border-style: none;
+
+    text-align: center;
+    font-size: 15px;
+}
+.csearchsvg{
+    width: 25px;
+    height: 25px;
+}
+/*게시글 목록*/
+.cpostterritory{
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.cpostterritory > .cbackground{
+    padding: 30px 10px;
+    margin: 20px;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #F9F9F9;
+}
+.cposttop{
+    width: 90vw;
+    padding: 10px 10px;
+    margin-bottom: 30px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    background-color: rgb(146 99 255);
+}
+.cposttext{
+    color: #F9F9F9;
+    font-weight: bold;
+}
+.cpostmiddle{
+    width: 90vw;
+    padding: 10px 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.cpost{
+    width: 90vw;
+    padding: 10px 10px;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    background-color: #EEF1FF;
+}
+.title{}
+.content{
+    text-decoration: none;
+    color: #000000;
+}
+.user{}
+.cpostbottom{
+    padding: 10px;
+    margin-top: 10px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.cpostpage{
+    padding: 5px;
+
+    text-decoration: none;
+    color: #000000;
+}
