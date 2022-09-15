@@ -1,37 +1,41 @@
 package com.web.MyPetForApp.item.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class ItemInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemInfoId;
 
-    @Column
+    @Column(nullable = false)
     private String manufacture;
 
-    @Column
+    @Column(nullable = false)
     private String asPhone;
 
-    @Column
+    @Column(nullable = false)
     private String certification;
 
-    @Column
+    @Column(nullable = false)
     private String qas;
 
-    @Column
+    @Column(nullable = false)
     private String displayUnit;
 
-    @Column
+    @Column(nullable = false)
     private String totalCapacity;
 
-    @Column
+    @Column(nullable = false)
     private String unitCapacity;
 
-    @Column
+    @Column(nullable = false)
     private String color;
 
-    @Column
+    @Column(nullable = false)
     private String size;
 }
