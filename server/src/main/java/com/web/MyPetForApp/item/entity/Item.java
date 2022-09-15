@@ -62,10 +62,6 @@ public class Item {
     @JoinColumn(name = "ITEM_CATEGORY_ID")
     private ItemCategory itemCategory;
 
-    @OneToOne
-    @JoinColumn(name = "ITEM_INFO_ID")
-    private ItemInfo itemInfo;
-
     @OneToMany(mappedBy = "item")
     private List<Wish> wishes = new ArrayList<>();
 
