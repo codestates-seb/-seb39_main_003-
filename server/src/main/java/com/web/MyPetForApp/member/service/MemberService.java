@@ -16,7 +16,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public Member create(Member member) {
-    Optional<Member> optionalmember = memberRepository.findById(member.getMemberId());
+    Optional<Member> optionalmember = memberRepository.findByEmail(member.getEmail());
 
     if(optionalmember.isPresent()) {
         throw new IllegalArgumentException("이미 존재하는 회원입니다.");

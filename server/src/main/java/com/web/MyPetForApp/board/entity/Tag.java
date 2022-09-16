@@ -1,6 +1,10 @@
 package com.web.MyPetForApp.board.entity;
 
+import com.web.MyPetForApp.board.basetime.BaseTimeEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,7 +12,10 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Tag {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Tag extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long TagId;
@@ -18,11 +25,11 @@ public class Tag {
     @OneToMany(mappedBy = "tag")
     private List<BoardTag> boardTags = new ArrayList<>();
 
-    // Tag-BoardTag 양방향 연관관계 편의 메서드
-    public void addBoardTags(BoardTag boardTag){
-        this.boardTags.add(boardTag);
-        if(boardTag.getTag() != this){
-            boardTag.setTag(this);
-        }
-    }
+//    // Tag-BoardTag 양방향 연관관계 편의 메서드
+//    public void addBoardTags(BoardTag boardTag){
+//        this.boardTags.add(boardTag);
+//        if(boardTag.getTag() != this){
+//            boardTag.setTag(this);
+//        }
+//    }
 }
