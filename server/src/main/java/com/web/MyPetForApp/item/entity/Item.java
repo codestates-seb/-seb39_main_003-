@@ -1,6 +1,5 @@
 package com.web.MyPetForApp.item.entity;
 
-import com.web.MyPetForApp.board.entity.BoardCategory;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.order.entity.OrderItem;

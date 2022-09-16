@@ -2,10 +2,7 @@ package com.web.MyPetForApp.board.entity;
 
 import com.web.MyPetForApp.comment.entity.Comment;
 import com.web.MyPetForApp.member.entity.Member;
-import com.web.MyPetForApp.order.entity.Order;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -38,9 +35,8 @@ public class Board {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToOne
-    @JoinColumn(name = "BOARD_CATEGORY_ID")
-    private BoardCategory boardCategory;
+    @OneToMany(mappedBy = "board")
+    private List<BoardTag> boardTags = new ArrayList<>();
 
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
@@ -52,14 +48,11 @@ public class Board {
             comment.setBoard(this);
         }
     }
-    // Board-BoardCategory 양방향 연관관계 편의 메서드
-    public void setBoardCategory(BoardCategory boardCategory){
-        if(this.boardCategory != null){
-            this.boardCategory.getBoards().remove(this);
-        }
-        this.boardCategory = boardCategory;
-        if(!boardCategory.getBoards().contains(this)){
-            boardCategory.addBoard(this);
+    // Board-BoardTag 양방향 연관관계 편의 메서드
+    public void addBoardTag(BoardTag boardTag){
+        this.boardTags.add(boardTag);
+        if(boardTag.getBoard() != this){
+            boardTag.setBoard(this);
         }
     }
 }
