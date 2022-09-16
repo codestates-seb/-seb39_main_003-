@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/member")
+@RequestMapping("/api/v1")
 public class MemberController {
 
     private final MemberService memberService;
@@ -19,30 +19,35 @@ public class MemberController {
     private final MemberMapper mapper;
 
     // 테스트용
-    @GetMapping
+    @GetMapping("/user/test")
     public String test() {
-        return "드디어 메인 프로젝트가 시작되었습니다!";
+        return "일반유저 권한 테스트";
     }
 
-    @PostMapping
+    @GetMapping("/admin/test")
+    public String test2() {
+        return "관리자 모드 테스트";
+    }
+
+    @PostMapping("/member")
     public ResponseEntity join(@RequestBody MemberDto.Post post) {
         Member savedMember = memberService.create(mapper.memberPostDtoToMember(post));
         return new ResponseEntity<>(mapper.memberToResponse(savedMember), HttpStatus.CREATED);
     }
 
-    @PatchMapping
+    @PatchMapping("/member")
     public ResponseEntity memberModify(@RequestBody MemberDto.Patch patch) {
         Member modifiedMember = memberService.update(mapper.memberPatchToMember(patch));
         return new ResponseEntity<>(mapper.memberToResponse(modifiedMember), HttpStatus.OK);
     }
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/member/{memberId}")
     public ResponseEntity memberFind(@PathVariable Long memberId) {
         Member findMember = memberService.read(memberId);
         return new ResponseEntity<>(mapper.memberToResponse(findMember) ,HttpStatus.OK);
     }
 
-    @DeleteMapping("/{memberId}")
+    @DeleteMapping("/member/{memberId}")
     public ResponseEntity memberDelete(@PathVariable Long memberId) {
         memberService.delete(memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
