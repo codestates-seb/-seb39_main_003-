@@ -46,14 +46,23 @@ public class Member {
     @Column
     private String profileImg;
 
-    @Column
-    private String roles;
+    @Enumerated(EnumType.STRING)
+    private MemberRole memberRole;
 
-    public List<String> getRoleList() {
-        if(this.roles.length() > 0) {
-            return Arrays.asList(this.roles.split(","));
+    public enum MemberRole {
+
+        ROLE_USER("일반 사용자"),
+        ROLE_ADMIN("관리자");
+
+        @Getter
+        private final String role;
+        MemberRole(String role) {
+            this.role = role;
         }
-        return new ArrayList<>();
+    }
+
+    public void updateRole(MemberRole memberRole) {
+        this.memberRole = memberRole;
     }
 
     @Builder.Default

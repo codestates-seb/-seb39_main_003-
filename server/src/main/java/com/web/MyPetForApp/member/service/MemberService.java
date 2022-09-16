@@ -21,6 +21,7 @@ public class MemberService {
     if(optionalMember.isPresent()) {
         throw new IllegalArgumentException("이미 존재하는 회원입니다.");
     } else {
+//        member.updateRole(Member.MemberRole.ROLE_ADMIN);
         return memberRepository.save(member);
         }
     }
