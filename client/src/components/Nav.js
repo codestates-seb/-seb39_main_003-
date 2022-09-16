@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import { FaUserAlt } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 
 const Wrapper = styled.div `
@@ -35,6 +36,7 @@ const Wrapper = styled.div `
     border-radius: 15px;
     transition: .3s;
     cursor: pointer;
+    text-decoration: none;
   }
 
   .navlist:hover {
@@ -82,12 +84,34 @@ const Wrapper = styled.div `
   }
 
   .searchIcon {
+    height: 100%;
     font-size: 24px;
     color: #ff425c;
     cursor: pointer;
+    transition: .3s;
+    line-height: 100%;
+
+    &:hover {
+      font-size: 30px;
+    }
+  }
+
+  .search_bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
+const StyeldLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  transition: .3s;
+
+  &:hover {
+    color: #FEDB39;
+  }
+`;
 
 const Nav = () => {
   return (
@@ -95,7 +119,7 @@ const Nav = () => {
       <div className="header">
           <div className="headerBox">
               <span className="logo headerList">로고</span>
-              <div>
+              <div className="search_bar">
                   <input type="text" placeholder="어떤 상품을 찾으세요?" className="search headerList"></input>
                   <span className="searchIcon"><BsSearch /></span>
               </div>
@@ -104,12 +128,12 @@ const Nav = () => {
       </div>
       
       <div className="navbar">
-        <span className="navlist">Home</span>
+        <span className="navlist"><StyeldLink to="/">Home</StyeldLink></span>
         <span className="navlist">동물병원</span>
-        <span className="navlist">쇼핑</span>
-        <span className="navlist">커뮤니티</span>
-        <span className="navlist">공지사항</span>
-        <span className="navlist">FAQ</span>
+        <span className="navlist"><StyeldLink to="/shopping">쇼핑</StyeldLink></span>
+        <span className="navlist"><StyeldLink to="/community">커뮤니티</StyeldLink></span>
+        <span className="navlist"><StyeldLink to="/notice">공지사항</StyeldLink></span>
+        <span className="navlist"><StyeldLink to="/FAQ">FAQ</StyeldLink></span>
       </div>
     </Wrapper>
   )
