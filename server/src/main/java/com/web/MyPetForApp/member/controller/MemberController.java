@@ -31,19 +31,19 @@ public class MemberController {
     }
 
     @PatchMapping
-    public ResponseEntity member_modify(@RequestBody MemberDto.Patch patch) {
+    public ResponseEntity memberModify(@RequestBody MemberDto.Patch patch) {
         Member modifiedMember = memberService.update(mapper.memberPatchToMember(patch));
         return new ResponseEntity<>(mapper.memberToResponse(modifiedMember), HttpStatus.OK);
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity member_find(@PathVariable Long memberId) {
+    public ResponseEntity memberFind(@PathVariable Long memberId) {
         Member findMember = memberService.read(memberId);
         return new ResponseEntity<>(mapper.memberToResponse(findMember) ,HttpStatus.OK);
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity member_delete(@PathVariable Long memberId) {
+    public ResponseEntity memberDelete(@PathVariable Long memberId) {
         memberService.delete(memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

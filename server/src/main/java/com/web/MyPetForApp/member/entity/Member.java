@@ -28,25 +28,25 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String memberName;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String nickName;
 
-//    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String password;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String address;
 
-//    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String phone;
 
-//    @Column
+    @Column
     private String profileImg;
 
-//    @Column
+    @Column
     private String roles;
 
     public List<String> getRoleList() {
@@ -56,12 +56,15 @@ public class Member {
         return new ArrayList<>();
     }
 
+    @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Wish> wishes = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<CartItem> cartItems = new ArrayList<>();
 
