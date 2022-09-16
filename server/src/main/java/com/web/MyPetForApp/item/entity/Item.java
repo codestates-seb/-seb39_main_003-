@@ -1,6 +1,6 @@
 package com.web.MyPetForApp.item.entity;
 
-import com.web.MyPetForApp.board.entity.BoardCategory;
+import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.order.entity.OrderItem;
@@ -10,15 +10,15 @@ import com.web.MyPetForApp.wish.entity.Wish;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Item {
+public class Item extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
@@ -41,16 +41,7 @@ public class Item {
     @Column(nullable = false)
     private String info;
 
-    @Column(nullable = false)
-    private String itemContent;
-
-    @Column(nullable = false)
-    private Timestamp createdAt;
-
-    @Column(nullable = false)
-    private Timestamp modifiedAt;
-
-    @Column(nullable = false)
+    @Column(nullable = false) // wishes.size()와 같음
     private int wishCnt;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -76,7 +67,18 @@ public class Item {
     @OneToMany(mappedBy = "item")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @Builder
+    public Item(String image, String itemName, int price, int soldCnt, int stockCnt, String info) {
+        this.image = image;
+        this.itemName = itemName;
+        this.price = price;
+        this.soldCnt = soldCnt;
+        this.stockCnt = stockCnt;
+        this.info = info;
+    }
+
     // Item-Wish 양방향 연관관계 편의 메서드
+
     public void addWish(Wish wish){
         this.wishes.add(wish);
         if(wish.getItem() != this){
@@ -97,8 +99,8 @@ public class Item {
             cartItem.setItem(this);
         }
     }
-
     // Board-BoardCategory 양방향 연관관계 편의 메서드
+
     public void setItemCategory(ItemCategory itemCategory){
         if(this.itemCategory != null){
             this.itemCategory.getItems().remove(this);
