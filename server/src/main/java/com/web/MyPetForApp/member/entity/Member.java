@@ -8,15 +8,18 @@ import com.web.MyPetForApp.order.entity.Order;
 import com.web.MyPetForApp.qna.entity.Qna;
 import com.web.MyPetForApp.review.entity.Review;
 import com.web.MyPetForApp.wish.entity.Wish;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,23 +28,33 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String memberName;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String nickName;
 
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String phone;
 
-    @Column
+//    @Column
     private String profileImg;
+
+//    @Column
+    private String roles;
+
+    public List<String> getRoleList() {
+        if(this.roles.length() > 0) {
+            return Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
+    }
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
@@ -73,6 +86,16 @@ public class Member {
             cartItem.setMember(this);
         }
     }
+
+    public void update(Member member) {
+        this.nickName = member.getNickName();
+        this.address = member.getAddress();
+        this.password = member.getPassword();
+        this.phone = member.getPhone();
+        this.profileImg = member.getProfileImg();
+    }
+
+
 
 //    @OneToMany(mappedBy = "member") // 게시글 목록 필요??
 //    private List<Board> boards = new ArrayList<>();
