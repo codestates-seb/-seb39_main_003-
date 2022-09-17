@@ -2,6 +2,8 @@ package com.web.MyPetForApp.item.mapper;
 
 import com.web.MyPetForApp.item.dto.ItemDto;
 import com.web.MyPetForApp.item.entity.Item;
+import com.web.MyPetForApp.item.entity.ItemCategory;
+import com.web.MyPetForApp.member.entity.Member;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,13 +12,14 @@ import java.util.stream.Collectors;
 @Component
 public class ItemMapper {
     public Item itemPostDtoToItem(ItemDto.Post requestBody){
-        return Item.builder()
+        Item item = Item.builder()
                 .image(requestBody.getImage())
                 .itemName(requestBody.getItemName())
                 .price(requestBody.getPrice())
                 .stockCnt(requestBody.getStockCnt())
                 .info(requestBody.getInfo())
                 .build();
+        return item;
     }
 
     public Item itemPatchDtoToItem(ItemDto.Patch requestBody){
@@ -31,6 +34,7 @@ public class ItemMapper {
 
     public ItemDto.Response itemToItemResponseDto(Item item){
         return ItemDto.Response.builder()
+                .itemId(item.getItemId())
                 .image(item.getImage())
                 .itemName(item.getItemName())
                 .price(item.getPrice())
@@ -49,6 +53,7 @@ public class ItemMapper {
                 .stream()
                 .map(item -> ItemDto.Response
                         .builder()
+                        .itemId(item.getItemId())
                         .image(item.getImage())
                         .itemName(item.getItemName())
                         .price(item.getPrice())

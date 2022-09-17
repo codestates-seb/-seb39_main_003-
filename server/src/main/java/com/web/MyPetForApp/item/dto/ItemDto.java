@@ -27,6 +27,7 @@ public class ItemDto {
         private int price;
         private int stockCnt;
         private String info;
+        private Long itemCategoryId;
     }
 
     @Getter
