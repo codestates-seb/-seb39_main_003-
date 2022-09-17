@@ -2,8 +2,12 @@ package com.web.MyPetForApp.auth.provider;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.web.MyPetForApp.auth.dto.AuthDetails;
+import com.web.MyPetForApp.auth.entity.RefreshToken;
+import com.web.MyPetForApp.auth.repository.RefreshTokenRepository;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.member.repository.MemberRepository;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -17,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Key;
 import java.util.Date;
@@ -25,20 +30,24 @@ import java.util.Date;
 public class TokenProvider implements InitializingBean {
     private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
     private static final String AUTHORITIES_KEY = "auth";
+    private final RefreshTokenRepository refreshTokenRepository;
 
     private MemberRepository memberRepository;
 
-    public TokenProvider(MemberRepository memberRepository) {
+    public TokenProvider(MemberRepository memberRepository, RefreshTokenRepository refreshTokenRepository) {
         this.memberRepository = memberRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     @Value("{jwt.secret}")
-    private String secret;
+    private String accessKey;
+
+    private String refreshKey = "refresh " + accessKey;
 
 //    @Value("{jwt.token-validity-in-seconds}")
 //    private int tokenValidityInMilliseconds;
 
-    private Key key;
+//    private Key key;
 
     @Override
     public void afterPropertiesSet() {
@@ -46,16 +55,17 @@ public class TokenProvider implements InitializingBean {
 //        this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(Authentication authentication) {
+    public String createAccessToken(Authentication authentication) {
 
         AuthDetails authDetails = (AuthDetails) authentication.getPrincipal();
 
         return JWT.create()
-                .withSubject("MyPet JWT token")
-                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60)))
+                .withSubject("MyPet JWT Access Token")
+//                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60)))
+                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000)))
                 .withClaim("id", authDetails.getMember().getMemberId())
-                .withClaim("memberName", authDetails.getUsername())
-                .sign(Algorithm.HMAC512(secret));
+                .withClaim("email", authDetails.getEmail())
+                .sign(Algorithm.HMAC512(accessKey));
 
 //        String authorities = authentication.getAuthorities().stream()
 //                .map(GrantedAuthority::getAuthority)
@@ -72,6 +82,54 @@ public class TokenProvider implements InitializingBean {
 //                .compact();
     }
 
+    private String createRefreshToken(Authentication authentication) {
+        AuthDetails authDetails = (AuthDetails) authentication.getPrincipal();
+
+        return JWT.create()
+                .withSubject("MyPet JWT Refresh Token")
+                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60 * 24 * 14)))
+                .withClaim("email", authDetails.getEmail())
+                .sign(Algorithm.HMAC512(refreshKey));
+    }
+    @Transactional
+    public String renewalRefreshToken(Authentication authentication) {
+        String newRefreshToken = createRefreshToken(authentication);
+        // 기존 토큰이 있다면 바꿔주고, 없다면 토큰을 만들어준다.
+        refreshTokenRepository.findByEmail(authentication.getName())
+                .ifPresentOrElse(
+                        r -> {r.changeToken(newRefreshToken);
+                        logger.info("기존 리프레시 토큰 변환");},
+                        () -> {
+                            RefreshToken toSaveToken = RefreshToken.createToken(authentication.getName(), newRefreshToken);
+                            logger.info("새로운 리프레시 토큰 저장 | member's email : {}, token : {}", toSaveToken.getEmail(), toSaveToken.getToken() );
+                            refreshTokenRepository.save(toSaveToken);
+                        }
+                );
+        return newRefreshToken;
+    }
+
+    @Transactional
+    public String updateRefreshToken(String refreshToken) throws RuntimeException {
+        // refresh Token을 DB에 저장된 토큰과 비교
+        Authentication authentication = getAuthentication(refreshToken);
+        RefreshToken findRefreshToken = refreshTokenRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("email : " + authentication.getName() + " was not found"));
+
+        // 토큰이 일치한다면
+        if(findRefreshToken.getToken().equals(refreshToken)) {
+            // 새로운 토큰 생성
+            String newRefreshToken = createRefreshToken(authentication);
+            findRefreshToken.changeToken(newRefreshToken);
+            return newRefreshToken;
+        } else {
+            logger.info("refresh Token이 일치하지 않습니다.");
+            return null;
+        }
+    }
+
+
+
+
     public Authentication getAuthentication(String token) {
 //        Claims claims = Jwts
 //                .parserBuilder()
@@ -85,11 +143,11 @@ public class TokenProvider implements InitializingBean {
 //                        .map(SimpleGrantedAuthority::new)
 //                        .collect(Collectors.toList());
 
-        String memberName = validateAndGetMemberNameToken(token);
+        String email = JWT.decode(token).getClaim("email").asString();
 
-        if(memberName != null) {
-            Member memberEntity = memberRepository.findByMemberName(memberName).orElseThrow(
-                    () -> new UsernameNotFoundException(memberName + "데이터베이스에서 찾을 수 없습니다.")
+        if(email != null) {
+            Member memberEntity = memberRepository.findByEmail(email).orElseThrow(
+                    () -> new UsernameNotFoundException(email + "데이터베이스에서 찾을 수 없습니다.")
             );
 
             AuthDetails authDetails = new AuthDetails(memberEntity);
@@ -100,7 +158,7 @@ public class TokenProvider implements InitializingBean {
         }
 
 //        Member memberEntity = Member.builder()
-//                .memberName(claims.getSubject())
+//                .email(claims.getSubject())
 //                .password("")
 //                .roles(claims.get(AUTHORITIES_KEY).toString())
 //                .build();
@@ -110,18 +168,24 @@ public class TokenProvider implements InitializingBean {
 //        return new UsernamePasswordAuthenticationToken(authDetails, token, authorities);
     }
 
-    public String  validateAndGetMemberNameToken(String token) {
+    public JwtCode validateToken(String token, String tokenType) {
+        String key = tokenType.equals("access") ? accessKey : refreshKey;
+
         try {
-            return JWT.require(Algorithm.HMAC512(secret)).build().verify(token).getClaim("memberName").asString();
-        } catch (ExpiredJwtException e) {
-            logger.info("손상된 JWT 토큰입니다.");
-        } catch (UnsupportedJwtException e) {
-            logger.info("지원하지 않는 JWT 토큰 형식입니다.");
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            logger.info("잘못된 JWT 서명입니다.");
-        } catch (SignatureVerificationException e) {
-            logger.info("JWT 토큰이 잘못되었습니다.");
+                JWT.require(Algorithm.HMAC512(key)).build().verify(token);
+            return JwtCode.ACCESS;
+        } catch (TokenExpiredException e) {
+            logger.info("만료된 토큰입니다.");
+            return JwtCode.EXPIRED;
+        } catch (JWTVerificationException e) {
+            logger.info("토큰 검증에 실패하였습니다.");
+            return JwtCode.DENIED;
         }
-        return null;
+    }
+
+    public static enum JwtCode {
+        DENIED,
+        ACCESS,
+        EXPIRED;
     }
 }

@@ -15,9 +15,9 @@ public class AuthDetailsService implements UserDetailsService {
     private final MemberRepository memberRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String memberName) throws UsernameNotFoundException {
-        Member memberEntity = memberRepository.findByMemberName(memberName).orElseThrow(
-                () -> new UsernameNotFoundException(memberName + "데이터베이스에서 찾을 수 없습니다.")
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Member memberEntity = memberRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException(email + "데이터베이스에서 찾을 수 없습니다.")
         );
         return new AuthDetails(memberEntity);
     }
