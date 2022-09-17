@@ -1,18 +1,15 @@
 package com.web.MyPetForApp.member.entity;
 
-import com.web.MyPetForApp.board.entity.Board;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
-import com.web.MyPetForApp.comment.entity.Comment;
-import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.order.entity.Order;
-import com.web.MyPetForApp.qna.entity.Qna;
-import com.web.MyPetForApp.review.entity.Review;
 import com.web.MyPetForApp.wish.entity.Wish;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
