@@ -55,7 +55,7 @@ public class Item extends BaseTimeEntity {
     @OneToMany(mappedBy = "item")
     private List<Wish> wishes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Qna> qnas = new ArrayList<>();
 
     @OneToMany(mappedBy = "item")

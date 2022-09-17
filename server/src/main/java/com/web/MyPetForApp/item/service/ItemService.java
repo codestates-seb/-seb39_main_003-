@@ -34,21 +34,20 @@ public class ItemService {
     }
 
     public Item findItem(Long itemId){
-        Item findItem = itemRepository.findById(itemId)
+        return itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
-        return findItem;
     }
 
     public Page<Item> findItems(Long itemCategoryId, int page, int size, String sortBy){
         ItemCategory itemCategory = itemCategoryRepository.findById(itemCategoryId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리 항목입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("상품 카테고리가 존재하지 않습니다."));
         return itemRepository.findAllByItemCategory(itemCategory, PageRequest.of(page, size,
                 Sort.by(sortBy).descending()));
     }
 
     public Item updateItem(Long itemId, Item item){
-        Optional<Item> optionalItem = itemRepository.findById(itemId);
-        Item findItem = optionalItem.orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
+        Item findItem = itemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
         // 수정할 값이 초기값이 아닌 채로 들어오면 수정
         Optional.ofNullable(item.getImage()).ifPresent(image -> findItem.setImage(image));
         Optional.ofNullable(item.getItemName()).ifPresent(itemName -> findItem.setItemName(itemName));
@@ -59,7 +58,8 @@ public class ItemService {
         return findItem;
     }
     public void deleteItem(Long itemId){
-        itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
-        itemRepository.deleteById(itemId);
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
+        itemRepository.delete(item);
     }
 }
