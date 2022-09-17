@@ -1,7 +1,7 @@
 package com.web.MyPetForApp.auth.config;
 
+import com.web.MyPetForApp.auth.error.ErrorhandlerFilter;
 import com.web.MyPetForApp.auth.error.JwtAccessDeniedHandler;
-import com.web.MyPetForApp.auth.error.JwtAuthenticationEntryPoint;
 import com.web.MyPetForApp.auth.filter.JwtAuthenticationFilter;
 import com.web.MyPetForApp.auth.filter.JwtAuthorizationFilter;
 import com.web.MyPetForApp.auth.provider.TokenProvider;
@@ -25,12 +25,14 @@ public class SecurityConfig {
 
     private final CorsFilter corsFilter;
 
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+//    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     private final MemberRepository memberRepository;
 
     private final TokenProvider tokenProvider;
+
+    private final ErrorhandlerFilter errorhandlerFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -40,8 +42,9 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .apply(new JwtLogin())
                 .and()
+                .addFilterBefore(errorhandlerFilter, JwtAuthorizationFilter.class)
                 .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .and()
                 .authorizeRequests()
