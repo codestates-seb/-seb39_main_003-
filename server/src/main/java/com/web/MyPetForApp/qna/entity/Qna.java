@@ -1,17 +1,21 @@
 package com.web.MyPetForApp.qna.entity;
 
 
+import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.member.entity.Member;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Getter
-public class Qna {
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Qna extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qnaId;
@@ -25,12 +29,6 @@ public class Qna {
     @Column(nullable = false)
     private String qnaContent;
 
-    @Column(nullable = false)
-    private Timestamp createdAt;
-
-    @Column(nullable = false)
-    private Timestamp modifiedAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_ID")
     private Item item;
@@ -38,4 +36,6 @@ public class Qna {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+
 }

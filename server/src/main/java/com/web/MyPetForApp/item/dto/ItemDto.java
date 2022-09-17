@@ -17,7 +17,6 @@ import java.util.List;
 
 public class ItemDto {
     @Getter
-    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Post{
@@ -31,7 +30,6 @@ public class ItemDto {
     }
 
     @Getter
-    @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Patch{

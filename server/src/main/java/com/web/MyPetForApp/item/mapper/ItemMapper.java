@@ -12,14 +12,13 @@ import java.util.stream.Collectors;
 @Component
 public class ItemMapper {
     public Item itemPostDtoToItem(ItemDto.Post requestBody){
-        Item item = Item.builder()
+        return Item.builder()
                 .image(requestBody.getImage())
                 .itemName(requestBody.getItemName())
                 .price(requestBody.getPrice())
                 .stockCnt(requestBody.getStockCnt())
                 .info(requestBody.getInfo())
                 .build();
-        return item;
     }
 
     public Item itemPatchDtoToItem(ItemDto.Patch requestBody){
