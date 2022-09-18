@@ -57,7 +57,7 @@ public class Item extends BaseTimeEntity {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Qna> qnas = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<CartItem> cartItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
