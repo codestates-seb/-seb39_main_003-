@@ -54,6 +54,9 @@ const Wrapper = styled.div`
   margin: 20px 0px 20px 0px;
   cursor: pointer;
   transition: .3s;
+  color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 
   &:hover {
     width: 93%;
