@@ -1,17 +1,20 @@
 package com.web.MyPetForApp.cartitem.entity;
 
+import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.order.entity.Order;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Getter
-public class CartItem {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CartItem extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartItemId;
@@ -19,14 +22,8 @@ public class CartItem {
     @Column(nullable = false)
     private int itemCnt;
 
-    @Column(nullable = false)
-    private int totalPrice;
-
-    @Column(nullable = false)
-    private Timestamp createdAt;
-
-    @Column(nullable = false)
-    private Timestamp modifiedAt;
+//    @Column(nullable = false)
+//    private int totalPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
@@ -55,5 +52,9 @@ public class CartItem {
         if(!item.getCartItems().contains(this)){
             item.addCartItem(this);
         }
+    }
+
+    public void changeCnt(int itemCnt){
+        if(itemCnt != 0) this.itemCnt = itemCnt;
     }
 }
