@@ -139,7 +139,7 @@ const Wrapper = styled.div`
 
 `;
 
-const StyeldLink = styled(Link)`
+const StyledLink = styled(Link)`
   width: 100%;
   color: white;
   text-decoration: none;
@@ -173,29 +173,29 @@ function Main() {
             동물병원
           </div>
 
-            <StyeldLink to="/shopping">
+            <StyledLink to="/shopping">
               <div className="shopping tabs">
                 쇼핑
               </div>
-            </StyeldLink>
+            </StyledLink>
 
-            <StyeldLink to="/community">
+            <StyledLink to="/community">
               <div className="community tabs">
                 커뮤니티
               </div>
-            </StyeldLink>
+            </StyledLink>
 
-            <StyeldLink to="/notice">
+            <StyledLink to="/notice">
               <div className="notice tabs">
                 공지사항
               </div>
-            </StyeldLink>
+            </StyledLink>
 
-            <StyeldLink to="/FAQ">
+            <StyledLink to="/FAQ">
               <div className="FAQ tabs">
                 FAQ
               </div>
-            </StyeldLink>
+            </StyledLink>
 
     </div>
         {/* 메뉴 탭 컴포넌트 */}

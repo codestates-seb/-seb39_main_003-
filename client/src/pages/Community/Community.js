@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import React from 'react'
 import CommunityNav from '../../components/CommunityNav';
+import Dummy from '../../dummytest/dummyData';
+// import { useState } from 'react';
 
 const Wrapper = styled.div`
 
@@ -85,13 +87,37 @@ box-sizing: border-box;
     text-decoration: none;
     color: #000000;
 }
+
+.categories {
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.article{
+    padding: 0px 20px 0px 20px;
+}
+
+.questions{
+
+    padding: 20px 0px 20px 0px;
+}
+
 `;
 
 function Community() {
+
   return (
     <Wrapper>
 
             <CommunityNav />
+
+        {/* 카테고링 명 분류 */}
+        <div className="categories">
+            <span>산책 게시판</span>
+        </div>
+
 
         {/* <!-- 게시글 목록 --> */}
         <div className="cpostterritory">
@@ -101,6 +127,19 @@ function Community() {
                     <span className="cposttext">내용11</span>
                     <span className="cposttext">작성자11</span>
                 </div>
+                
+                    <div>
+                        {Dummy.map(
+                            (el, index) => (
+                            <div className="questions" key={index}>
+                                <span className="article">{el.title}</span>
+                                <span className="article">{el.content}</span>
+                            </div>
+                        )
+                        )
+                        }
+                    </div>
+
                 <div className="cpostmiddle">
                     <div className="cpost">
                         <span className="title">글 제목222</span>
