@@ -15,7 +15,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Item extends BaseTimeEntity {
@@ -61,7 +60,7 @@ public class Item extends BaseTimeEntity {
     @OneToMany(mappedBy = "item")
     private List<CartItem> cartItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private  List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "item")
@@ -109,5 +108,15 @@ public class Item extends BaseTimeEntity {
         if(!itemCategory.getItems().contains(this)){
             itemCategory.addItem(this);
         }
+    }
+    public void setMember(Member member){
+        this.member = member;
+    }
+    public void update(Item item){
+        if(item.getImage() != null) this.image = item.image;
+        if(item.getItemName() != null) this.itemName = item.getItemName();
+        if(item.getInfo() != null) this.info = item.getInfo();
+        if(item.price != 0) this.price = item.getPrice();
+        if(item.stockCnt != 0) this.stockCnt = item.getStockCnt();
     }
 }

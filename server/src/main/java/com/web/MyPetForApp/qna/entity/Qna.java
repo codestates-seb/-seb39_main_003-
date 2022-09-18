@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,5 +36,17 @@ public class Qna extends BaseTimeEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public void update(Qna qna){
+        if(qna.getQnaTitle() != null) this.qnaTitle = qna.getQnaTitle();
+        if(qna.getQnaContent() != null) this.qnaContent = qna.getQnaContent();
+        if(qna.isChecked()) this.checked = qna.isChecked();
+    }
 }

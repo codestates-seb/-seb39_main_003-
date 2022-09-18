@@ -42,7 +42,7 @@ public class QnaService {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
         return qnaRepository.findAllByItem(item, PageRequest.of(page, size,
-                Sort.by("createdAt").ascending()));
+                Sort.by("createdAt").descending()));
     }
     public Qna updateQna(Long qnaId, Qna qna, Long memberId){
         Qna findQna = qnaRepository.findById(qnaId)
@@ -50,9 +50,7 @@ public class QnaService {
         if(memberId != findQna.getMember().getMemberId()) {
             throw new IllegalArgumentException("QnA는 작성자만 수정할 수 있습니다.");
         }
-        Optional.ofNullable(qna.getQnaTitle()).ifPresent(qnaTitle -> findQna.setQnaTitle(qnaTitle));
-        Optional.ofNullable(qna.getQnaContent()).ifPresent(qnaContent -> findQna.setQnaContent(qnaContent));
-        if(qna.isChecked()) findQna.setChecked(qna.isChecked());
+        findQna.update(qna);
         return findQna;
     }
 
