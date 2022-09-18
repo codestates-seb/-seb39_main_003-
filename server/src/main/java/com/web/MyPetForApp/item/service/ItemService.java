@@ -48,12 +48,7 @@ public class ItemService {
     public Item updateItem(Long itemId, Item item){
         Item findItem = itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
-        // 수정할 값이 초기값이 아닌 채로 들어오면 수정
-        Optional.ofNullable(item.getImage()).ifPresent(image -> findItem.setImage(image));
-        Optional.ofNullable(item.getItemName()).ifPresent(itemName -> findItem.setItemName(itemName));
-        Optional.ofNullable(item.getInfo()).ifPresent(info -> findItem.setInfo(info));
-        if(item.getPrice() != 0) findItem.setPrice(item.getPrice());
-        if(item.getStockCnt() != 0) findItem.setStockCnt(item.getStockCnt());
+        findItem.update(item);
 
         return findItem;
     }
