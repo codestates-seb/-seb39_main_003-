@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from 'react';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -73,6 +73,19 @@ box-sizing: border-box;
 }
 `
 
+const StyledLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  transition: .3s;
+
+  &:hover {
+    color: red;
+  }
+
+`;
+
 function CommunityNav() {
   return (
     <Wrapper>
@@ -80,19 +93,19 @@ function CommunityNav() {
         <div className="cTabTerritory">
             <div className="cBackground">
             <span className="ctabText">
-              <Link to="/community/walk">산책</Link>
+              <StyledLink to="/community/walk">산책</StyledLink>
             </span>
             <span className="ctabText">
-              <Link to="/community/info">정보공유</Link>
+              <StyledLink to="/community/info">정보공유</StyledLink>
             </span>
             <span className="ctabText">
-            <Link to="/community/hospital">병원추천</Link>
+            <StyledLink to="/community/hospital">병원추천</StyledLink>
             </span>
             <span className="ctabText">
-              <Link to="/community/protect">임시보호</Link>
+              <StyledLink to="/community/protect">임시보호</StyledLink>
             </span>
             <span className="ctabText">
-            <Link to="/community/lost">실종신고</Link>
+            <StyledLink to="/community/lost">실종신고</StyledLink>
             </span>
             </div>
         </div>

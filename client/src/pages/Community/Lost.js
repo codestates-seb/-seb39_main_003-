@@ -85,12 +85,23 @@ box-sizing: border-box;
     text-decoration: none;
     color: #000000;
 }
+
+.categories {
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+}
 `;
 
 function Info() {
   return (
     <Wrapper>
       <CommunityNav />
+
+      <div className="categories">
+            <span>실종신고 게시판</span>
+        </div>
 
       {/* <!-- 게시글 목록 --> */}
       <div className="cpostterritory">
