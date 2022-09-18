@@ -1,14 +1,15 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from 'react';
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+
 
 const Wrapper = styled.div`
 
-box-sizing: border-box
-background-color: black;
+box-sizing: border-box;
 
 // 커뮤니티 탭
-.cTabTerritory{
+.cTabTerritory {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -78,11 +79,21 @@ function CommunityNav() {
         {/* <!-- 커뮤니티탭 --> */}
         <div className="cTabTerritory">
             <div className="cBackground">
-            <a href="/community/work" className="ctabText">산책</a>
-            <a href="/community/info" className="ctabText">정보공유</a>
-            <a href="/community/hospital" className="ctabText">병원추천</a>
-            <a href="/community/protect" className="ctabText">임시보호</a>
-            <a href="/community/lost" className="ctabText">실종신고</a>
+            <span className="ctabText">
+              <Link to="/community/walk">산책</Link>
+            </span>
+            <span className="ctabText">
+              <Link to="/community/info">정보공유</Link>
+            </span>
+            <span className="ctabText">
+            <Link to="/community/hospital">병원추천</Link>
+            </span>
+            <span className="ctabText">
+              <Link to="/community/protect">임시보호</Link>
+            </span>
+            <span className="ctabText">
+            <Link to="/community/lost">실종신고</Link>
+            </span>
             </div>
         </div>
 

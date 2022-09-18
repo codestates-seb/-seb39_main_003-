@@ -25,7 +25,7 @@ function App() {
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/FAQ" element={<FAQ />} />
 
-                <Route path="/community/work" element={<Community />} />
+                <Route path="/community/walk" element={<Community />} />
                 <Route path="/community/info" element={<Info />} />
                 <Route path="/community/hospital" element={<Hospital />} />
                 <Route path="/community/protect" element={<Protect />} />
