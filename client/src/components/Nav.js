@@ -4,7 +4,6 @@ import { FaUserAlt } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import React, { useState } from 'react';
-import UserInfo from './UserInfo';
 
 const Wrapper = styled.div `
   /* position: fixed;
@@ -133,7 +132,7 @@ const Wrapper = styled.div `
   background-color: #FEFBF6;
 }
 
-  .info {
+  .userInfo {
     width: 100%;
     height: 500px;
     background-color: beige;
@@ -180,10 +179,10 @@ const Nav = () => {
               </div>
               <span className="profile headerList" onClick={userButtonClick}><FaUserAlt /></span>
               <span className={open ? "show-menu" : "hide-menu"}>
-                <span className='info'>마이페이지</span>
-                <span className='info'>장바구니</span>
-                <span className='info'>고객센터</span>
-                <span className='info'>로그아웃</span>
+                <span className='userInfo'>마이페이지</span>
+                <span className='userInfo'>장바구니</span>
+                <span className='userInfo'>고객센터</span>
+                <span className='userInfo'>로그아웃</span>
               </span>
           </div>
       </div>
