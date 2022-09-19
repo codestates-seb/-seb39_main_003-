@@ -5,6 +5,7 @@ import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 
+
 const Wrapper = styled.div `
   /* position: fixed;
   z-index: 1; */
@@ -132,6 +133,7 @@ const Wrapper = styled.div `
   background-color: #FEFBF6;
 }
 
+
   .userInfo {
     width: 100%;
     height: 500px;
@@ -179,10 +181,10 @@ const Nav = () => {
               </div>
               <span className="profile headerList" onClick={userButtonClick}><FaUserAlt /></span>
               <span className={open ? "show-menu" : "hide-menu"}>
-                <span className='userInfo'>마이페이지</span>
-                <span className='userInfo'>장바구니</span>
-                <span className='userInfo'>고객센터</span>
-                <span className='userInfo'>로그아웃</span>
+                  <span className='userInfo'>마이페이지</span>
+                  <span className='userInfo'>장바구니</span>
+                  <span className='userInfo'>고객센터</span>
+                  <span className='userInfo'>로그아웃</span>
               </span>
           </div>
       </div>
