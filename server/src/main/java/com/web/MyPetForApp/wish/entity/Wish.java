@@ -2,13 +2,15 @@ package com.web.MyPetForApp.wish.entity;
 
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.member.entity.Member;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Wish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

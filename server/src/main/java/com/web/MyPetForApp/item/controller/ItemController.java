@@ -52,6 +52,16 @@ public class ItemController {
         List<ItemDto.Response> response = mapper.itemsToItemResponseDto(items);
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageItems), HttpStatus.OK);
     }
+    @GetMapping("/wish")
+    public ResponseEntity getWishItems(@RequestParam Long memberId,
+                                       @RequestParam(required = false, defaultValue = "1") int page,
+                                       @RequestParam(required = false, defaultValue = "8") int size){
+        Page<Item> pageWishItems = itemService.findWishItems(memberId, page-1, size);
+        List<Item> items = pageWishItems.getContent();
+        List<ItemDto.Response> response = mapper.itemsToItemResponseDto(items);
+        return new ResponseEntity<>(new MultiResponseDto<>(response, pageWishItems), HttpStatus.OK);
+    }
+
 
     @PatchMapping("/{itemId}")
     public ResponseEntity patchItem(@PathVariable Long itemId,
