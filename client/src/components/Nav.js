@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { FaUserAlt } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import UserInfo from './UserInfo';
 
 const Wrapper = styled.div `
   /* position: fixed;
@@ -102,6 +104,51 @@ const Wrapper = styled.div `
     justify-content: center;
     align-items: center;
   }
+
+  .show-menu{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 15%;
+  height: 500px;
+  position: absolute;
+  top: 10%;
+  right: 0%;
+  transition: 1s;
+  background-color: #FEFBF6;
+  border-left: 3px solid black;
+  border-top: 3px solid black;
+  border-bottom: 3px solid black;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+  .hide-menu{
+  width: 15%;
+  height: 30%;
+  position: absolute;
+  left: -15%;
+  transition: 1s;
+  background-color: #FEFBF6;
+}
+
+  .info {
+    width: 100%;
+    height: 500px;
+    background-color: beige;
+    padding-left: 20px;
+    border: 1px solid lightgray;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background-color: #F3E0B5;
+    }
+  }
 `;
 
 const StyeldLink = styled(Link)`
@@ -115,6 +162,13 @@ const StyeldLink = styled(Link)`
 `;
 
 const Nav = () => {
+
+  const [open, setOpen] = useState(false);
+
+  const userButtonClick = () => {
+    setOpen(!open);
+  };
+
   return (
     <Wrapper>
       <div className="header">
@@ -124,7 +178,13 @@ const Nav = () => {
                   <input type="text" placeholder="어떤 상품을 찾으세요?" className="search headerList"></input>
                   <span className="searchIcon"><BsSearch /></span>
               </div>
-              <span className="profile headerList"><FaUserAlt /></span>
+              <span className="profile headerList" onClick={userButtonClick}><FaUserAlt /></span>
+              <span className={open ? "show-menu" : "hide-menu"}>
+                <span className='info'>마이페이지</span>
+                <span className='info'>장바구니</span>
+                <span className='info'>고객센터</span>
+                <span className='info'>로그아웃</span>
+              </span>
           </div>
       </div>
       
