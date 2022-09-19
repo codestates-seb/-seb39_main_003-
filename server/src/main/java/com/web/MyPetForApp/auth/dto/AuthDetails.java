@@ -28,6 +28,8 @@ public class AuthDetails implements UserDetails {
 //        return authorities;
 //    }
 
+    public String getEmail() {return member.getEmail();}
+
     @Override
     public String getPassword() {
         return member.getPassword();
@@ -35,7 +37,7 @@ public class AuthDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return member.getMemberName();
+        return member.getEmail();
     }
     @Override
     public boolean isAccountNonExpired() {

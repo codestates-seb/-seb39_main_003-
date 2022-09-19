@@ -1,5 +1,6 @@
 package com.web.MyPetForApp.auth.config;
 
+import com.web.MyPetForApp.auth.error.ErrorhandlerFilter;
 import com.web.MyPetForApp.auth.error.JwtAccessDeniedHandler;
 import com.web.MyPetForApp.auth.error.JwtAuthenticationEntryPoint;
 import com.web.MyPetForApp.auth.filter.JwtAuthenticationFilter;
@@ -32,6 +33,10 @@ public class SecurityConfig {
 
     private final TokenProvider tokenProvider;
 
+    private final ErrorhandlerFilter errorhandlerFilter;
+
+    private final JwtAddLogoutHandler jwtAddLogoutHandler;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
@@ -40,6 +45,7 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .apply(new JwtLogin())
                 .and()
+                .addFilterBefore(errorhandlerFilter, JwtAuthorizationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -50,7 +56,8 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
                 .and()
                 .logout()
-                .logoutSuccessUrl("/");
+                .addLogoutHandler(jwtAddLogoutHandler)
+                .logoutSuccessUrl("/api/v1/user/test");
         return httpSecurity.build();
     }
 

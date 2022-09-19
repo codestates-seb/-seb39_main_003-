@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.MyPetForApp.auth.provider.TokenProvider;
 import com.web.MyPetForApp.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,14 +25,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private final TokenProvider tokenProvider;
 
+    private final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
-        System.out.println("로그인 시도");
+        logger.info("로그인 시도");
 
         try {
             ObjectMapper om = new ObjectMapper();
             Member member = om.readValue(request.getInputStream(), Member.class);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(member.getMemberName(), member.getPassword());
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(member.getEmail(), member.getPassword());
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             return authentication;
 
@@ -41,9 +45,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain, Authentication authResult) throws IOException, ServletException {
-        System.out.println("로그인 성공 유저 처리");
+        logger.info(("로그인 성공 유저 처리"));
 
-        String jwtToken = tokenProvider.createToken(authResult);
-        response.addHeader("Authorization", "Bearer " + jwtToken);
+        String accessToken = tokenProvider.createAccessToken(authResult);
+        String refreshToken = tokenProvider.renewalRefreshToken(authResult);
+        response.addHeader("Authorization", "Bearer " + accessToken);
+        response.addHeader("refresh", "Bearer " + refreshToken);
     }
 }
