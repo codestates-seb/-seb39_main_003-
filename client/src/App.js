@@ -3,7 +3,7 @@ import Nav from "./components/Nav";
 // import Test from "./pages/test";
 import Main from "./pages/Main";
 // import Footer from "./components/Footer";
-import Shopping from "./pages/Shopping";
+import Shopping from "./pages/Shopping/Shopping";
 import Community from "./pages/Community/Community";
 import Info from "./pages/Community/Info";
 import Hospital from "./pages/Community/Hospital";
@@ -11,6 +11,12 @@ import Protect from "./pages/Community/Protect";
 import Lost from "./pages/Community/Lost";
 import Notice from "./pages/Notice";
 import FAQ from "./pages/FAQ";
+import Meal from "./pages/Shopping/Category/Meal";
+import Cookie from "./pages/Shopping/Category/Cookie";
+import Vita from "./pages/Shopping/Category/Vita";
+import AllVita from "./pages/Shopping/Category/AllVita";
+import Pad from "./pages/Shopping/Category/Pad";
+import Toy from "./pages/Shopping/Category/Toy";
 
 function App() {
   return (
@@ -30,6 +36,13 @@ function App() {
                 <Route path="/community/hospital" element={<Hospital />} />
                 <Route path="/community/protect" element={<Protect />} />
                 <Route path="/community/lost" element={<Lost />} />
+
+                <Route path="/shopping/meal" element={<Meal />} />
+                <Route path="/shopping/cookie" element={<Cookie />} />
+                <Route path="/shopping/vita" element={<Vita />} />
+                <Route path="/shopping/allVita" element={<AllVita />} />
+                <Route path="/shopping/pad" element={<Pad />} />
+                <Route path="/shopping/toy" element={<Toy />} />
             </Routes>
       </Router>
 
