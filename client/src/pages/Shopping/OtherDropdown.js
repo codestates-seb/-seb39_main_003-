@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 
@@ -16,7 +17,7 @@ const Wrapper = styled.div`
     cursor: pointer;
     }
   
-  .meal {
+  .pad {
     transition: .3s;
 
     &:hover {
@@ -25,7 +26,7 @@ const Wrapper = styled.div`
     }
   }
 
-  .cookie {
+  .toy {
     transition: .3s;
 
     &:hover {
@@ -37,11 +38,22 @@ const Wrapper = styled.div`
 `;
 
 function DropdownEat() {
+
+  const navigate = useNavigate();
+
+  const onClickPad = () => {
+    navigate(`/shopping/pad`);
+  }
+
+  const onClickToy = () => {
+    navigate(`/shopping/toy`);
+  }
+
   return (
     <Wrapper>
       <div className='eat'>
-        <span className='meal'>배변패드</span>
-        <span className='cookie'>장난감</span>
+        <span className='pad' onClick={onClickPad}>배변패드</span>
+        <span className='toy' onClick={onClickToy}>장난감</span>
       </div>
     </Wrapper>
   );

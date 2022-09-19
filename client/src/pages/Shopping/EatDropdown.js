@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 
@@ -37,11 +38,22 @@ const Wrapper = styled.div`
 `;
 
 function DropdownEat() {
+
+  const navigate = useNavigate();
+
+  const onClickMeal = () => {
+    navigate(`/shopping/meal`);
+  }
+
+  const onClickCookie = () => {
+    navigate(`/shopping/cookie`);
+  }
+
   return (
     <Wrapper>
       <div className='eat'>
-        <span className='meal'>사료</span>
-        <span className='cookie'>간식</span>
+        <span className='meal' onClick={onClickMeal}>사료</span>
+        <span className='cookie' onClick={onClickCookie}>간식</span>
       </div>
     </Wrapper>
   );
