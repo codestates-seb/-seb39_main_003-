@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React from 'react'
 import CommunityNav from '../../components/CommunityNav';
 import Dummy from '../../dummytest/dummyData';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { Link } from "react-router-dom";
 
 
