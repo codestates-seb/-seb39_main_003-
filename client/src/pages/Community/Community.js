@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import React from 'react'
 import CommunityNav from '../../components/CommunityNav';
 import Dummy from '../../dummytest/dummyData';
-// import { useState } from 'react';
+import { useState } from 'react';
+import { Link } from "react-router-dom";
+
 
 const Wrapper = styled.div`
 
@@ -36,7 +38,7 @@ box-sizing: border-box;
 
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 
     background-color: rgb(146 99 255);
@@ -101,9 +103,27 @@ box-sizing: border-box;
 
 .questions{
 
-    padding: 20px 0px 20px 0px;
+    padding: 5px 0px 5px 0px;
+    margin: 20px 0px 20px 0px;
+    width: 90vw;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 
+`;
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    padding: 5px 0px 5px 0px;
+    /* margin: 20px 0px 20px 0px; */
+    width: 90vw;
+    /* border: 1px solid lightgray; */
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    color: black;
 `;
 
 function Community() {
@@ -113,7 +133,7 @@ function Community() {
 
             <CommunityNav />
 
-        {/* 카테고링 명 분류 */}
+        {/* 카테고리 명 분류 */}
         <div className="categories">
             <span>산책 게시판</span>
         </div>
@@ -132,10 +152,11 @@ function Community() {
                         {Dummy.map(
                             (el, index) => (
                             <div className="questions" key={index}>
+                                <StyledLink to="/community/walk/page">
                                 <span className="article">{el.title}</span>
                                 <span className="article">{el.content}</span>
                                 <span className="article">{el.username}</span>
-                                <span className="article">{el.dskldfj}</span>
+                                </StyledLink>
                             </div>
                         ))}
                     </div>
