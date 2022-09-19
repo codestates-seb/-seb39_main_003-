@@ -20,9 +20,9 @@ box-sizing: border-box;
     border: 3px solid blue;
 }
 .cpostterritory > .cbackground{
-    padding: 30px 10px;
+    padding: 30px 0px;
     margin: 20px;
-    border-radius: 20px;
+    border-radius: 10px;
 
     display: flex;
     flex-direction: column;

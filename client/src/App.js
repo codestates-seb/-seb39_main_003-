@@ -17,6 +17,7 @@ import Vita from "./pages/Shopping/Category/Vita";
 import AllVita from "./pages/Shopping/Category/AllVita";
 import Pad from "./pages/Shopping/Category/Pad";
 import Toy from "./pages/Shopping/Category/Toy";
+import Posting from "./pages/Community/detail/Posting";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/community/hospital" element={<Hospital />} />
                 <Route path="/community/protect" element={<Protect />} />
                 <Route path="/community/lost" element={<Lost />} />
+                <Route path="/community/posting" element={<Posting />}/>
 
                 <Route path="/shopping/meal" element={<Meal />} />
                 <Route path="/shopping/cookie" element={<Cookie />} />

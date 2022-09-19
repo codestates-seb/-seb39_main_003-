@@ -5,17 +5,20 @@ import { Link } from 'react-router-dom';
 const Wrapper = styled.div`
 //게시글 포스팅 등록 화면
 .postingterritory{
-  margin: 20px;
   padding: 10px;
+  border-radius: 10px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #f9f9f9;
 }
 .pbackground{
   width: 90vw;
   height: 80vh;
   padding: 20px;
+  margin-top: 30px;
   border-radius: 20px;
 
   display: flex;
@@ -23,7 +26,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  background-color: #f9f9f9;
+  background-color: #EEF1FF;
 }
 //게시글 제목
 .posttitle{
@@ -61,6 +64,7 @@ const Wrapper = styled.div`
 }
 //게시글 등록 버튼
 .postbutton{
+  margin-bottom: 20px;
 }
 .postbuttontext{
   background-color: #EEF1FF;
@@ -74,11 +78,11 @@ const Wrapper = styled.div`
 const StyledLink = styled(Link)`
 text-decoration: none;
 
-width: 10vw;
+  width: 10vw;
   margin-top: 20px;
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 1px 2px 2px gray;
+  box-shadow: 1px 2px 2px lightgray;
 
   background-color: #EEF1FF;
   text-align: center;
