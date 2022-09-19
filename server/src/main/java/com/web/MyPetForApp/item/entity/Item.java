@@ -11,6 +11,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -51,7 +52,7 @@ public class Item extends BaseTimeEntity {
     @JoinColumn(name = "ITEM_CATEGORY_ID")
     private ItemCategory itemCategory;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Wish> wishes = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
@@ -77,7 +78,6 @@ public class Item extends BaseTimeEntity {
     }
 
     // Item-Wish 양방향 연관관계 편의 메서드
-
     public void addWish(Wish wish){
         this.wishes.add(wish);
         if(wish.getItem() != this){
@@ -99,7 +99,6 @@ public class Item extends BaseTimeEntity {
         }
     }
     // Board-BoardCategory 양방향 연관관계 편의 메서드
-
     public void setItemCategory(ItemCategory itemCategory){
         if(this.itemCategory != null){
             this.itemCategory.getItems().remove(this);
@@ -109,14 +108,19 @@ public class Item extends BaseTimeEntity {
             itemCategory.addItem(this);
         }
     }
+
     public void setMember(Member member){
         this.member = member;
     }
+
     public void update(Item item){
         if(item.getImage() != null) this.image = item.image;
         if(item.getItemName() != null) this.itemName = item.getItemName();
         if(item.getInfo() != null) this.info = item.getInfo();
         if(item.price != 0) this.price = item.getPrice();
         if(item.stockCnt != 0) this.stockCnt = item.getStockCnt();
+    }
+    public void updateWishCnt(){
+        this.wishCnt = this.wishes.size();
     }
 }
