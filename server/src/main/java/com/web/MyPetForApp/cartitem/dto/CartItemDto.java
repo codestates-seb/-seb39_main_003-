@@ -34,6 +34,7 @@ public class CartItemDto {
         private int price;
         private int totalPrice;
         private String itemName;
+        private String image;
         private Long itemId;
     }
 }
