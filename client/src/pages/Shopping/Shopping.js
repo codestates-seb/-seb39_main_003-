@@ -144,6 +144,15 @@ function Shopping() {
   const [eat, setEat] = useState(false);
   const [health, setHealth] = useState(false);
   const [other, setOther] = useState(false);
+  // const [test, setTest] = useState("");
+
+  // useEffect(() => {
+  //   fetch("http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member")
+  //   .then(res => res.json)
+  //   .then(res => {
+  //     setTest(res)
+  //   })
+  // }, [])
 
   const eatButtonClick = () => {
     setEat(!eat)
@@ -200,17 +209,16 @@ function Shopping() {
       </div>
 
       <div class="item_list_box">
-        <span class="item_list">여기는</span>
-        <span class="item_list">데이터를</span>
-        <span class="item_list">받아와야</span>
-        <span class="item_list">할듯</span>
+        <span className="item_list">여기는</span>
+        <span className="item_list">데이터를</span>
+        <span className="item_list">받아와야</span>
+        <span className="item_list">할듯</span>
 
-        <span class="item_list">여기는</span>
-        <span class="item_list">데이터를</span>
-        <span class="item_list">받아와야</span>
-        <span class="item_list">할듯</span>
+        <span className="item_list">여기는</span>
+        <span className="item_list">데이터를</span>
+        <span className="item_list">받아와야</span>
+        <span className="item_list">할듯</span>
       </div>
-
 
     </Wrapper>
   )
