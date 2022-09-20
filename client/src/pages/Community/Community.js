@@ -152,7 +152,7 @@ function Community() {
                         {Dummy.map(
                             (el, index) => (
                             <div className="questions" key={index}>
-                                <StyledLink to="/community/walk/page">
+                                <StyledLink to="/community/post">
                                 <span className="article">{el.title}</span>
                                 <span className="article">{el.content}</span>
                                 <span className="article">{el.username}</span>

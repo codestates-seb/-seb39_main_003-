@@ -18,6 +18,7 @@ import AllVita from "./pages/Shopping/Category/AllVita";
 import Pad from "./pages/Shopping/Category/Pad";
 import Toy from "./pages/Shopping/Category/Toy";
 import Posting from "./pages/Community/detail/Posting";
+import Post from "./pages/Community/detail/Post";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/community/protect" element={<Protect />} />
                 <Route path="/community/lost" element={<Lost />} />
                 <Route path="/community/posting" element={<Posting />}/>
+                <Route path="/community/post" element={<Post/>}/>
 
                 <Route path="/shopping/meal" element={<Meal />} />
                 <Route path="/shopping/cookie" element={<Cookie />} />

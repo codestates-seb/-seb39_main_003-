@@ -94,7 +94,7 @@ box-sizing: border-box;
 }
 `;
 
-function Info() {
+function Lost() {
   return (
     <Wrapper>
       <CommunityNav />
@@ -131,4 +131,4 @@ function Info() {
   )
 }
 
-export default Info
+export default Lost

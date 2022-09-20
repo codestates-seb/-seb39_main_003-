@@ -1,24 +1,32 @@
-import styled from 'styled-components';
 import React from 'react'
+import styled from 'styled-components'
+import { useState } from 'react'
 
 const Wrapper = styled.div`
-
 `
 
-function Reply(props) {
+export default function Reply() {
+
+  const [reply, setReply] = useState(["울집 갱쥐도 그럼"]);
+  const [input, setInput] = useState("");
+
   return (
     <Wrapper>
-        {/* 게시글 확인 화면 */}
-        <div className='replytettitory'>
-            <div className='rbackground'>
-                {/* 게시글 제목 */}
-                {/* 게시글 내용 */}
-                {/* 댓글 작성 */}
-                {/* 작성된 댓글 */}
-            </div>
-        </div>
+    <div>
+      {/* 댓글 작성란 */}
+      <div className='replyterritory'>
+        <input></input>
+        <button></button>
+      </div>
+      {/* 작성된 댓글 목록 */}
+      <div className='replylistterritory'>
+        {reply.map(reply => {
+          return <p>{reply}</p>
+        })
+        }
+      </div>
+
+    </div>
     </Wrapper>
   )
 }
-
-export default Reply
