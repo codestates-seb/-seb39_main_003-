@@ -1,29 +1,22 @@
 package com.web.MyPetForApp.order.entity;
 
+import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.member.entity.Member;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "ORDERS")
 @Getter
-public class Order {
+public class Order extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    @Column(nullable = false)
-    private String orderStatus;
-
-    @Column(nullable = false)
-    private Timestamp createdAt;
-
-    @Column(nullable = false)
-    private Timestamp modifiedAt;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus = OrderStatus.ORDER_REQUEST;
 
     @Column
     private String newAddress;
@@ -59,5 +52,34 @@ public class Order {
         if(orderItem.getOrder() != this){
             orderItem.setOrder(this);
         }
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems){
+        this.orderItems = orderItems;
+    }
+    public enum OrderStatus{
+        ORDER_REQUEST(1, "주문 요청"),
+        ORDER_CONFIRM(2, "주문 확정"),
+        ORDER_COMPLETE(3, "주문 처리 완료"),
+        ORDER_CANCEL(4, "주문 취소");
+        @Getter
+        private int stepNumber;
+
+        @Getter
+        private String stepDescription;
+
+        OrderStatus(int stepNumber, String stepDescription) {
+            this.stepNumber = stepNumber;
+            this.stepDescription = stepDescription;
+        }
+    }
+    public void changeOrderStatus(OrderStatus orderStatus){
+        this.orderStatus = orderStatus;
+    }
+    public void resetInfo(Member member){
+        this.newAddress = member.getAddress();
+        this.newName = member.getMemberName();
+        this.newPhone = member.getPhone();
+        this.requirement = "배송 전 연락 부탁드립니다.";
     }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Item extends BaseTimeEntity {
@@ -52,30 +53,25 @@ public class Item extends BaseTimeEntity {
     @JoinColumn(name = "ITEM_CATEGORY_ID")
     private ItemCategory itemCategory;
 
+    @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Wish> wishes = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Qna> qnas = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<CartItem> cartItems = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private  List<Review> reviews = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "item")
     private List<OrderItem> orderItems = new ArrayList<>();
-
-    @Builder
-    public Item(String image, String itemName, int price, int soldCnt, int stockCnt, String info) {
-        this.image = image;
-        this.itemName = itemName;
-        this.price = price;
-        this.soldCnt = soldCnt;
-        this.stockCnt = stockCnt;
-        this.info = info;
-    }
 
     // Item-Wish 양방향 연관관계 편의 메서드
     public void addWish(Wish wish){
