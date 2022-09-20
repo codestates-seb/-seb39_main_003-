@@ -199,11 +199,9 @@ function Shopping() {
           {other && <OtherDropdown />}
           </div>
       </div>
-
-
-
       {/* 카테고리 */}
 
+      {/* 인기상품 */}
       <div className="famousBox">
         <span className="famous">이달의 인기상품</span>
       </div>
@@ -219,6 +217,7 @@ function Shopping() {
         <span className="item_list">받아와야</span>
         <span className="item_list">할듯</span>
       </div>
+      {/* 인기상품 */}
 
     </Wrapper>
   )
