@@ -16,7 +16,7 @@ const dummyData = [
     username: 'who',
     title: '제목 333',
     content: '내용 333'
-  },
+  }
 ]
 
 

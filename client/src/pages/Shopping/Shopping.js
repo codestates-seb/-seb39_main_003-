@@ -144,10 +144,10 @@ function Shopping() {
   const [eat, setEat] = useState(false);
   const [health, setHealth] = useState(false);
   const [other, setOther] = useState(false);
-  // const [test, setTest] = useState("");
+  // const [test, setTest] = useState(undefined);
 
   // useEffect(() => {
-  //   fetch("http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member")
+  //   fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/item/1`)
   //   .then(res => res.json)
   //   .then(res => {
   //     setTest(res)
