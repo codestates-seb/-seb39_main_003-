@@ -1,7 +1,5 @@
 package com.web.MyPetForApp.order.mapper;
 
-import com.web.MyPetForApp.item.entity.Item;
-import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.order.dto.OrderDto;
 import com.web.MyPetForApp.order.dto.OrderItemDto;
 import com.web.MyPetForApp.order.entity.Order;

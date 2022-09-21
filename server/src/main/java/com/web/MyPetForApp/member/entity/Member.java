@@ -78,25 +78,25 @@ public class Member {
     public void addOrder(Order order){
         orders.add(order);
         if(order.getMember() != this){
-            order.setMember(this);
+            order.changeMember(this);
         }
     }
     // Member-Wish 양방향 연관관계 편의 메서드
     public void addWish(Wish wish){
         wishes.add(wish);
         if(wish.getMember() != this){
-            wish.setMember(this);
+            wish.changeMember(this);
         }
     }
     //Member-CartItem 양방향 연관관계 편의 메서드
     public void addCartItem(CartItem cartItem){
         cartItems.add(cartItem);
         if(cartItem.getMember() != this){
-            cartItem.setMember(this);
+            cartItem.changeMember(this);
         }
     }
 
-    public void update(Member member) {
+    public void updateMember(Member member) {
         this.nickName = member.getNickName();
         this.address = member.getAddress();
         this.password = member.getPassword();

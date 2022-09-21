@@ -39,7 +39,7 @@ public class ReviewDto {
         private LocalDateTime createAt;
         private LocalDateTime modifiedAt;
         private Long itemId;
-        private String memberName; // 이름? 닉네임?
+        private String nickName;
     }
 
 }

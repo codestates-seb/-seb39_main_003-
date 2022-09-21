@@ -1,6 +1,5 @@
 package com.web.MyPetForApp.item.entity;
 
-import com.web.MyPetForApp.board.entity.Board;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,7 +27,7 @@ public class ItemCategory {
     public void addItem(Item item){
         this.items.add(item);
         if(item.getItemCategory() != this){
-            item.setItemCategory(this);
+            item.changeItemCategory(this);
         }
     }
 }

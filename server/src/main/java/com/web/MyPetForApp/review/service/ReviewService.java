@@ -1,9 +1,9 @@
 package com.web.MyPetForApp.review.service;
 
 import com.web.MyPetForApp.item.entity.Item;
-import com.web.MyPetForApp.item.repository.ItemRepository;
+import com.web.MyPetForApp.item.service.ItemService;
 import com.web.MyPetForApp.member.entity.Member;
-import com.web.MyPetForApp.member.repository.MemberRepository;
+import com.web.MyPetForApp.member.service.MemberService;
 import com.web.MyPetForApp.review.entity.Review;
 import com.web.MyPetForApp.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,47 +17,45 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
-    private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
-    private final ItemRepository itemRepository;
+    private final MemberService memberService;
+    private final ItemService itemService;
 
     public Review createReview(Review review, Long memberId, Long itemId){
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("회원이 존재하지 않습니다."));
-        Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
-        review.setMember(member);
-        review.setItem(item);
+        Member member = memberService.findVerifiedMember(memberId);
+        Item item = itemService.findVerifiedItem(itemId);
+        review.changeMember(member);
+        review.changeItem(item);
         return reviewRepository.save(review);
     }
 
     public Review findReview(Long reviewId){
-        return reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
+        return findVerifiedReview(reviewId);
     }
 
     public Page<Review> findReviews(Long itemId, int page, int size){
 
-        Item item = itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
+        Item item = itemService.findVerifiedItem(itemId);
         return reviewRepository.findAllByItem(item, PageRequest.of(page, size,
                 Sort.by("createdAt").descending()));
     }
 
     public Review updateReview(Long reviewId, Review review, Long memberId){
-        Review findReview = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
-        if(memberId != findReview.getMember().getMemberId()){
+        Review findReview = findVerifiedReview(reviewId);
+        if(!memberId.equals(findReview.getMember().getMemberId())){
             throw  new IllegalArgumentException("리뷰는 작성자만 수정할 수 있습니다.");
         }
-        findReview.update(review);
+        findReview.updateReview(review);
         return findReview;
     }
 
     public void deleteReview(Long reviewId){
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
+        Review review = findVerifiedReview(reviewId);
         reviewRepository.delete(review);
     }
 
+    public Review findVerifiedReview(Long reviewId) {
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
+    }
 }

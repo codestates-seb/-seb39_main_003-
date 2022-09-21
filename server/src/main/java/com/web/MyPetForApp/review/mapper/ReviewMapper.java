@@ -34,7 +34,7 @@ public class ReviewMapper {
                 .createAt(review.getCreatedAt())
                 .modifiedAt(review.getModifiedAt())
                 .itemId(review.getItem().getItemId())
-                .memberName(review.getMember().getMemberName())
+                .nickName(review.getMember().getNickName())
                 .build();
     }
 
@@ -49,7 +49,7 @@ public class ReviewMapper {
                         .createAt(review.getCreatedAt())
                         .modifiedAt(review.getModifiedAt())
                         .itemId(review.getItem().getItemId())
-                        .memberName(review.getMember().getMemberName())
+                        .nickName(review.getMember().getNickName())
                         .build())
                 .collect(Collectors.toList());
     }

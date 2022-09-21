@@ -11,7 +11,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -77,7 +76,7 @@ public class Item extends BaseTimeEntity {
     public void addWish(Wish wish){
         this.wishes.add(wish);
         if(wish.getItem() != this){
-            wish.setItem(this);
+            wish.changeItem(this);
         }
     }
     // Item-Order 양방향 연관관계 편의 메서드
@@ -91,11 +90,11 @@ public class Item extends BaseTimeEntity {
     public void addCartItem(CartItem cartItem){
         this.cartItems.add(cartItem);
         if(cartItem.getItem() != this){
-            cartItem.setItem(this);
+            cartItem.changeItem(this);
         }
     }
     // Board-BoardCategory 양방향 연관관계 편의 메서드
-    public void setItemCategory(ItemCategory itemCategory){
+    public void changeItemCategory(ItemCategory itemCategory){
         if(this.itemCategory != null){
             this.itemCategory.getItems().remove(this);
         }
@@ -105,11 +104,11 @@ public class Item extends BaseTimeEntity {
         }
     }
 
-    public void setMember(Member member){
+    public void changeMember(Member member){
         this.member = member;
     }
 
-    public void update(Item item){
+    public void updateItem(Item item){
         if(item.getImage() != null) this.image = item.image;
         if(item.getItemName() != null) this.itemName = item.getItemName();
         if(item.getInfo() != null) this.info = item.getInfo();
