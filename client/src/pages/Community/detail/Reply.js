@@ -4,9 +4,77 @@ import styled from 'styled-components'
 import CommuData from '../../../dummytest/dummyData';
 import { Link } from "react-router-dom";
 
-
 const Wrapper = styled.div`
+// 댓글 작성란
+.replyTerritory{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
+  background-color: #F9F9F9;
+}
+.rbackground{
+  width: 95vw;
+  height: 20vh;
+  padding: 20px;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: space-around;
+
+  background-color: #EEF1FF;
+}
+.rplyText{
+width: 70vw;
+margin: 0px 5px ;
+}
+.replyButton{
+  width: 10vw;
+  margin: 0px 5px ;
+  border-radius: 10px;
+
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+
+  border-style: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background-color: #B1B2FF;
+  color: #F9F9F9;
+  
+  &:hover{
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    background-color: #EEF1FF;
+    color: #9263FF;
+  }
+}
+
+// 작성된 댓글 목록
+.replyListTerritory{
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  background-color: #F9F9F9;
+}
+.questions{
+  padding: 0px 40px;
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+
+  font-weight: bold;
+}
+.article{
+padding:  15px;
+}
 `;
 
 const StyledLink = styled(Link)`
@@ -36,8 +104,10 @@ export default function Reply() {
 
         {/* 댓글 작성란 */}
         <div className='replyTerritory'>
-          <input type="text"></input>
-          <button>등록</button>
+          <div className='rbackground'>
+           <input className='rplyText' type="text"></input>
+            <button className='replyButton'>등록</button>
+          </div>
         </div>
 
         {/* 작성된 댓글 목록 */}

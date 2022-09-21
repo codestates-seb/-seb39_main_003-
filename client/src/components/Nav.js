@@ -180,7 +180,7 @@ const Nav = () => {
               </div>
               <span className="profile headerList" onClick={userButtonClick}><FaUserAlt /></span>
               <span className={open ? "show-menu" : "hide-menu"}>
-                <span className='info'>마이페이지</span>
+                <span className='info'><StyeldLink to="/mypage">마이페이지</StyeldLink></span>
                 <span className='info'>장바구니</span>
                 <span className='info'>고객센터</span>
                 <span className='info'>로그아웃</span>
