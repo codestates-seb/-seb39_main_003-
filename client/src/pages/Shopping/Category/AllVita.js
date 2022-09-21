@@ -75,10 +75,6 @@ function AllVita() {
 
   const navigate = useNavigate();
 
-  const onClickCookie = () => {
-    navigate(`/shopping/cookie`)
-  }
-
   const onClickEat = () => {
     navigate(`/shopping/meal`)
   }

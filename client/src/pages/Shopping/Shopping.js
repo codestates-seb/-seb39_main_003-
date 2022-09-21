@@ -8,6 +8,7 @@ import Image3 from '../../assets/dog3.png';
 import EatDropdown from './EatDropdown';
 import HealthDropdown from './HealthDropdown';
 import OtherDropdown from './OtherDropdown';
+import { useEffect } from 'react';
 
 const Wrapper = styled.div`
 
@@ -147,12 +148,12 @@ function Shopping() {
   // const [test, setTest] = useState(undefined);
 
   // useEffect(() => {
-  //   fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/item/1`)
-  //   .then(res => res.json)
+  //   fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member/1`)
+  //   .then((res) => res.json())
   //   .then(res => {
   //     setTest(res)
   //   })
-  // }, [])
+  // } , [test])
 
   const eatButtonClick = () => {
     setEat(!eat)
