@@ -34,6 +34,7 @@ public class OrderService {
         order.resetInfo(member);    // Order의 주문 정보(주소, 전화번호 등)들을 Member의 정보로 초기화
         for (OrderItemDto.Post orderItemPostDto : post) {   // orderItemPostDto List들의 요소들을 순회하며 반복
             Item item = itemService.findVerifiedItem(orderItemPostDto.getItemId()); // 상품 검증
+            itemService.checkStockCnt(orderItemPostDto.getOrderItemCnt(), item);
             OrderItem orderItem = OrderItem // OrderItem 생성
                     .builder()
                     .orderItemCnt(orderItemPostDto.getOrderItemCnt())

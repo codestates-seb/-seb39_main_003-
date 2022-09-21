@@ -88,4 +88,10 @@ public class ItemService {
         return itemCategoryRepository.findById(itemCategoryId)
                 .orElseThrow(() -> new IllegalArgumentException("상품 카테고리가 존재하지 않습니다."));
     }
+
+    public void checkStockCnt(int itemCnt, Item item){
+        if(item.getStockCnt()<itemCnt){
+            throw new IllegalArgumentException(item.getItemName()+"의 재고량이 부족합니다.");
+        }
+    }
 }

@@ -69,7 +69,7 @@ public class Item extends BaseTimeEntity {
     private  List<Review> reviews = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     // Item-Wish 양방향 연관관계 편의 메서드

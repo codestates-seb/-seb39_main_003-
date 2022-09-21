@@ -15,6 +15,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -25,9 +27,8 @@ public class CartItemService {
     public CartItem createCartItem(CartItem cartItem, Long memberId, Long itemId){
         Member member = memberService.findVerifiedMember(memberId);
         Item item = itemService.findVerifiedItem(itemId);
-        if(item.getStockCnt()<cartItem.getItemCnt()){
-            throw new IllegalArgumentException("상품 재고가 부족합니다.");
-        }
+        verifyExistsCartItem(member, item);
+        itemService.checkStockCnt(cartItem.getItemCnt(), item);
         cartItem.changeMember(member);
         cartItem.changeItem(item);
         return cartItemRepository.save(cartItem);
@@ -46,12 +47,10 @@ public class CartItemService {
     public CartItem updateCartItem(Long cartItemId, int itemCnt, Long itemId, Long memberId){
         CartItem findCartItem = findVerifiedCartItem(cartItemId);
         Item item = itemService.findVerifiedItem(itemId);
-        if(memberId.equals(findCartItem.getMember().getMemberId())){
+        if(!memberId.equals(findCartItem.getMember().getMemberId())){
             throw new IllegalArgumentException("해당 장바구니에 대한 회원만 수정할 수 있습니다.");
         }
-        if(item.getStockCnt()<itemCnt){
-            throw new IllegalArgumentException("상품 재고가 부족합니다.");
-        }
+        itemService.checkStockCnt(itemCnt, item);
         findCartItem.updateCnt(itemCnt);
         return findCartItem;
     }
@@ -64,5 +63,12 @@ public class CartItemService {
     public CartItem findVerifiedCartItem(Long cartItemId) {
         return cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new IllegalArgumentException("장바구니 항목이 존재하지 않습니다."));
+    }
+
+    public void verifyExistsCartItem(Member member, Item item) {
+        Optional<CartItem> optionalCartItem = cartItemRepository.findByMemberAndItem(member, item);
+        if(optionalCartItem.isPresent()) {
+            throw new IllegalArgumentException("이미 담긴 상품입니다.");
+        }
     }
 }
