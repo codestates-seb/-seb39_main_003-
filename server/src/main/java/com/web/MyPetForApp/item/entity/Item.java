@@ -68,10 +68,6 @@ public class Item extends BaseTimeEntity {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private  List<Review> reviews = new ArrayList<>();
 
-    @Builder.Default
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems = new ArrayList<>();
-
     // Item-Wish 양방향 연관관계 편의 메서드
     public void addWish(Wish wish){
         this.wishes.add(wish);
@@ -79,13 +75,7 @@ public class Item extends BaseTimeEntity {
             wish.changeItem(this);
         }
     }
-    // Item-Order 양방향 연관관계 편의 메서드
-    public void addOrderItem(OrderItem orderItem){
-        this.orderItems.add(orderItem);
-        if(orderItem.getItem() != this){
-            orderItem.setItem(this);
-        }
-    }
+
     // Item-CartItem 양방향 연관관계 편의 메서드
     public void addCartItem(CartItem cartItem){
         this.cartItems.add(cartItem);

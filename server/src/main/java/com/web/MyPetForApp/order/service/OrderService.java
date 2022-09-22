@@ -38,9 +38,12 @@ public class OrderService {
             OrderItem orderItem = OrderItem // OrderItem 생성
                     .builder()
                     .orderItemCnt(orderItemPostDto.getOrderItemCnt())
+                    .snapshotItemId(item.getItemId())
+                    .snapshotItemName(item.getItemName())
+                    .snapshotPrice(item.getPrice())
+                    .snapshotImage(item.getImage())
                     .build();
-            orderItem.setOrder(order);  // OrderItem-Order 연관관계 설정
-            orderItem.setItem(item);    // OrderItem-Item 연관관계 설정
+            orderItem.changeOrder(order);  // OrderItem-Order 연관관계 설정
             orderItemRepository.save(orderItem);
         }
         return orderRepository.save(order);
