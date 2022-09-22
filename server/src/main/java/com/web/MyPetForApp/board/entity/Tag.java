@@ -15,14 +15,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tag extends BaseTimeEntity {
+public class Tag {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long TagId;
     @Column(nullable = false, unique = true)
     private String tagName;
-
-    @OneToMany(mappedBy = "tag")
+    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
     private List<BoardTag> boardTags = new ArrayList<>();
 
 //    // Tag-BoardTag 양방향 연관관계 편의 메서드

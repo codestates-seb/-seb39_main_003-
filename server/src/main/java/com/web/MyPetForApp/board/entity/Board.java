@@ -6,7 +6,6 @@ import com.web.MyPetForApp.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,14 +29,14 @@ public class Board extends BaseTimeEntity {
     @Column(nullable = false)
     private int view = 0;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<BoardTag> boardTags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     // Board-Comment 양방향 연관관계 편의 메서드

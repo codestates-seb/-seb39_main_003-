@@ -1,6 +1,5 @@
 package com.web.MyPetForApp.board.entity;
 
-import com.web.MyPetForApp.board.basetime.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,11 +16,13 @@ public class BoardTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardTagId;
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "BOARD_ID")
     private Board board;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TAG_ID")
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "TAG_ID")
     private Tag tag;
 
     // BoardTag-Board 양방향 연관관계 편의 메서드

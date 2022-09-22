@@ -96,8 +96,6 @@ public class Member {
         this.profileImg = member.getProfileImg();
     }
 
-
-
 //    @OneToMany(mappedBy = "member") // 게시글 목록 필요??
 //    private List<Board> boards = new ArrayList<>();
 
@@ -113,8 +111,4 @@ public class Member {
 
 //    @OneToMany(mappedBy = "member") // 상품 목록 필요??
 //    private List<Item> items = new ArrayList<>();
-
-
-
-
 }
