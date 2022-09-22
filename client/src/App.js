@@ -21,6 +21,7 @@ import Posting from "./pages/Community/detail/Posting";
 import Post from "./pages/Community/detail/Post";
 import Mypage from "./pages/MyPage/Mypage";
 import SignUp from "./pages/MyPage/Category/SignUp";
+import SignIn from "./pages/MyPage/Category/SignIn";
 
 function App() {
   return (
@@ -36,7 +37,8 @@ function App() {
                 <Route path="/FAQ" element={<FAQ />} />
                 
                 <Route path="/mypage" element={<Mypage />} />
-                <Route path="/mypage/signup" element={<SignUp/>} />
+                <Route path="/login" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp/>} />
 
                 <Route path="/community/walk" element={<Community />} />
                 <Route path="/community/info" element={<Info />} />
