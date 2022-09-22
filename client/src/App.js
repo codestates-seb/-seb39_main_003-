@@ -19,6 +19,8 @@ import Pad from "./pages/Shopping/Category/Pad";
 import Toy from "./pages/Shopping/Category/Toy";
 import Posting from "./pages/Community/detail/Posting";
 import Post from "./pages/Community/detail/Post";
+import Mypage from "./pages/MyPage/Mypage";
+import SignUp from "./pages/MyPage/Category/SignUp";
 
 function App() {
   return (
@@ -32,6 +34,9 @@ function App() {
                 <Route path="/community" element={<Community />} />
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/FAQ" element={<FAQ />} />
+                
+                <Route path="/mypage" element={<Mypage />} />
+                <Route path="/mypage/signup" element={<SignUp/>} />
 
                 <Route path="/community/walk" element={<Community />} />
                 <Route path="/community/info" element={<Info />} />

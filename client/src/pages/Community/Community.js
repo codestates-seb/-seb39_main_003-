@@ -16,7 +16,6 @@ box-sizing: border-box;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 3px solid blue;
 }
 .cpostterritory > .cbackground{
     padding: 30px 0px;
@@ -31,13 +30,13 @@ box-sizing: border-box;
     background-color: #F9F9F9;
 }
 .cposttop{
-    width: 90vw;
+    width: 95vw;
+    margin-bottom: 20px;
     padding: 10px 10px;
-    margin-bottom: 30px;
 
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 
     background-color: rgb(146 99 255);
@@ -55,8 +54,10 @@ box-sizing: border-box;
     justify-content: center;
     align-items: center;
 }
-.cpost{
+.questions{
+    //(구)cpost
     width: 90vw;
+    margin: 20px 0px 20px 0px;
     padding: 10px 10px;
     border-radius: 20px;
 
@@ -65,6 +66,7 @@ box-sizing: border-box;
     justify-content: space-around;
     align-items: center;
 
+    cursor: pointer;
     background-color: #EEF1FF;
 }
 .title{}
@@ -100,8 +102,8 @@ box-sizing: border-box;
     padding: 0px 20px 0px 20px;
 }
 
-.questions{
-
+/* .questions{
+    //(구)questions
     padding: 5px 0px 5px 0px;
     margin: 20px 0px 20px 0px;
     width: 90vw;
@@ -111,7 +113,7 @@ box-sizing: border-box;
     justify-content: space-between;
     cursor: pointer;
     border: 1px solid red;
-}
+} */
 
 `;
 
@@ -166,13 +168,13 @@ function Community() {
 
                     </div>
 
-                <div className="cpostmiddle">
+                {/* <div className="cpostmiddle">
                     <div className="cpost">
                         <span className="title">글 제목222</span>
                         <a href="/" className="content">내용222</a>
                         <span className="user">작성자222</span>
                     </div>
-                </div>
+                </div> */}
 
 
                 

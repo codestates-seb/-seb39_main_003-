@@ -8,7 +8,7 @@ import Image3 from '../../assets/dog3.png';
 import EatDropdown from './EatDropdown';
 import HealthDropdown from './HealthDropdown';
 import OtherDropdown from './OtherDropdown';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 const Wrapper = styled.div`
 

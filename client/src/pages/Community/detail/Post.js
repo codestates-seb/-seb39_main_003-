@@ -4,24 +4,50 @@ import Reply from './Reply';
 
 const Wrapper = styled.div`
 //게시글 확인 화면
-.replytettitory{} 
-.rbackground{}
+.replytettitory{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #F9F9F9;
+} 
+.rbackground{
+  flex: auto;
+}
 //게시글 제목
 .cposttop{
-    width: 90vw;
+    width: 95vw;
+    margin-top: 30px;
     padding: 10px 10px;
-    margin-bottom: 30px;
 
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 
     background-color: rgb(146 99 255);
 }
 .cposttext{
-    color: #F9F9F9;
-    font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  color: #F9F9F9;
+  font-weight: bold;
+}
+//게시글 내용
+.cpcontent{
+  padding: 30px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.cpostcontent{
+  text-align: start;
 }
 `
 
@@ -41,7 +67,7 @@ function Post(props) {
 
                 {/* 게시글 내용 */}
                 <div className='cpcontent'>
-                  <span className='cpostcontent'>내용</span>
+                  <span className='cpostcontent'>My dog is a fluffy puppy. When I come back from school, it's woof woof woof. My dog is a fluffy puppy. When I come back from school, it's woof woof woof.</span>
                 </div>
                 
                 {/* 댓글 작성란 및 작성된 댓글 목록 */}

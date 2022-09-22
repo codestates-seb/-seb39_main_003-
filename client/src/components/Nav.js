@@ -150,7 +150,7 @@ const Wrapper = styled.div `
   }
 `;
 
-const StyeldLink = styled(Link)`
+const StyledLink = styled(Link)`
   color: white;
   text-decoration: none;
   transition: .3s;
@@ -158,7 +158,17 @@ const StyeldLink = styled(Link)`
   &:hover {
     color: #FEDB39;
   }
-`;
+`
+
+const MyPage = styled(Link)`
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    color: black;
+  }
+`
+;
 
 const Nav = () => {
 
@@ -178,10 +188,10 @@ const Nav = () => {
               }}><FaUserAlt /></span>
 
               <span className={open ? "show-menu" : "hide-menu"}>
-                  <span className='info'>마이페이지</span>
-                  <span className='info'>장바구니</span>
-                  <span className='info'>고객센터</span>
-                  <span className='info'>로그아웃</span>
+                <span className='info'><MyPage to="/mypage">마이페이지</MyPage></span>
+                <span className='info'>장바구니</span>
+                <span className='info'>고객센터</span>
+                <span className='info'>로그인</span>
               </span>
           </div>
       </div>
@@ -189,20 +199,20 @@ const Nav = () => {
       <div className="navbar">
         <span className="navlist" onClick={() => {
           setOpen(false)
-        }}><StyeldLink to="/">Home</StyeldLink></span>
+        }}><StyledLink to="/">Home</StyledLink></span>
         <span className="navlist">동물병원</span>
         <span className="navlist" onClick={() => {
           setOpen(false)
-        }}><StyeldLink to="/shopping">쇼핑</StyeldLink></span>
+        }}><StyledLink to="/shopping">쇼핑</StyledLink></span>
         <span className="navlist" onClick={() => {
           setOpen(false)
-        }}><StyeldLink to="/community">커뮤니티</StyeldLink></span>
+        }}><StyledLink to="/community">커뮤니티</StyledLink></span>
         <span className="navlist" onClick={() => {
           setOpen(false)
-        }}><StyeldLink to="/notice">공지사항</StyeldLink></span>
+        }}><StyledLink to="/notice">공지사항</StyledLink></span>
         <span className="navlist" onClick={() => {
           setOpen(false)
-        }}><StyeldLink to="/FAQ">FAQ</StyeldLink></span>
+        }}><StyledLink to="/FAQ">FAQ</StyledLink></span>
       </div>
     </Wrapper>
   )
