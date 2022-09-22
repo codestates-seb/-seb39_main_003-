@@ -4,7 +4,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import React, { useState } from 'react';
-import UserInfo from './UserInfo';
+// import UserInfo from './UserInfo';
 
 const Wrapper = styled.div `
   /* position: fixed;
@@ -21,21 +21,20 @@ const Wrapper = styled.div `
   }
   
   .navbar {
-    width: 100%;
-    height: 150px;
+    height: 7vh;
     /* border: 1px solid red; */
     display: flex;
     justify-content: space-around;
     background-color: #9263FF;
     color: white;
-    font-size: 35px;
+    font-size: 3vmin;
     font-weight: bold;
   }
 
   .navlist {
     display: flex;
     justify-content: center;
-    line-height: 50px;
+    align-items: center;
     border-radius: 15px;
     transition: .3s;
     cursor: pointer;
@@ -70,7 +69,7 @@ const Wrapper = styled.div `
   }
 
   .profile {
-    font-size: 30px;
+    font-size: 3vmin;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -88,14 +87,14 @@ const Wrapper = styled.div `
 
   .searchIcon {
     height: 100%;
-    font-size: 24px;
+    font-size: 2.4vmin;
     color: #ff425c;
     cursor: pointer;
     transition: .3s;
     line-height: 100%;
 
     &:hover {
-      font-size: 30px;
+      font-size: 3vmin;
     }
   }
 
@@ -140,7 +139,7 @@ const Wrapper = styled.div `
     padding-left: 20px;
     border: 1px solid lightgray;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 2vmin;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -165,10 +164,6 @@ const Nav = () => {
 
   const [open, setOpen] = useState(false);
 
-  const userButtonClick = () => {
-    setOpen(!open);
-  };
-
   return (
     <Wrapper>
       <div className="header">
@@ -178,23 +173,36 @@ const Nav = () => {
                   <input type="text" placeholder="어떤 상품을 찾으세요?" className="search headerList"></input>
                   <span className="searchIcon"><BsSearch /></span>
               </div>
-              <span className="profile headerList" onClick={userButtonClick}><FaUserAlt /></span>
+              <span className="profile headerList" onClick={() => {
+                setOpen(!open)
+              }}><FaUserAlt /></span>
+
               <span className={open ? "show-menu" : "hide-menu"}>
-                <span className='info'>마이페이지</span>
-                <span className='info'>장바구니</span>
-                <span className='info'>고객센터</span>
-                <span className='info'>로그아웃</span>
+                  <span className='info'>마이페이지</span>
+                  <span className='info'>장바구니</span>
+                  <span className='info'>고객센터</span>
+                  <span className='info'>로그아웃</span>
               </span>
           </div>
       </div>
       
       <div className="navbar">
-        <span className="navlist"><StyeldLink to="/">Home</StyeldLink></span>
+        <span className="navlist" onClick={() => {
+          setOpen(false)
+        }}><StyeldLink to="/">Home</StyeldLink></span>
         <span className="navlist">동물병원</span>
-        <span className="navlist"><StyeldLink to="/shopping">쇼핑</StyeldLink></span>
-        <span className="navlist"><StyeldLink to="/community">커뮤니티</StyeldLink></span>
-        <span className="navlist"><StyeldLink to="/notice">공지사항</StyeldLink></span>
-        <span className="navlist"><StyeldLink to="/FAQ">FAQ</StyeldLink></span>
+        <span className="navlist" onClick={() => {
+          setOpen(false)
+        }}><StyeldLink to="/shopping">쇼핑</StyeldLink></span>
+        <span className="navlist" onClick={() => {
+          setOpen(false)
+        }}><StyeldLink to="/community">커뮤니티</StyeldLink></span>
+        <span className="navlist" onClick={() => {
+          setOpen(false)
+        }}><StyeldLink to="/notice">공지사항</StyeldLink></span>
+        <span className="navlist" onClick={() => {
+          setOpen(false)
+        }}><StyeldLink to="/FAQ">FAQ</StyeldLink></span>
       </div>
     </Wrapper>
   )

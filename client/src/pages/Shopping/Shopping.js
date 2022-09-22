@@ -142,10 +142,15 @@ const Wrapper = styled.div`
 
 function Shopping() {
 
-  const [eat, setEat] = useState(false);
-  const [health, setHealth] = useState(false);
-  const [other, setOther] = useState(false);
-  // const [test, setTest] = useState(undefined);
+  const [click, setClick] = useState(false);
+
+  const [select, setSelect] = useState(undefined);
+
+  // const [eat, setEat] = useState(false);
+  // const [health, setHealth] = useState(false);
+  // const [other, setOther] = useState(false);
+
+  // const [test, setTest] = useState("");
 
   // useEffect(() => {
   //   fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member/1`)
@@ -153,19 +158,19 @@ function Shopping() {
   //   .then(res => {
   //     setTest(res)
   //   })
-  // } , [test])
+  // } , [])
 
-  const eatButtonClick = () => {
-    setEat(!eat)
-  };
+  // const eatButtonClick = () => {
+  //   setEat(!eat)
+  // };
 
-  const healthButtonClick = () => {
-    setHealth(!health)
-  };
+  // const healthButtonClick = () => {
+  //   setHealth(!health)
+  // };
 
-  const otherButtonClick = () => {
-    setOther(!other)
-  };
+  // const otherButtonClick = () => {
+  //   setOther(!other)
+  // };
 
   return (
     <Wrapper>
@@ -185,19 +190,27 @@ function Shopping() {
       {/* 카테고리 */}
       <div className='categories'>
           <div>
-          <span className='category' onClick={eatButtonClick}>먹거리</span>
-          {eat && <EatDropdown />}
-          </div>
-          
-          
-          <div>
-          <span className='category' onClick={healthButtonClick}>건강관리</span>
-          {health && <HealthDropdown />}
+          <span className='category' onClick={() => {
+            select === '먹거리' ? setClick(!click) : setClick(true)
+            setSelect('먹거리')
+            }}>먹거리</span>
+          {click && select === '먹거리' ? <EatDropdown /> : undefined}
           </div>
           
           <div>
-          <span className='category' onClick={otherButtonClick}>각종 용품</span>
-          {other && <OtherDropdown />}
+          <span className='category' onClick={() => {
+            select === '건강관리' ? setClick(!click) : setClick(true)
+            setSelect('건강관리')
+            }}>건강관리</span>
+          {click && select === '건강관리' ? <HealthDropdown /> : undefined}
+          </div>
+          
+          <div>
+          <span className='category' onClick={() => {
+            select === '각종 용품' ? setClick(!click) : setClick(true)
+            setSelect('각종 용품')
+            }}>각종 용품</span>
+          {click && select === '각종 용품' ? <OtherDropdown /> : undefined}
           </div>
       </div>
       {/* 카테고리 */}
