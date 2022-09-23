@@ -1,7 +1,5 @@
 package com.web.MyPetForApp.order.mapper;
 
-import com.web.MyPetForApp.item.entity.Item;
-import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.order.dto.OrderDto;
 import com.web.MyPetForApp.order.dto.OrderItemDto;
 import com.web.MyPetForApp.order.entity.Order;
@@ -33,11 +31,11 @@ public class OrderMapper {
                 .stream()
                 .map(orderItem -> OrderItemDto.Response.builder()
                         .orderItemCnt(orderItem.getOrderItemCnt())
-                        .price(orderItem.getItem().getPrice())
-                        .totalPrice(orderItem.getOrderItemCnt() * orderItem.getItem().getPrice())
-                        .itemName(orderItem.getItem().getItemName())
-                        .image(orderItem.getItem().getImage())
-                        .itemId(orderItem.getItem().getItemId())
+                        .price(orderItem.getSnapshotPrice())
+                        .totalPrice(orderItem.getOrderItemCnt() * orderItem.getSnapshotPrice())
+                        .itemName(orderItem.getSnapshotItemName())
+                        .image(orderItem.getSnapshotImage())
+                        .itemId(orderItem.getOrderItemId())
                         .build())
                 .collect(Collectors.toList());
     }

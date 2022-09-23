@@ -3,11 +3,12 @@ package com.web.MyPetForApp.cartitem.entity;
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.member.entity.Member;
-import com.web.MyPetForApp.order.entity.Order;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -34,7 +35,7 @@ public class CartItem extends BaseTimeEntity {
     private Item item;
 
     // CartItem-Member 양방향 연관관계 편의 메서드
-    public void setMember(Member member){
+    public void changeMember(Member member){
         if(this.member != null){
             this.member.getCartItems().remove(this);
         }
@@ -44,7 +45,7 @@ public class CartItem extends BaseTimeEntity {
         }
     }
     // CartItem-Item 양방향 연관관계 편의 메서드
-    public void setItem(Item item){
+    public void changeItem(Item item){
         if(this.item != null){
             this.item.getCartItems().remove(this);
         }
@@ -54,7 +55,7 @@ public class CartItem extends BaseTimeEntity {
         }
     }
 
-    public void changeCnt(int itemCnt){
+    public void updateCnt(int itemCnt){
         if(itemCnt != 0) this.itemCnt = itemCnt;
     }
 }
