@@ -16,13 +16,12 @@ box-sizing: border-box;
 }
 .signUpBackground{
   width: 40vw;
-  height: 100vh;
+  height: 120vh;
 
   margin: 30px 0px;
   padding: 50px;
   border-radius: 10px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.7);
-  overflow-y: scroll;
 
   display: flex;
   flex-direction: column;
@@ -33,25 +32,37 @@ box-sizing: border-box;
 }
 // 회원가입 본문
 .text{
-  margin: 20px;
+  margin: 30px;
   text-align: center;
   font-weight: bolder;
 }
 .suBackground{
 
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+.suback{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
 .sutext{
+  width: 30vw;
   margin: 10px;
+  border: none;
+  outline:none;
+  border-bottom: 2px solid #EEF1FF;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   text-align: start;
+  background-color: #F9F9F9;
 }
 // 회원가입 버튼
 .suButton{
@@ -92,12 +103,38 @@ function SignUp() {
           {/* 회원가입 본문 */}
           <h2 className='text'>Sign Up</h2>
           <div className='suBackground'>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <label>이메일</label>
-              <input className="sutext" type='email' {...register("email")}></input>
-              <input type="submit" />
+            <form className='suBackground' onSubmit={handleSubmit(onSubmit)}>
+              <div className='subox'>
+                <label>이메일</label>
+                <input className="sutext" type='email' {...register("email")}></input>
+
+                <label>아이디</label>
+                <input className="sutext" type='id' {...register("memberId")}></input>
+              
+                <label>비밀번호</label>
+                <input className="sutext" type='password' {...register("password")}></input>
+
+                <label>이름</label>
+                <input className="sutext" type='text' {...register("memberName")}></input>
+
+                <label>닉네임</label>
+                <input className="sutext" type='text' {...register("nickName")}></input>
+              
+                <label>주소</label>
+                <input className="sutext" type='text' {...register("address")}></input>
+
+                <label>전화번호</label>
+                <input className="sutext" type='text' {...register("phone")}></input>
+            </div>
+
+              {/* <label>프로필 이미지</label>
+              <imput className="sutext" type="img" {...register("profile_img")}></imput> */}
+
+              {/* 회원가입 버튼 */}
+              <input className='suButton' type="submit"></input>
             </form>
           </div>
+          
           {/* <div className='suBackground'>
             <input id="id" className="sutext" type='id' placeholder="사용할 아이디를 입력하세요"></input>
           </div>

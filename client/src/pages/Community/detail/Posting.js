@@ -47,6 +47,11 @@ const Wrapper = styled.div`
 }
 .titletext{
   width: 80vw;
+
+  border: none;
+  outline:none;
+  border-bottom: 1px solid #B1B2FF;
+  background-color: #f9f9f9;
 }
 //게시글 내용
 .postcontent{
@@ -61,6 +66,11 @@ const Wrapper = styled.div`
 .contenttext{
   width: 85vw;
   height: 60vh;
+
+  border: none;
+  outline:none;
+  border-bottom: 1px solid #B1B2FF;
+  background-color: #f9f9f9;
 }
 //게시글 등록 버튼
 .postbutton{
