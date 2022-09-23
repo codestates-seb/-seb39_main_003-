@@ -2,6 +2,7 @@ package com.web.MyPetForApp.item.dto;
 
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.item.entity.ItemCategory;
+import com.web.MyPetForApp.item.entity.ItemImage;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.order.entity.OrderItem;
 import com.web.MyPetForApp.qna.entity.Qna;
@@ -21,7 +22,7 @@ public class ItemDto {
     @NoArgsConstructor
     public static class Post{
         private Long memberId;
-        private String image;
+        private List<String> itemImages;
         private String itemName;
         private int price;
         private int stockCnt;
@@ -34,7 +35,7 @@ public class ItemDto {
     @NoArgsConstructor
     public static class Patch{
         private Long memberId;
-        private String image;
+        private List<String> itemImages;
         private String itemName;
         private int price;
         private int stockCnt;
@@ -47,7 +48,7 @@ public class ItemDto {
     @NoArgsConstructor
     public static class Response{
         private Long itemId;
-        private String image;
+        private List<String> itemImages;
         private String itemName;
         private int price;
         private int soldCnt;

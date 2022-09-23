@@ -2,7 +2,9 @@ package com.web.MyPetForApp.item.service;
 
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.item.entity.ItemCategory;
+import com.web.MyPetForApp.item.entity.ItemImage;
 import com.web.MyPetForApp.item.repository.ItemCategoryRepository;
+import com.web.MyPetForApp.item.repository.ItemImageRepository;
 import com.web.MyPetForApp.item.repository.ItemRepository;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.member.service.MemberService;
@@ -26,11 +28,19 @@ import java.util.stream.Collectors;
 public class ItemService {
     private final ItemRepository itemRepository;
     private final ItemCategoryRepository itemCategoryRepository;
+    private final ItemImageRepository itemImageRepository;
     private final WishRepository wishRepository;
     private final MemberService memberService;
 
-    public Item createItem(Item item, Long memberId, Long itemCategoryId){
+    public Item createItem(Item item, Long memberId, Long itemCategoryId, List<String> itemImages){
         Member member = memberService.findVerifiedMember(memberId);
+        for (String image : itemImages) {
+            ItemImage itemImage = ItemImage.builder()
+                    .itemThumbnail(image)
+                    .build();
+            ItemImage savedItemImage = itemImageRepository.save(itemImage);
+            item.addItemImage(savedItemImage);
+        }
         ItemCategory itemCategory = findVerifiedItemCategory(itemCategoryId);
         item.changeMember(member);
         item.changeItemCategory(itemCategory);
@@ -57,8 +67,19 @@ public class ItemService {
         return listToPage(page, size, wishItems);
     }
 
-    public Item updateItem(Long itemId, Item item){
+    public Item updateItem(Long itemId, Item item, List<String> itemImages){
         Item findItem = findVerifiedItem(itemId);
+        if(itemImages != null) {
+            findItem.resetItemImages();
+            itemImageRepository.deleteByItem(findItem);
+            for (String image : itemImages) {
+                ItemImage itemImage = ItemImage.builder()
+                        .itemThumbnail(image)
+                        .build();
+                itemImage.changeItem(findItem);
+                itemImageRepository.save(itemImage);
+            }
+        }
         findItem.updateItem(item);
 
         return findItem;
@@ -78,7 +99,6 @@ public class ItemService {
             return new PageImpl<>(new ArrayList<>(), pageable, wishItems.size());
         return new PageImpl<>(wishItems.subList(start, end), pageable, wishItems.size());
     }
-
     public Item findVerifiedItem(Long itemId) {
         return itemRepository.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));

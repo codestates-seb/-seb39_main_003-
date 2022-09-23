@@ -28,7 +28,8 @@ public class ItemController {
     public ResponseEntity postItem(@RequestBody ItemDto.Post requestBody){
         Item item = itemService.createItem(mapper.itemPostDtoToItem(requestBody),
                 requestBody.getMemberId(),
-                requestBody.getItemCategoryId());
+                requestBody.getItemCategoryId(),
+                requestBody.getItemImages());
         ItemDto.Response response = mapper.itemToItemResponseDto(item);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
@@ -66,8 +67,9 @@ public class ItemController {
     @PatchMapping("/{itemId}")
     public ResponseEntity patchItem(@PathVariable Long itemId,
                                     @RequestBody ItemDto.Patch requestBody){
-        Item item = itemService.updateItem(itemId, mapper.itemPatchDtoToItem(requestBody));
-        return new ResponseEntity<>(HttpStatus.OK);
+        Item item = itemService.updateItem(itemId, mapper.itemPatchDtoToItem(requestBody), requestBody.getItemImages());
+        ItemDto.Response response = mapper.itemToItemResponseDto(item);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @DeleteMapping("/{itemId}")

@@ -3,7 +3,6 @@ package com.web.MyPetForApp.item.entity;
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.member.entity.Member;
-import com.web.MyPetForApp.order.entity.OrderItem;
 import com.web.MyPetForApp.qna.entity.Qna;
 import com.web.MyPetForApp.review.entity.Review;
 import com.web.MyPetForApp.wish.entity.Wish;
@@ -22,9 +21,6 @@ public class Item extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
-
-    @Column(nullable = false)
-    private String image;
 
     @Column(nullable = false)
     private String itemName;
@@ -66,7 +62,11 @@ public class Item extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private  List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<ItemImage> itemImages = new ArrayList<>();
 
     // Item-Wish 양방향 연관관계 편의 메서드
     public void addWish(Wish wish){
@@ -81,6 +81,12 @@ public class Item extends BaseTimeEntity {
         this.cartItems.add(cartItem);
         if(cartItem.getItem() != this){
             cartItem.changeItem(this);
+        }
+    }
+    public void addItemImage(ItemImage itemImage){
+        this.itemImages.add(itemImage);
+        if(itemImage.getItem() != this){
+            itemImage.changeItem(this);
         }
     }
     // Board-BoardCategory 양방향 연관관계 편의 메서드
@@ -99,7 +105,6 @@ public class Item extends BaseTimeEntity {
     }
 
     public void updateItem(Item item){
-        if(item.getImage() != null) this.image = item.image;
         if(item.getItemName() != null) this.itemName = item.getItemName();
         if(item.getInfo() != null) this.info = item.getInfo();
         if(item.price != 0) this.price = item.getPrice();
@@ -107,5 +112,8 @@ public class Item extends BaseTimeEntity {
     }
     public void updateWishCnt(){
         this.wishCnt = this.wishes.size();
+    }
+    public void resetItemImages(){
+        this.itemImages = new ArrayList<>();
     }
 }

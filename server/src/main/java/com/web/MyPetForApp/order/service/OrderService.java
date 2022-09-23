@@ -41,7 +41,7 @@ public class OrderService {
                     .snapshotItemId(item.getItemId())
                     .snapshotItemName(item.getItemName())
                     .snapshotPrice(item.getPrice())
-                    .snapshotImage(item.getImage())
+                    .snapshotImage(item.getItemImages().get(0).getItemThumbnail())
                     .build();
             orderItem.changeOrder(order);  // OrderItem-Order 연관관계 설정
             orderItemRepository.save(orderItem);
