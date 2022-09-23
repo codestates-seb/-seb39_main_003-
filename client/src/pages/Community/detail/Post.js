@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import React from 'react'
 import Reply from './Reply';
-import { useParams } from 'react-router-dom';
 
 const Wrapper = styled.div`
 //게시글 확인 화면
@@ -49,13 +48,11 @@ const Wrapper = styled.div`
 }
 .cpostcontent{
   text-align: start;
+  font-weight: 500;
 }
 `
 
 function Post(props) {
-
-  let params = useParams();
-
   return (
     <Wrapper>
         {/* 게시글 확인 화면 */}
@@ -64,7 +61,7 @@ function Post(props) {
 
                 {/* 게시글 제목 */}
                 <div className="cposttop">
-                    <span className="cposttext">{params.communityId}</span>
+                    <span className="cposttext">글 제목11</span>
                     <span className="cposttext">내용11</span>
                     <span className="cposttext">작성자11</span>
                 </div>

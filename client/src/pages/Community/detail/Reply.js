@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 
   background-color: #EEF1FF;
 }
-.rplyText{
+.replyText{
 width: 70vw;
 margin: 0px 5px ;
 }
@@ -70,10 +70,32 @@ margin: 0px 5px ;
   justify-content: space-around;
   align-items: center;
 
-  font-weight: bold;
+  font-weight: 400;
 }
 .article{
 padding:  15px;
+}
+// 돌아가는 버튼
+/* .backbutton{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} */
+.backtocbutton{
+  width: 10vw;
+  height: 5vh;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+
+  border-style: none;
+  background-color: #F9F9F9;
+  color: #000000;
+  font-weight: 400;
+  &:hover{
+   background-color: #F1F1F1;
+  }
 }
 `;
 
@@ -105,7 +127,7 @@ export default function Reply() {
         {/* 댓글 작성란 */}
         <div className='replyTerritory'>
           <div className='rbackground'>
-           <input className='rplyText' type="text"></input>
+           <input className='replyText' type="text"></input>
             <button className='replyButton'>등록</button>
           </div>
         </div>
@@ -125,7 +147,10 @@ export default function Reply() {
             </div>
             ))}
         </div>
-
+        {/* 돌아가는 버튼 */}
+        <div className='backbutton'>
+          <StyledLink to="/community"><button className='backtocbutton'>뒤로가기</button></StyledLink>
+        </div>
       </div>
     </Wrapper>
   )
