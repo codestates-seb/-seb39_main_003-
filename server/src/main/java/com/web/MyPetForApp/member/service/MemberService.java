@@ -28,26 +28,25 @@ public class MemberService {
 
     public Member update(Member modifiedMember) {
         // 회원이 존재하는지 확인
-        Member findMember = optionalFind(modifiedMember.getMemberId());
+        Member findMember = findVerifiedMember(modifiedMember.getMemberId());
         // 존재한다면 들어온 정보대로 수정
-        findMember.update(modifiedMember);
+        findMember.updateMember(modifiedMember);
         return memberRepository.save(findMember);
     }
 
     public Member read(Long memberId) {
-        return optionalFind(memberId);
+        return findVerifiedMember(memberId);
     }
 
     public void delete(Long memberId) {
         // 회원이 존재하는지 확인
-        Member findMember = optionalFind(memberId);
+        Member findMember = findVerifiedMember(memberId);
         // 존재한다면 해당 회원 정보 삭제
         memberRepository.deleteById(memberId);
     }
 
-    public Member optionalFind(Long memberId) {
+    public Member findVerifiedMember(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException("회원이 존재하지 않습니다.")
-        );
+                () -> new IllegalArgumentException("회원이 존재하지 않습니다."));
     }
 }

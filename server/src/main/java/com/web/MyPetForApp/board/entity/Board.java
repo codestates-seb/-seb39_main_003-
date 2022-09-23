@@ -2,10 +2,7 @@ package com.web.MyPetForApp.board.entity;
 
 import com.web.MyPetForApp.comment.entity.Comment;
 import com.web.MyPetForApp.member.entity.Member;
-import com.web.MyPetForApp.order.entity.Order;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

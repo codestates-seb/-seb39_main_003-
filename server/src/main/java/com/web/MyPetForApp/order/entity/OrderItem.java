@@ -1,7 +1,9 @@
 package com.web.MyPetForApp.order.entity;
 
-import com.web.MyPetForApp.item.entity.Item;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -18,32 +20,31 @@ public class OrderItem {
     @Column(nullable = false)
     private int orderItemCnt;
 
+    @Column
+    private Long snapshotItemId;
+
+    @Column
+    private String snapshotItemName;
+
+    @Column
+    private int snapshotPrice;
+
+    @Column
+    private String snapshotImage;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_ID")
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ITEM_ID")
-    private Item item;
-
     // Order-OrderItem 양방향 연관관계 편의 메서드
-    public void setOrder(Order order){
+    public void changeOrder(Order order){
         if(this.order != null){
             this.order.getOrderItems().remove(this);
         }
         this.order = order;
         if(!order.getOrderItems().contains(this)){
             order.addOrderItem(this);
-        }
-    }
-    // Item-OrderItem 양방향 연관관계 편의 메서드
-    public void setItem(Item item){
-        if(this.item != null){
-            this.item.getOrderItems().remove(this);
-        }
-        this.item = item;
-        if(!item.getOrderItems().contains(this)){
-            item.addOrderItem(this);
         }
     }
 }

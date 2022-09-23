@@ -3,15 +3,16 @@ package com.web.MyPetForApp.item.entity;
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.member.entity.Member;
-import com.web.MyPetForApp.order.entity.OrderItem;
 import com.web.MyPetForApp.qna.entity.Qna;
 import com.web.MyPetForApp.review.entity.Review;
 import com.web.MyPetForApp.wish.entity.Wish;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -23,9 +24,6 @@ public class Item extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
-
-    @Column(nullable = false)
-    private String image;
 
     @Column(nullable = false)
     private String itemName;
@@ -67,35 +65,35 @@ public class Item extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private  List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "item")
-    private List<OrderItem> orderItems = new ArrayList<>();
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    private List<ItemImage> itemImages = new ArrayList<>();
 
     // Item-Wish 양방향 연관관계 편의 메서드
     public void addWish(Wish wish){
         this.wishes.add(wish);
         if(wish.getItem() != this){
-            wish.setItem(this);
+            wish.changeItem(this);
         }
     }
-    // Item-Order 양방향 연관관계 편의 메서드
-    public void addOrderItem(OrderItem orderItem){
-        this.orderItems.add(orderItem);
-        if(orderItem.getItem() != this){
-            orderItem.setItem(this);
-        }
-    }
+
     // Item-CartItem 양방향 연관관계 편의 메서드
     public void addCartItem(CartItem cartItem){
         this.cartItems.add(cartItem);
         if(cartItem.getItem() != this){
-            cartItem.setItem(this);
+            cartItem.changeItem(this);
+        }
+    }
+    public void addItemImage(ItemImage itemImage){
+        this.itemImages.add(itemImage);
+        if(itemImage.getItem() != this){
+            itemImage.changeItem(this);
         }
     }
     // Board-BoardCategory 양방향 연관관계 편의 메서드
-    public void setItemCategory(ItemCategory itemCategory){
+    public void changeItemCategory(ItemCategory itemCategory){
         if(this.itemCategory != null){
             this.itemCategory.getItems().remove(this);
         }
@@ -105,12 +103,11 @@ public class Item extends BaseTimeEntity {
         }
     }
 
-    public void setMember(Member member){
+    public void changeMember(Member member){
         this.member = member;
     }
 
-    public void update(Item item){
-        if(item.getImage() != null) this.image = item.image;
+    public void updateItem(Item item){
         if(item.getItemName() != null) this.itemName = item.getItemName();
         if(item.getInfo() != null) this.info = item.getInfo();
         if(item.price != 0) this.price = item.getPrice();
@@ -118,5 +115,8 @@ public class Item extends BaseTimeEntity {
     }
     public void updateWishCnt(){
         this.wishCnt = this.wishes.size();
+    }
+    public void resetItemImages(){
+        this.itemImages = new ArrayList<>();
     }
 }

@@ -1,7 +1,9 @@
 package com.web.MyPetForApp.item.entity;
 
-import com.web.MyPetForApp.board.entity.Board;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class ItemCategory {
     public void addItem(Item item){
         this.items.add(item);
         if(item.getItemCategory() != this){
-            item.setItemCategory(this);
+            item.changeItemCategory(this);
         }
     }
 }

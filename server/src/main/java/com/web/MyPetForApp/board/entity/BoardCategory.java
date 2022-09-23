@@ -1,8 +1,6 @@
 package com.web.MyPetForApp.board.entity;
 
-import com.web.MyPetForApp.cartitem.entity.CartItem;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -2,7 +2,6 @@ package com.web.MyPetForApp.wish.controller;
 
 import com.web.MyPetForApp.dto.SingleResponseDto;
 import com.web.MyPetForApp.wish.dto.WishDto;
-import com.web.MyPetForApp.wish.entity.Wish;
 import com.web.MyPetForApp.wish.mapper.WishMapper;
 import com.web.MyPetForApp.wish.service.WishService;
 import lombok.RequiredArgsConstructor;

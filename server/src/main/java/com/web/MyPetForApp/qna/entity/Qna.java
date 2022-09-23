@@ -4,10 +4,12 @@ package com.web.MyPetForApp.qna.entity;
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.member.entity.Member;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -36,15 +38,15 @@ public class Qna extends BaseTimeEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    public void setMember(Member member) {
+    public void changeMember(Member member) {
         this.member = member;
     }
 
-    public void setItem(Item item) {
+    public void changeItem(Item item) {
         this.item = item;
     }
 
-    public void update(Qna qna){
+    public void updateQna(Qna qna){
         if(qna.getQnaTitle() != null) this.qnaTitle = qna.getQnaTitle();
         if(qna.getQnaContent() != null) this.qnaContent = qna.getQnaContent();
         if(qna.isChecked()) this.checked = qna.isChecked();

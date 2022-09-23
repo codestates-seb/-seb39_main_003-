@@ -3,7 +3,6 @@ package com.web.MyPetForApp.cartitem.controller;
 import com.web.MyPetForApp.cartitem.dto.CartItemDto;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.cartitem.mapper.CartItemMapper;
-import com.web.MyPetForApp.cartitem.repository.CartItemRepository;
 import com.web.MyPetForApp.cartitem.service.CartItemService;
 import com.web.MyPetForApp.dto.MultiResponseDto;
 import com.web.MyPetForApp.dto.SingleResponseDto;

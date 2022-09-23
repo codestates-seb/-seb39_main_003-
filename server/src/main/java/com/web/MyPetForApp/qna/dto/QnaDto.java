@@ -1,12 +1,10 @@
 package com.web.MyPetForApp.qna.dto;
-import com.web.MyPetForApp.item.entity.Item;
-import com.web.MyPetForApp.member.entity.Member;
-import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 public class QnaDto {

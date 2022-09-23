@@ -2,7 +2,10 @@ package com.web.MyPetForApp.wish.entity;
 
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.member.entity.Member;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -25,7 +28,7 @@ public class Wish {
     private Item item;
 
     // Member-Wish 양방향 연관관계 편의 메서드
-    public void setMember(Member member){
+    public void changeMember(Member member){
         if(this.member != null){
             this.member.getWishes().remove(this);
         }
@@ -35,7 +38,7 @@ public class Wish {
         }
     }
     // Item-Wish 양방향 연관관계 편의 메서드
-    public void setItem(Item item){
+    public void changeItem(Item item){
         if(this.item != null){
             this.item.getWishes().remove(this);
         }

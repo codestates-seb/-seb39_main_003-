@@ -37,7 +37,7 @@ public class Order extends BaseTimeEntity {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    public void setMember(Member member){
+    public void changeMember(Member member){
         if(this.member != null){
             this.member.getOrders().remove(this);
         }
@@ -50,11 +50,11 @@ public class Order extends BaseTimeEntity {
     public void addOrderItem(OrderItem orderItem){
         this.orderItems.add(orderItem);
         if(orderItem.getOrder() != this){
-            orderItem.setOrder(this);
+            orderItem.changeOrder(this);
         }
     }
 
-    public void setOrderItems(List<OrderItem> orderItems){
+    public void changeOrderItems(List<OrderItem> orderItems){
         this.orderItems = orderItems;
     }
     public enum OrderStatus{
@@ -73,7 +73,7 @@ public class Order extends BaseTimeEntity {
             this.stepDescription = stepDescription;
         }
     }
-    public void changeOrderStatus(OrderStatus orderStatus){
+    public void updateOrderStatus(OrderStatus orderStatus){
         this.orderStatus = orderStatus;
     }
     public void resetInfo(Member member){
