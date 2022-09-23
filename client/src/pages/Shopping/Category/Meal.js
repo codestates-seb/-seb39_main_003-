@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const Wrapper = styled.div`
 
@@ -69,6 +70,12 @@ const Wrapper = styled.div`
   .line {
     border-right: 2px solid purple;
   }
+
+  .test {
+    width: 200px;
+    height: 200px;
+    border: 1px solid red;
+  }
 `;
 
 function Meal() {
@@ -90,8 +97,11 @@ function Meal() {
   const onClickPad = () => {
     navigate(`/shopping/pad`)
   }
+  
+  let params = useParams();
 
   return (
+
 
     <Wrapper>
 
@@ -106,6 +116,8 @@ function Meal() {
         <span className='eat'>사료</span>
         <span className='cookie' onClick={onClickCookie}>간식</span>
       </div>
+
+      <div className='test'>{params.itemId}</div>
 
     </Wrapper>
   

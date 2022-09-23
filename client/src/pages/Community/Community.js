@@ -120,7 +120,7 @@ box-sizing: border-box;
 
 function Community() {
 
-    const [id, setId] = useState(undefined);
+    // const [id, setId] = useState(undefined);
     // 1 === 최종적으로 값을 보여줄 본체
     // 1 === 마루타 (실험체) 성공적이면 본체로 내용을 복사해줌
     // useState(초기값) 의 초기값 id === 1
@@ -155,7 +155,7 @@ function Community() {
                                  key={index} // 고유번호
                                  onClick={
                                     () => { // 눌렀을때 어떻게 되어야할지 설정해주는 곳
-                                    setId(el.id)
+                                    // setId(el.id)
                                     navigate(`/community/post/${el.id}`)
                                     }
                                     }

@@ -116,15 +116,14 @@ const Wrapper = styled.div `
 
   .searchIcon {
     height: 100%;
-    font-size: 2.4vmin;
+    font-size: 3.4vmin;
     color: #ff425c;
     cursor: pointer;
     transition: .3s;
     line-height: 100%;
-    padding-left: 20px;
 
     &:hover {
-      font-size: 3vmin;
+      font-size: 4vmin;
     }
   }
 
@@ -243,16 +242,21 @@ const Nav = () => {
         <span className="navlist" onClick={() => {
           setOpen(false)
         }}><StyledLink to="/">Home</StyledLink></span>
+
         <span className="navlist">동물병원</span>
+
         <span className="navlist" onClick={() => {
           setOpen(false)
         }}><StyledLink to="/shopping">쇼핑</StyledLink></span>
+
         <span className="navlist" onClick={() => {
           setOpen(false)
         }}><StyledLink to="/community">커뮤니티</StyledLink></span>
+
         <span className="navlist" onClick={() => {
           setOpen(false)
         }}><StyledLink to="/notice">공지사항</StyledLink></span>
+        
         <span className="navlist" onClick={() => {
           setOpen(false)
         }}><StyledLink to="/FAQ">FAQ</StyledLink></span>

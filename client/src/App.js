@@ -46,9 +46,9 @@ function App() {
                 <Route path="/community/protect" element={<Protect />} />
                 <Route path="/community/lost" element={<Lost />} />
                 <Route path="/community/posting" element={<Posting />}/>
-                <Route path="/community/post/3" element={<Post/>}/>
+                <Route path="/community/post/:communityId" element={<Post/>}/>
 
-                <Route path="/shopping/meal" element={<Meal />} />
+                <Route path="/shopping/meal/:itemId" element={<Meal />} />
                 <Route path="/shopping/cookie" element={<Cookie />} />
                 <Route path="/shopping/vita" element={<Vita />} />
                 <Route path="/shopping/allVita" element={<AllVita />} />
