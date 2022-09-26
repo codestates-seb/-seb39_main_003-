@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 
@@ -93,15 +93,15 @@ box-sizing: border-box;
   }
 }
 `
-const StyledLink = styled(Link)`
-text-decoration: none;
-`
+// const StyledLink = styled(Link)`
+// text-decoration: none;
+// `
 
 function SignUp() {
 
   const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => {fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member`, {
+  const onSubmit = (data) => {fetch(`http://211.58.40.128:8080/api/v1/member`, {
     method: "POST",
     headers: {
       "content-Type": "application/json",
@@ -116,12 +116,7 @@ function SignUp() {
     })
   };
 
-
   const navigate = useNavigate();
-
-
-  
-
 
   return (
     <Wrapper>
@@ -136,13 +131,8 @@ function SignUp() {
               <div className='subox'>
 
                 <div className='suback'>
-                  <label>이메일</label>
+                  <label>아이디 (Email)</label>
                   <input className="sutext" type='email' {...register("email")}></input>
-                </div>
-
-                <div className='suback'>
-                  <label>아이디</label>
-                  <input className="sutext" type='id' {...register("memberId")}></input>
                 </div>
 
                 <div className='suback'>

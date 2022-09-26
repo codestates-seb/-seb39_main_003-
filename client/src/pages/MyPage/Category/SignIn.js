@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
+// import ReactDOM from "react-dom";
+import axios from "axios";
 
 const Wrapper = styled.div`
 box-sizing: border-box;
@@ -91,13 +93,27 @@ box-sizing: border-box;
   }
 }
 `
-const StyledLink = styled(Link)`
-text-decoration: none;
-`
+// const StyledLink = styled(Link)`
+// text-decoration: none;
+// `
 
 function SignIn() {
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data)
+  axios.defaults.withCredentials = false;
+  
+  const onSubmit = (data) => {
+    axios.post(`http://211.58.40.128:8080/login`, data).then(response => {
+      const { accessToken } = response.data;
+      
+      // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      sessionStorage.setItem('accessToken', response.data);
+
+    }).catch(error => {
+      console.log(error.response.data);
+      return "이메일 혹은 비밀번호를 확인하세요";
+    })
+  }
 
   return (
     <Wrapper>
@@ -112,7 +128,7 @@ function SignIn() {
               <div className='sibox'>
                 <div className='siback'>
                   <label>아이디</label>
-                  <input className="sitext" type='id' {...register("memberId")}></input>
+                  <input className="sitext" type='email' {...register("email")}></input>
                 </div>
 
                 <div className='siback'>

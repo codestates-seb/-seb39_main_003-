@@ -22,6 +22,7 @@ import Post from "./pages/Community/detail/Post";
 import Mypage from "./pages/MyPage/Mypage";
 import SignUp from "./pages/MyPage/Category/SignUp";
 import SignIn from "./pages/MyPage/Category/SignIn";
+import Items from "./pages/Shopping/Items";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
                 <Route path="/shopping/allVita" element={<AllVita />} />
                 <Route path="/shopping/pad" element={<Pad />} />
                 <Route path="/shopping/toy" element={<Toy />} />
+                <Route path="/shopping/item" element={<Items />} />
             </Routes>
       </Router>
 

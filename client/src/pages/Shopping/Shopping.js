@@ -9,6 +9,9 @@ import EatDropdown from './EatDropdown';
 import HealthDropdown from './HealthDropdown';
 import OtherDropdown from './OtherDropdown';
 // import { useEffect } from 'react';
+import Items from './Items';
+import { useNavigate } from 'react-router-dom';
+
 
 const Wrapper = styled.div`
 
@@ -142,6 +145,9 @@ const Wrapper = styled.div`
 
 function Shopping() {
 
+  const navigate = useNavigate();
+
+
   const [click, setClick] = useState(false);
 
   const [select, setSelect] = useState(undefined);
@@ -221,7 +227,9 @@ function Shopping() {
       </div>
 
       <div class="item_list_box">
-        <span className="item_list">여기는</span>
+        <span className="item_list" onClick={() => {
+          navigate('/shopping/item')
+        }}>여기는</span>
         <span className="item_list">데이터를</span>
         <span className="item_list">받아와야</span>
         <span className="item_list">할듯</span>
