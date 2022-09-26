@@ -11,8 +11,8 @@ public class CartItemDto {
     @AllArgsConstructor
     public static class Post{
         private int itemCnt;
-        private Long itemId;
-        private Long memberId;
+        private String itemId;
+        private String memberId;
     }
 
     @Getter
@@ -20,7 +20,7 @@ public class CartItemDto {
     @AllArgsConstructor
     public static class Patch{
         private int itemCnt;
-        private Long itemId;
+        private String itemId;
         private Long memberId;
     }
 
@@ -35,6 +35,6 @@ public class CartItemDto {
         private int totalPrice;
         private String itemName;
         private String image;
-        private Long itemId;
+        private String itemId;
     }
 }

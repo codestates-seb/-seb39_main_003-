@@ -24,8 +24,8 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity postReview(@RequestBody ReviewDto.Post requestBody){
         Review review = mapper.reviewPostDtoToReview(requestBody);
-        Long memberId = requestBody.getMemberId();
-        Long itemId = requestBody.getItemId();
+        String memberId = requestBody.getMemberId();
+        String itemId = requestBody.getItemId();
         Review savedReview = reviewService.createReview(review, memberId, itemId);
         ReviewDto.Response response = mapper.reviewToReviewResponseDto(savedReview);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
@@ -39,7 +39,7 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity getReviews(@RequestParam Long itemId,
+    public ResponseEntity getReviews(@RequestParam String itemId,
                                      @RequestParam(required = false, defaultValue = "1") int page,
                                      @RequestParam(required = false, defaultValue = "8") int size){
         Page<Review> pageReviews = reviewService.findReviews(itemId, page-1, size);
@@ -51,7 +51,7 @@ public class ReviewController {
     @PatchMapping("/{reviewId}")
     public ResponseEntity patchReview(@PathVariable Long reviewId,
                                       @RequestBody ReviewDto.Patch requestBody){
-        Long memberId = requestBody.getMemberId();
+        String memberId = requestBody.getMemberId();
         Review review = reviewService.updateReview(reviewId, mapper.reviewPatchDtoToReview(requestBody), memberId);
         ReviewDto.Response response = mapper.reviewToReviewResponseDto(review);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);

@@ -15,8 +15,8 @@ public class ReviewDto {
         private int starCnt;
         private String photo;
         private String reviewContent;
-        private Long memberId;
-        private Long itemId;
+        private String memberId;
+        private String itemId;
     }
     @Getter
     @AllArgsConstructor
@@ -25,7 +25,7 @@ public class ReviewDto {
         private int starCnt;
         private String photo;
         private String reviewContent;
-        private Long memberId;
+        private String memberId;
     }
 
     @Getter
@@ -38,7 +38,7 @@ public class ReviewDto {
         private int startCnt;
         private LocalDateTime createAt;
         private LocalDateTime modifiedAt;
-        private Long itemId;
+        private String itemId;
         private String nickName;
     }
 

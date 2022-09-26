@@ -21,7 +21,7 @@ public class WishService {
     private final MemberService memberService;
     private final ItemService itemService;
 
-    public WishDto.Response changeWish(Long memberId, Long itemId){
+    public WishDto.Response changeWish(String memberId, String itemId){
         Member member = memberService.findVerifiedMember(memberId);
         Item item = itemService.findVerifiedItem(itemId);
         Optional<Wish> optionalWish = wishRepository.findByMemberAndItem(member, item);
@@ -43,7 +43,7 @@ public class WishService {
         }
     }
 
-    public WishDto.Response findWish(Long memberId, Long itemId){
+    public WishDto.Response findWish(String memberId, String itemId){
         Member member = memberService.findVerifiedMember(memberId);
         Item item = itemService.findVerifiedItem(itemId);
         Optional<Wish> optionalWish = wishRepository.findByMemberAndItem(member, item);

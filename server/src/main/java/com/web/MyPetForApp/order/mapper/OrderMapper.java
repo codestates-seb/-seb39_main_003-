@@ -12,7 +12,9 @@ import java.util.stream.Collectors;
 @Component
 public class OrderMapper {
     public OrderDto.Response orderToOrderResponseDto(Order order){
-        return OrderDto.Response.builder()
+        int orderPrice = 0;
+
+        OrderDto.Response response = OrderDto.Response.builder()
                 .orderId(order.getOrderId())
                 .memberId(order.getMember().getMemberId())
                 .newAddress(order.getNewAddress())
@@ -24,18 +26,20 @@ public class OrderMapper {
                 .modifiedAt(order.getModifiedAt())
                 .orderItems(orderItemsToOrderItemResponseDto(order.getOrderItems()))
                 .build();
+        return response;
     }
 
     public List<OrderItemDto.Response> orderItemsToOrderItemResponseDto(List<OrderItem> orderItems){
         return orderItems
                 .stream()
                 .map(orderItem -> OrderItemDto.Response.builder()
+                        .orderItemId(orderItem.getOrderItemId())
                         .orderItemCnt(orderItem.getOrderItemCnt())
-                        .price(orderItem.getSnapshotPrice())
+                        .snapshotPrice(orderItem.getSnapshotPrice())
                         .totalPrice(orderItem.getOrderItemCnt() * orderItem.getSnapshotPrice())
-                        .itemName(orderItem.getSnapshotItemName())
+                        .snapshotItemName(orderItem.getSnapshotItemName())
                         .image(orderItem.getSnapshotImage())
-                        .itemId(orderItem.getOrderItemId())
+                        .snapshotItemId(orderItem.getSnapshotItemId())
                         .build())
                 .collect(Collectors.toList());
     }

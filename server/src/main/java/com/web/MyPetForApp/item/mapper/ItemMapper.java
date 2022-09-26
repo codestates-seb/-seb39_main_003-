@@ -1,16 +1,22 @@
 package com.web.MyPetForApp.item.mapper;
 
+import com.web.MyPetForApp.image.service.ImageService;
 import com.web.MyPetForApp.item.dto.ItemDto;
 import com.web.MyPetForApp.item.entity.Item;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ItemMapper {
-    public Item itemPostDtoToItem(ItemDto.Post requestBody){
+
+    private final ImageService imageService;
+
+    public Item itemPostDtoToItem(ItemDto.Post requestBody, String itemId){
         return Item.builder()
+                .itemId(itemId)
                 .itemName(requestBody.getItemName())
                 .price(requestBody.getPrice())
                 .stockCnt(requestBody.getStockCnt())
@@ -27,13 +33,13 @@ public class ItemMapper {
                 .build();
     }
 
-    public ItemDto.Response itemToItemResponseDto(Item item){
+    public ItemDto.Response itemToItemResponseDto(Item item, List<String> fileNameList){
         return ItemDto.Response.builder()
                 .itemId(item.getItemId())
-                .itemImages(item.getItemImages()
-                        .stream()
-                        .map(itemImage -> itemImage.getItemThumbnail())
-                        .collect(Collectors.toList()))
+//                .itemImages(item.getItemImages()
+//                        .stream()
+//                        .map(itemImage -> itemImage.getItemThumbnail())
+//                        .collect(Collectors.toList()))
                 .itemName(item.getItemName())
                 .price(item.getPrice())
                 .soldCnt(item.getSoldCnt())
@@ -42,6 +48,8 @@ public class ItemMapper {
                 .wishCnt(item.getWishes().size())   // 찜 수
                 .itemCategory(item.getItemCategory().getItemCategory()) // 카테고리 명
                 .member(item.getMember().getNickName()) // 닉네임? 실명? 선택 필요
+                .fileNameList(fileNameList)
+                .thumbNail(fileNameList.get(0))
                 .build();
 
     }
@@ -52,10 +60,10 @@ public class ItemMapper {
                 .map(item -> ItemDto.Response
                         .builder()
                         .itemId(item.getItemId())
-                        .itemImages(item.getItemImages()
-                                .stream()
-                                .map(itemImage -> itemImage.getItemThumbnail())
-                                .collect(Collectors.toList()))
+//                        .itemImages(item.getItemImages()
+//                                .stream()
+//                                .map(itemImage -> itemImage.getItemThumbnail())
+//                                .collect(Collectors.toList()))
                         .itemName(item.getItemName())
                         .price(item.getPrice())
                         .soldCnt(item.getSoldCnt())
@@ -64,6 +72,7 @@ public class ItemMapper {
                         .wishCnt(item.getWishes().size())
                         .itemCategory(item.getItemCategory().getItemCategory())
                         .member(item.getMember().getNickName())
+                        .thumbNail(imageService.findFilesById("item", item.getItemId()).get(0))
                         .build())
                 .collect(Collectors.toList());
     }

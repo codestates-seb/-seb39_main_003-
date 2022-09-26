@@ -2,6 +2,7 @@ package com.web.MyPetForApp.member.entity;
 
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.order.entity.Order;
+import com.web.MyPetForApp.pay.entity.Pay;
 import com.web.MyPetForApp.wish.entity.Wish;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,18 +12,23 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
 
-    @Column(nullable = false, unique = true)
+public class Member {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long memberId;
+
+    @Id
+    private String memberId;
+
+    @Column(nullable = false)
     private String memberName;
 
     @Column(nullable = false)
@@ -74,6 +80,10 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<CartItem> cartItems = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<Pay> pays = new ArrayList<>();
+
     // Member-Order 양방향 연관관계 편의 메서드
     public void addOrder(Order order){
         orders.add(order);
@@ -96,12 +106,28 @@ public class Member {
         }
     }
 
+    public void addPay(Pay pay) {
+        this.pays.add(pay);
+        if(pay.getMember() != this) {
+            pay.changeMember(this);
+        }
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
     public void updateMember(Member member) {
-        this.nickName = member.getNickName();
-        this.address = member.getAddress();
-        this.password = member.getPassword();
-        this.phone = member.getPhone();
-        this.profileImg = member.getProfileImg();
+        Optional.ofNullable(member.getNickName()).ifPresent(
+                name -> this.nickName = name);
+        Optional.ofNullable(member.getAddress()).ifPresent(
+                address -> this.address = address);
+        Optional.ofNullable(member.getPassword()).ifPresent(
+                password -> this.password = password);
+        Optional.ofNullable(member.getPhone()).ifPresent(
+                phone -> this.phone = phone);
+        Optional.ofNullable(member.getProfileImg()).ifPresent(
+                profileImg -> this.profileImg = profileImg);
     }
 
 

@@ -14,7 +14,7 @@ public class OrderDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Post{
-        private Long memberId;
+        private String memberId;
         private List<OrderItemDto.Post> orderItems;
     }
 
@@ -31,11 +31,12 @@ public class OrderDto {
     @AllArgsConstructor
     public static class Response{
         private Long orderId;
-        private Long memberId;
+        private String memberId;
         private String newAddress;
         private String newPhone;
         private String newName;
         private String requirement;
+        private int orderPrice;
         private Order.OrderStatus orderStatus;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;

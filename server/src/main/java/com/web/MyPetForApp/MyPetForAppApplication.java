@@ -11,5 +11,4 @@ public class MyPetForAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MyPetForAppApplication.class, args);
 	}
-
 }

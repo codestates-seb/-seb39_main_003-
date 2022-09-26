@@ -24,8 +24,8 @@ public class CartItemController {
     @PostMapping
     public ResponseEntity post(@RequestBody CartItemDto.Post requestBody){
         CartItem cartItem = mapper.cartItemPostDtoToCartItem(requestBody);
-        Long itemId = requestBody.getItemId();
-        Long memberId = requestBody.getMemberId();
+        String itemId = requestBody.getItemId();
+        String memberId = requestBody.getMemberId();
         CartItem savedCartItem = cartItemService.createCartItem(cartItem, memberId, itemId);
         CartItemDto.Response response = mapper.cartItemToCartItemResponseDto(savedCartItem);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
@@ -39,7 +39,7 @@ public class CartItemController {
     }
 
     @GetMapping
-    public ResponseEntity getCartItems(@RequestParam Long memberId,
+    public ResponseEntity getCartItems(@RequestParam String memberId,
                                       @RequestParam(required = false, defaultValue = "1") int page,
                                       @RequestParam(required = false, defaultValue = "10") int size){
         Page<CartItem> pageCartItems = cartItemService.findCartItems(memberId, page-1, size);
@@ -52,7 +52,7 @@ public class CartItemController {
     public ResponseEntity patchCartItem(@PathVariable Long cartItemId,
                                         @RequestBody CartItemDto.Patch requestBody){
         int itemCnt = requestBody.getItemCnt();
-        Long itemId = requestBody.getItemId();
+        String itemId = requestBody.getItemId();
         Long memberId = requestBody.getMemberId();
         CartItem cartItem = cartItemService.updateCartItem(cartItemId, itemCnt, itemId, memberId);
         CartItemDto.Response response = mapper.cartItemToCartItemResponseDto(cartItem);

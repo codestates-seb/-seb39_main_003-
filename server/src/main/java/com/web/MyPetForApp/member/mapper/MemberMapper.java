@@ -6,13 +6,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class MemberMapper {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public Member memberPostDtoToMember(MemberDto.Post post) {
+    public Member memberPostDtoToMember(MemberDto.Post post, String memberId) {
         return Member.builder()
                 .memberName(post.getMemberName())
                 .nickName(post.getNickName())
@@ -20,7 +22,7 @@ public class MemberMapper {
                 .email(post.getEmail())
                 .password(bCryptPasswordEncoder.encode(post.getPassword()))
                 .phone(post.getPhone())
-                .profileImg(post.getProfileImg())
+                .memberId(memberId)
                 .memberRole(Member.MemberRole.ROLE_USER)
                 .build();
     }
@@ -29,14 +31,13 @@ public class MemberMapper {
         return Member.builder()
                 .memberId(patch.getMemberId())
                 .nickName(patch.getNickName())
-                .profileImg(patch.getProfileImg())
                 .phone(patch.getPhone())
                 .password(bCryptPasswordEncoder.encode(patch.getPassword()))
                 .address(patch.getAddress())
                 .build();
     }
 
-    public MemberDto.Response memberToResponse(Member member) {
+    public MemberDto.Response memberToResponse(Member member, String profileImg) {
         return MemberDto.Response.builder()
                 .memberId(member.getMemberId())
                 .memberName(member.getMemberName())
@@ -46,7 +47,7 @@ public class MemberMapper {
                 .roles(member.getMemberRole().getRole())
                 .password(member.getPassword())
                 .phone(member.getPhone())
-                .profileImg(member.getProfileImg())
+                .profileImg(profileImg)
                 .build();
     }
 }

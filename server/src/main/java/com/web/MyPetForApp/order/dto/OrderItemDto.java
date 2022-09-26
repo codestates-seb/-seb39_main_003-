@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class OrderItemDto {
     @Getter
     public static class Post{
-        private Long itemId;
+        private String itemId;
         private int orderItemCnt;
     }
     @Getter
@@ -17,11 +17,12 @@ public class OrderItemDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Response{
+        private Long orderItemId;
         private int orderItemCnt;
-        private int price;
+        private int snapshotPrice;
         private int totalPrice;
-        private String itemName;
+        private String snapshotItemName;
         private String image;
-        private Long itemId;
+        private String snapshotItemId;
     }
 }

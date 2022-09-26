@@ -21,7 +21,7 @@ public class ReviewService {
     private final MemberService memberService;
     private final ItemService itemService;
 
-    public Review createReview(Review review, Long memberId, Long itemId){
+    public Review createReview(Review review, String memberId, String itemId){
         Member member = memberService.findVerifiedMember(memberId);
         Item item = itemService.findVerifiedItem(itemId);
         review.changeMember(member);
@@ -33,14 +33,14 @@ public class ReviewService {
         return findVerifiedReview(reviewId);
     }
 
-    public Page<Review> findReviews(Long itemId, int page, int size){
+    public Page<Review> findReviews(String itemId, int page, int size){
 
         Item item = itemService.findVerifiedItem(itemId);
         return reviewRepository.findAllByItem(item, PageRequest.of(page, size,
                 Sort.by("createdAt").descending()));
     }
 
-    public Review updateReview(Long reviewId, Review review, Long memberId){
+    public Review updateReview(Long reviewId, Review review, String memberId){
         Review findReview = findVerifiedReview(reviewId);
         if(!memberId.equals(findReview.getMember().getMemberId())){
             throw  new IllegalArgumentException("리뷰는 작성자만 수정할 수 있습니다.");

@@ -21,9 +21,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Item extends BaseTimeEntity {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long itemId;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long itemId;
+
+    private String itemId;
 
     @Column(nullable = false)
     private String itemName;
@@ -67,9 +71,12 @@ public class Item extends BaseTimeEntity {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
-    @Builder.Default
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<ItemImage> itemImages = new ArrayList<>();
+//    @Builder.Default
+//    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+//    private List<ItemImage> itemImages = new ArrayList<>();
+
+//    @Transient
+//    private List<String> itemImagess = new ArrayList<>();
 
     // Item-Wish 양방향 연관관계 편의 메서드
     public void addWish(Wish wish){
@@ -86,12 +93,12 @@ public class Item extends BaseTimeEntity {
             cartItem.changeItem(this);
         }
     }
-    public void addItemImage(ItemImage itemImage){
-        this.itemImages.add(itemImage);
-        if(itemImage.getItem() != this){
-            itemImage.changeItem(this);
-        }
-    }
+//    public void addItemImage(ItemImage itemImage){
+//        this.itemImages.add(itemImage);
+//        if(itemImage.getItem() != this){
+//            itemImage.changeItem(this);
+//        }
+//    }
     // Board-BoardCategory 양방향 연관관계 편의 메서드
     public void changeItemCategory(ItemCategory itemCategory){
         if(this.itemCategory != null){
@@ -116,7 +123,7 @@ public class Item extends BaseTimeEntity {
     public void updateWishCnt(){
         this.wishCnt = this.wishes.size();
     }
-    public void resetItemImages(){
-        this.itemImages = new ArrayList<>();
-    }
+//    public void resetItemImages(){
+//        this.itemImages = new ArrayList<>();
+//    }
 }

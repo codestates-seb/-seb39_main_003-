@@ -12,8 +12,7 @@ public class ItemDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Post{
-        private Long memberId;
-        private List<String> itemImages;
+        private String memberId;
         private String itemName;
         private int price;
         private int stockCnt;
@@ -38,8 +37,7 @@ public class ItemDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Response{
-        private Long itemId;
-        private List<String> itemImages;
+        private String itemId;
         private String itemName;
         private int price;
         private int soldCnt;
@@ -48,5 +46,7 @@ public class ItemDto {
         private int wishCnt;
         private String itemCategory;
         private String member;
+        private List<String> fileNameList;
+        private String thumbNail;
     }
 }
