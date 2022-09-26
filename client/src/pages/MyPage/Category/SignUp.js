@@ -99,7 +99,7 @@ box-sizing: border-box;
 
 function SignUp() {
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState:{errors} } = useForm();
 
   const onSubmit = (data) => {fetch(`http://211.58.40.128:8080/api/v1/member`, {
     method: "POST",
@@ -132,33 +132,101 @@ function SignUp() {
 
                 <div className='suback'>
                   <label>아이디 (Email)</label>
-                  <input className="sutext" type='email' {...register("email")}></input>
+                  <input className="sutext" type='email' {...register("email", {
+                    required: "이메일을 입력하세요.",
+                    pattern:{
+                      value: /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/,
+                      message: "이메일 형식으로 입력하세요."
+                    }
+                  })}></input>
                 </div>
+                {errors.email && <span>{errors.email.message}</span>}
 
                 <div className='suback'>
                   <label>비밀번호</label>
-                  <input className="sutext" type='password' {...register("password")}></input>
+                  <input className="sutext" type='password' {...register("password", {
+                    required: "비밀번호를 입력해주세요.",
+                    minLength:{
+                      value: 5,
+                      message: '5자 이상의 비밀번호를 입력해주세요.'
+                    },
+                    maxLength:{
+                      value: 15,
+                      message: '15자 이하의 비밀번호를 입력해주세요.'
+                    }
+                  })}></input>
                 </div>
+                {/* 비밀번호: 5자 이상 + 15자 이하*/}
+                {errors.password && <span>{errors.password.message}</span>}
+
                 
                 <div className='suback'>
                   <label>이름</label>
-                  <input className="sutext" type='text' {...register("memberName")}></input>
+                  <input className="sutext" type='text' {...register("memberName", {
+                    required: "이름을 입력해주세요.",
+                    minLength:{
+                      value: 2,
+                      message: '2자 이상의 이름을 입력해주세요.'
+                    },
+                    maxLength:{
+                      value: 8,
+                      message: '8자 이하의 이름을 입력해주세요.'
+                    },
+                    pattern:{
+                      value: /^[가-힣]+$/,
+                      message: "한글 이름을 입력해주세요."
+                    }
+                  })}></input>
                 </div>
+                {/* 이름: 2자 이상 + 8자 이하 */}
+                {errors.memberName && <span>{errors.memberName.message}</span>}
                 
                 <div className='suback'>
                   <label>닉네임</label>
-                  <input className="sutext" type='text' {...register("nickName")}></input>
+                  <input className="sutext" type='text' {...register("nickName",{
+                    required: "별명을 입력해주세요.",
+                    minLength:{
+                      value: 1,
+                      message: '1자 이상의 별명을 입력해주세요.'
+                    },
+                    maxLength:{
+                      value: 8,
+                      message: '8자 이하의 별명을 입력해주세요.'
+                    },
+                    pattern:{
+                      value: /^[가-힣]+$/,
+                      message: "한글 별명을 입력해주세요."
+                    }
+                  })}></input>
                 </div>
+                {/* 별명: 1자 이상 + 8자 이하 */}
+                {errors.nickname && <span>{errors.nickname.message}</span>}
                 
                 <div className='suback'>
                   <label>주소</label>
-                  <input className="sutext" type='text' {...register("address")}></input>
+                  <input className="sutext" type='text' {...register("address", {
+                    required: "주소를 입력해주세요.",
+                    pattern:{
+                      value: /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/,
+                      message: "주소를 입력해주세요."
+                    }
+                  })}></input>
                 </div>
+                {/* 주소: 한글/영어/숫자로 조합 */}
+                {errors.address && <span>{errors.address.message}</span>}
                 
                 <div className='suback'>
                   <label>전화번호</label>
-                  <input className="sutext" type='text' {...register("phone")}></input>
+                  <input className="sutext" type='text' {...register("phone", {
+                    required: "전화번호를 입력해주세요.",
+                    pattern:{
+                      value: /^\d{3}-\d{3,4}-\d{4}$/,
+                      message: "-을 포함한 번호를 입력해주세요."
+                    }
+                  })}></input>
                 </div>
+                {/* 전화번호: 10자 이상 + 11자 미만의 숫자 */}
+                {errors.phone && <span>{errors.phone.message}</span>}
 
                 <div className='suback'>
                   <label>프로필 사진</label>
@@ -166,35 +234,10 @@ function SignUp() {
                 </div>
             </div>
 
-              {/* <label>프로필 이미지</label>
-              <input className="sutext" type="img" {...register("profile_img")}></input> */}
-
               {/* 회원가입 버튼 */}
               <input className='suButton' type="submit"></input>
             </form>
           </div>
-          
-          {/* <div className='suBackground'>
-            <input id="id" className="sutext" type='id' placeholder="사용할 아이디를 입력하세요"></input>
-          </div>
-          <div className='suBackground'>
-            <input id="password" className="sutext" type='password' placeholder="비밀번호를 입력하세요"></input>
-          </div>
-          <div className='suBackground'>
-            <input id="passwordCheck" className="sutext" type='password' placeholder="비밀번호 입력 확인"></input>
-          </div>
-          <div className='suBackground'>
-            <input id="userName" className="sutext" type='text' placeholder="이름을 입력하세요"></input>
-          </div>
-          <div className='suBackground'>
-            <input id="nickName" className="sutext" type='text' placeholder="닉네임을 입력하세요"></input>
-          </div>
-          <div className='suBackground'>
-            <input id="address" className="sutext" type='text' placeholder="주소를 입력하세요"></input>
-          </div>
-          <div className='suBackground'>
-            <input id="phoneNumber" className="sutext" type='tel' placeholder="전화번호를 입력하세요"></input>
-          </div> */}
 
           {/* 회원가입 버튼 */}
           {/* <StyledLink to="/"><button className='suButton'>Sign Up</button></StyledLink> */}

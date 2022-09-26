@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { useForm } from "react-hook-form";
 // import ReactDOM from "react-dom";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 
 const Wrapper = styled.div`
 box-sizing: border-box;
@@ -98,6 +100,9 @@ box-sizing: border-box;
 // `
 
 function SignIn() {
+
+  const navigate = useNavigate();
+
   const { register, handleSubmit } = useForm();
   axios.defaults.withCredentials = false;
   
@@ -109,7 +114,12 @@ function SignIn() {
       axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       sessionStorage.setItem('accessToken', response.data);
 
-    }).catch(error => {
+    })
+    .then(() => {
+      navigate('/')
+    })
+    
+    .catch(error => {
       console.log(error.response.data);
       return "이메일 혹은 비밀번호를 확인하세요";
     })
