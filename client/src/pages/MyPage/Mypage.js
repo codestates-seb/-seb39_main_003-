@@ -100,7 +100,7 @@ function Mypage() {
                             <div className='mpCategory'>고객센터</div>
                         </div>
                         <div className='mpcBox'>
-                            <div className='mpCategory'><StyledLink to="/mypage/signup">회원 가입</StyledLink></div>
+                        <div className='mpCategory'><StyledLink to='/login'> 로그인 </StyledLink></div>
                         </div>
                     </div>
                 </div>

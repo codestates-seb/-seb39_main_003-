@@ -37,7 +37,12 @@ box-sizing: border-box;
   font-weight: bolder;
 }
 .suBackground{
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.subox{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,7 +55,7 @@ box-sizing: border-box;
   align-items: center;
 }
 .sutext{
-  width: 30vw;
+  width: 20vw;
   margin: 10px;
   border: none;
   outline:none;
@@ -105,30 +110,45 @@ function SignUp() {
           <div className='suBackground'>
             <form className='suBackground' onSubmit={handleSubmit(onSubmit)}>
               <div className='subox'>
-                <label>이메일</label>
-                <input className="sutext" type='email' {...register("email")}></input>
 
-                <label>아이디</label>
-                <input className="sutext" type='id' {...register("memberId")}></input>
-              
-                <label>비밀번호</label>
-                <input className="sutext" type='password' {...register("password")}></input>
+                <div className='suback'>
+                  <label>이메일</label>
+                  <input className="sutext" type='email' {...register("email")}></input>
+                </div>
 
-                <label>이름</label>
-                <input className="sutext" type='text' {...register("memberName")}></input>
+                <div className='suback'>
+                  <label>아이디</label>
+                  <input className="sutext" type='id' {...register("memberId")}></input>
+                </div>
 
-                <label>닉네임</label>
-                <input className="sutext" type='text' {...register("nickName")}></input>
-              
-                <label>주소</label>
-                <input className="sutext" type='text' {...register("address")}></input>
-
-                <label>전화번호</label>
-                <input className="sutext" type='text' {...register("phone")}></input>
+                <div className='suback'>
+                  <label>비밀번호</label>
+                  <input className="sutext" type='password' {...register("password")}></input>
+                </div>
+                
+                <div className='suback'>
+                  <label>이름</label>
+                  <input className="sutext" type='text' {...register("memberName")}></input>
+                </div>
+                
+                <div className='suback'>
+                  <label>닉네임</label>
+                  <input className="sutext" type='text' {...register("nickName")}></input>
+                </div>
+                
+                <div className='suback'>
+                  <label>주소</label>
+                  <input className="sutext" type='text' {...register("address")}></input>
+                </div>
+                
+                <div className='suback'>
+                  <label>전화번호</label>
+                  <input className="sutext" type='text' {...register("phone")}></input>
+                </div>
             </div>
 
               {/* <label>프로필 이미지</label>
-              <imput className="sutext" type="img" {...register("profile_img")}></imput> */}
+              <input className="sutext" type="img" {...register("profile_img")}></input> */}
 
               {/* 회원가입 버튼 */}
               <input className='suButton' type="submit"></input>

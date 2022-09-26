@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { useForm } from "react-hook-form";
 
 const Wrapper = styled.div`
 box-sizing: border-box;
+// 로그인 페이지
 .signInTerritory{
   display: flex;
   flex-direction: column;
@@ -13,8 +15,8 @@ box-sizing: border-box;
   background-color: #EEF1FF;
 }
 .signInBackground{
-  width: 30vw;
-  height: 600px;
+  width: 40vw;
+  height: 90vh;
 
   margin: 30px 0px;
   padding: 50px;
@@ -28,27 +30,46 @@ box-sizing: border-box;
 
   background-color: #F9F9F9;
 }
+// 회원가입 본문
 .text{
-  margin: 20px;
+  margin: 30px;
   text-align: center;
   font-weight: bolder;
 }
 .siBackground{
-  margin: 20px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+.sibox{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.siback{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
 .sitext{
+  width: 20vw;
+  margin: 10px;
+  border: none;
+  outline:none;
+  border-bottom: 2px solid #EEF1FF;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   text-align: start;
+  background-color: #F9F9F9;
 }
+// 로그인 버튼
 .siButton{
   width: 10vw;
   height: 8vh;
@@ -57,9 +78,9 @@ box-sizing: border-box;
   /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4); */
   border-radius: 5px;
   border-style: none;
+
   background-color: #000000;
   color: #9263FF;
-
   text-align: center;
   font-size: larger;
   font-weight: bolder;
@@ -70,26 +91,39 @@ box-sizing: border-box;
   }
 }
 `
-
 const StyledLink = styled(Link)`
 text-decoration: none;
 `
+
 function SignIn() {
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => console.log(data)
+
   return (
     <Wrapper>
-        {/* 회원가입 페이지 */}
+      {/* 로그인 페이지 */}
       <div className='signInTerritory'>
         <div className='signInBackground'>
-          {/* 회원가입 본문 */}
+          
+          {/* 로그인 본문 */}
           <h2 className='text'>Sign In</h2>
           <div className='siBackground'>
-            <input type="sitext" placeholder="아이디를 입력하세요"></input>
+            <form className='siBackground' onSubmit={handleSubmit(onSubmit)}>
+              <div className='sibox'>
+                <div className='siback'>
+                  <label>아이디</label>
+                  <input className="sitext" type='id' {...register("memberId")}></input>
+                </div>
+
+                <div className='siback'>
+                  <label>비밀번호</label>
+                  <input className="sitext" type='password' {...register("password")}></input>
+                </div>
+            </div>
+              {/* 로그인 버튼 */}
+              <input className='siButton' type="submit"></input>
+            </form>
           </div>
-          <div className='siBackground'>
-            <input type="sitext" placeholder="비밀번호를 입력하세요"></input>
-          </div>
-          {/* 회원가입 버튼 */}
-          <button className='siButton'><StyledLink to="/">Sign In</StyledLink></button>
         </div>
       </div>
     </Wrapper>

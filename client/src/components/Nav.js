@@ -5,6 +5,7 @@ import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.png'
 
 
 const Wrapper = styled.div `
@@ -208,7 +209,10 @@ const Nav = () => {
   return (
     <Wrapper>
           <div className="headerBox">
-              <span className="logo headerList">로고</span>
+              <span className="logo headerList">
+                {/* 로고 */}
+                <img className="logoImage" alt="logo" src={logo} />
+              </span>
               <div className="search_bar">
                   <input type="text" placeholder="어떤 상품을 찾으세요?" className="search headerList"></input>
                   <span className="searchIcon"><BsSearch /></span>
