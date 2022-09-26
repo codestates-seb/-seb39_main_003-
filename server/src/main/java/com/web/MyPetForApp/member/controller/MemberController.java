@@ -36,14 +36,14 @@ public class MemberController {
     }
 
     @PostMapping("/member")
-    public ResponseEntity join( String jsonBody,
+    public ResponseEntity join(@RequestBody MemberDto.Post post,
                                 @RequestPart(required = false) List<MultipartFile> multipartFiles) {
-        MemberDto.Post post = null;
-        try {
-            post = new ObjectMapper().readValue(jsonBody, MemberDto.Post.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+//        MemberDto.Post post = null;
+//        try {
+//            post = new ObjectMapper().readValue(jsonBody, MemberDto.Post.class);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
         String memberId = memberService.createMemberId();
 
         Member savedMember = memberService.create(mapper.memberPostDtoToMember(post, memberId));

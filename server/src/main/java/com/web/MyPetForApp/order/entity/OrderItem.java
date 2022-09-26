@@ -37,9 +37,6 @@ public class OrderItem {
     @JoinColumn(name = "ORDER_ID")
     private Order order;
 
-    @OneToOne(mappedBy = "orderItem")
-    private Pay pay;
-
     // Order-OrderItem 양방향 연관관계 편의 메서드
     public void changeOrder(Order order){
         if(this.order != null){
@@ -51,10 +48,4 @@ public class OrderItem {
         }
     }
 
-    public void addPay(Pay pay) {
-        this.pay = pay;
-        if(pay.getOrderItem() != this) {
-            pay.changeOrderItem(this);
-        }
-    }
 }

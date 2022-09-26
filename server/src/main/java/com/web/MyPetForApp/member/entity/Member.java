@@ -105,7 +105,7 @@ public class Member {
             cartItem.changeMember(this);
         }
     }
-
+    // Order - Pay 양방향 연관관계 편의 메서드
     public void addPay(Pay pay) {
         this.pays.add(pay);
         if(pay.getMember() != this) {

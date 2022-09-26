@@ -2,6 +2,7 @@ package com.web.MyPetForApp.order.entity;
 
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.member.entity.Member;
+import com.web.MyPetForApp.pay.entity.Pay;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -37,6 +38,10 @@ public class Order extends BaseTimeEntity {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PAY_ID")
+    private Pay pay;
+
     public void changeMember(Member member){
         if(this.member != null){
             this.member.getOrders().remove(this);
@@ -51,6 +56,13 @@ public class Order extends BaseTimeEntity {
         this.orderItems.add(orderItem);
         if(orderItem.getOrder() != this){
             orderItem.changeOrder(this);
+        }
+    }
+
+    public void changePay(Pay pay) {
+        this.pay = pay;
+        if (pay.getOrder() != this) {
+            pay.addOrder(this);
         }
     }
 

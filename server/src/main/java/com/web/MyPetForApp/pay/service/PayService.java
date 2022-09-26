@@ -19,15 +19,15 @@ public class PayService {
     private final MemberService memberService;
     private final OrderItemRepository orderItemRepository;
 
-    public Pay create(Pay pay,String memberId, Long orderItemId) {
-        OrderItem findOrderItem = orderItemRepository.findById(orderItemId).orElseThrow(
-                () -> new IllegalArgumentException("주문했던 상품이 존재하지 않습니다.")
-        );
-        Member findMember = memberService.findVerifiedMember(memberId);
-        pay.changeOrderItem(findOrderItem);
-        pay.changeMember(findMember);
-        return payRepository.save(pay);
-    }
+//    public Pay create(Pay pay,String memberId, Long orderItemId) {
+//        OrderItem findOrderItem = orderItemRepository.findById(orderItemId).orElseThrow(
+//                () -> new IllegalArgumentException("주문했던 상품이 존재하지 않습니다.")
+//        );
+//        Member findMember = memberService.findVerifiedMember(memberId);
+//        pay.addOrder();
+//        pay.changeMember(findMember);
+//        return payRepository.save(pay);
+//    }
 
     public Pay read(Long payId) {
         return findVerifiedPay(payId);

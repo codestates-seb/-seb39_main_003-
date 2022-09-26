@@ -1,6 +1,7 @@
 package com.web.MyPetForApp.pay.entity;
 
 import com.web.MyPetForApp.member.entity.Member;
+import com.web.MyPetForApp.order.entity.Order;
 import com.web.MyPetForApp.order.entity.OrderItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,9 +37,8 @@ public class Pay {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORDERITEM_ID")
-    private OrderItem orderItem;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "pay")
+    private Order order;
 
     public void changeMember(Member member) {
         if(this.member != null) {
@@ -49,11 +49,11 @@ public class Pay {
             member.addPay(this);
         }
     }
-
-    public void changeOrderItem(OrderItem orderItem) {
-        this.orderItem = orderItem;
-        if (orderItem.getPay() != this) {
-            orderItem.addPay(this);
+    // Order - Pay 양방향 연관관계 편의 메서드
+    public void addOrder(Order order) {
+        this.order = order;
+        if (order.getPay() != this) {
+            order.changePay(this);
         }
     }
 
