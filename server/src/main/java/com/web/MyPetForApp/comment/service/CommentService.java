@@ -45,10 +45,17 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
-    public Page<Comment> getMembersComments(Long memberId, int page, int size){
-        return commentRepository.findAllByMember(
-                checkVerifiedMember(memberId),
-                PageRequest.of(page, size, Sort.by("modified_at").descending()));
+    public Page<Comment> getComments(String where, Long id, int page, int size){
+        if(where.equals("members")){
+            return commentRepository.findAllByBoard(
+                    checkVerifiedBoard(id),
+                    PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
+        }else if(where.equals("boards")){
+            return commentRepository.findAllByMember(
+                    checkVerifiedMember(id),
+                    PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
+        }
+        throw new IllegalArgumentException("식별자 오류");
     }
 
 
@@ -56,7 +63,7 @@ public class CommentService {
 
     private Board checkVerifiedBoard(Long boardId) {
         return boardRepository.findById(boardId).orElseThrow(
-                () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
+                () -> new IllegalArgumentException("존재하지 않는 게시글 입니다.")
         );
     }
     private Member checkVerifiedMember(Long memberId){

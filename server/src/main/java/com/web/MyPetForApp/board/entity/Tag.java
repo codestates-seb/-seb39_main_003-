@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Tag {
     @Id
-    private Long TagId;
+    private Long tagId;
     @Column(nullable = false, unique = true)
     private String tagName;
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)

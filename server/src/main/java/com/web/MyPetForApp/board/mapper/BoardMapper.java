@@ -42,13 +42,6 @@ public class BoardMapper {
                                 .map(boardTag -> boardTag.getTag().getTagName())
                                 .collect(Collectors.toList())
                 )
-                .comments(
-                        board.getComments().stream()
-                                .map(comment -> new CommentDto.Response(
-                                        comment.getMember().getNickName(),
-                                        comment.getCommentContent()
-                                )).collect(Collectors.toList())
-                )
                 .build();
     }
 

@@ -39,7 +39,6 @@ public class BoardDto {
         private List<String> tagNames;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-        private List<CommentDto.Response> comments;
     }
 
     @Builder

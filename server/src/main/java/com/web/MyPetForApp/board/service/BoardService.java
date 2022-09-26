@@ -1,7 +1,9 @@
 package com.web.MyPetForApp.board.service;
 
+import com.web.MyPetForApp.board.dto.TagDto;
 import com.web.MyPetForApp.board.entity.Board;
 import com.web.MyPetForApp.board.entity.BoardTag;
+import com.web.MyPetForApp.board.entity.Tag;
 import com.web.MyPetForApp.board.repository.BoardRepository;
 import com.web.MyPetForApp.board.repository.BoardTagRepository;
 import com.web.MyPetForApp.board.repository.TagRepository;
@@ -75,6 +77,18 @@ public class BoardService {
         increaseViewCnt(board);
 
         return board;
+    }
+
+    public List<TagDto.Response> getAllTags(){
+
+        List<Tag> tags = tagRepository.findAll();
+
+        return tags.stream().map(tag ->
+                TagDto.Response.builder()
+                        .tagId(tag.getTagId())
+                        .tagName(tag.getTagName())
+                        .build()
+        ).collect(Collectors.toList());
     }
 
     //-----------------------------------------------------------------------------------------

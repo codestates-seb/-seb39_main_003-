@@ -18,12 +18,13 @@ public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
 
-    public CommentController(CommentService commentService, CommentMapper commentMapper){
+    public CommentController(CommentService commentService, CommentMapper commentMapper) {
         this.commentService = commentService;
         this.commentMapper = commentMapper;
     }
+
     @PostMapping
-    public ResponseEntity createComment(@RequestBody CommentDto.Post post){
+    public ResponseEntity createComment(@RequestBody CommentDto.Post post) {
         Comment comment = commentMapper.commentPostToComment(post);
         commentService.create(comment);
 
@@ -32,26 +33,31 @@ public class CommentController {
 
     @PatchMapping("/{commentId}")
     public ResponseEntity updateComment(@PathVariable Long commentId,
-                                        @RequestBody CommentDto.Patch patch){
+                                        @RequestBody CommentDto.Patch patch) {
         commentService.update(commentId, patch);
 
         return new ResponseEntity<>("Update Success", HttpStatus.OK);
     }
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity deleteComment(@PathVariable long commentId){
+    public ResponseEntity deleteComment(@PathVariable long commentId) {
 
         commentService.deleteComment(commentId);
 
         return new ResponseEntity("Delete Success", HttpStatus.OK);
     }
-    @GetMapping("/{memberId}")
-    public ResponseEntity getMembersComments(@PathVariable Long memberId,
-                                             @RequestParam(required = false, defaultValue = "1") int page,
-                                             @RequestParam(required = false, defaultValue = "10") int size) {
-        Page<Comment> pageComment = commentService.getMembersComments(memberId, page-1, size);
-        List<Comment> comments = pageComment.getContent();
 
-        return new ResponseEntity<>(new MultiResponseDto<>(comments, pageComment), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity getComments(@PathVariable Long id,
+                                      @RequestParam("where") String where,
+                                      @RequestParam(required = false, defaultValue = "1") int page,
+                                      @RequestParam(required = false, defaultValue = "10") int size) {
+        System.out.println(where);
+
+        Page<Comment> pageComment = commentService.getComments(where, id, page - 1, size);
+        List<Comment> comments = pageComment.getContent();
+        List<CommentDto.Response> responses = commentMapper.commentToCommentResponse(comments);
+
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 }
