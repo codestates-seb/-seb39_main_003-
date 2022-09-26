@@ -26,6 +26,10 @@ public class OrderMapper {
                 .modifiedAt(order.getModifiedAt())
                 .orderItems(orderItemsToOrderItemResponseDto(order.getOrderItems()))
                 .build();
+        orderPrice = response.getOrderItems().stream().map(
+                orderItem -> orderItem.getTotalPrice()).mapToInt(p -> p).sum();
+        response.setOrderPrice(orderPrice);
+
         return response;
     }
 
@@ -45,9 +49,10 @@ public class OrderMapper {
     }
 
     public List<OrderDto.Response> ordersToOrderResponseDto(List<Order> orders){
-        return orders
-                .stream()
-                .map(order -> OrderDto.Response.builder()
+
+        List<OrderDto.Response> responses = orders
+                        .stream()
+                        .map(order -> OrderDto.Response.builder()
                         .orderId(order.getOrderId())
                         .memberId(order.getMember().getMemberId())
                         .newAddress(order.getNewAddress())
@@ -60,5 +65,10 @@ public class OrderMapper {
                         .orderItems(orderItemsToOrderItemResponseDto(order.getOrderItems()))
                         .build())
                 .collect(Collectors.toList());
+        responses.stream().forEach(response -> response.setOrderPrice(
+                response.getOrderItems().stream().map(orderItem -> orderItem.getTotalPrice())
+                        .mapToInt(p -> p).sum()
+        ));
+        return responses;
     }
 }

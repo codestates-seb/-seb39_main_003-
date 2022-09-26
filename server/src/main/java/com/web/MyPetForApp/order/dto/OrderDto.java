@@ -1,10 +1,7 @@
 package com.web.MyPetForApp.order.dto;
 
 import com.web.MyPetForApp.order.entity.Order;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +26,7 @@ public class OrderDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    @Setter
     public static class Response{
         private Long orderId;
         private String memberId;
