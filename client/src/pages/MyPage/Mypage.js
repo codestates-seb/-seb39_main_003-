@@ -54,10 +54,6 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    &:hover{
-        background-color: #B1B2FF;
-    }
 }
 .mpCategory{
     margin: 5px;
@@ -74,9 +70,12 @@ const Wrapper = styled.div`
 `
 
 const StyledLink = styled(Link)`
+width: 100%;
+
 text-decoration: none;
 color: #000000;
 &:hover{
+    background-color: #B1B2ff;
     color: #f9f9f9;
 }
 `
@@ -90,18 +89,30 @@ function Mypage() {
                 {/* 마이페이지 사이드 네비게이션 목록 */}
                 <div className='mpSideNav'>
                     <div className='mpsnbackground'>
-                        <div className='mpcBox'>
-                            <div className='mpCategory'>내 정보 수정</div>
-                        </div>
-                        <div className='mpcBox'>
-                            <div className='mpCategory'>장바구니</div>
-                        </div>
-                        <div className='mpcBox'>
-                            <div className='mpCategory'>고객센터</div>
-                        </div>
-                        <div className='mpcBox'>
-                        <div className='mpCategory'><StyledLink to='/login'> 로그인 </StyledLink></div>
-                        </div>
+
+                        <StyledLink to='/'>
+                            <div className='mpcBox'>
+                                <div className='mpCategory'>내 정보 수정</div>
+                            </div>
+                        </StyledLink>
+
+                        <StyledLink to='/'>
+                            <div className='mpcBox'>
+                                <div className='mpCategory'>장바구니</div>
+                            </div>
+                        </StyledLink>
+
+                        <StyledLink to='/'>
+                            <div className='mpcBox'>
+                                <div className='mpCategory'>고객센터</div>
+                            </div>
+                        </StyledLink>
+
+                        <StyledLink to='/login'>
+                            <div className='mpcBox'>
+                                <div className='mpCategory'> 로그인 </div>
+                            </div>
+                        </StyledLink>
                     </div>
                 </div>
                 {/* 마이페이지 본문 */}
