@@ -23,13 +23,18 @@ import Mypage from "./pages/MyPage/Mypage";
 import SignUp from "./pages/MyPage/Category/SignUp";
 import SignIn from "./pages/MyPage/Category/SignIn";
 import Items from "./pages/Shopping/Items";
+import SuccessLogin from "./components/SuccessLogin";
+import { useState } from 'react';
 
 function App() {
+
+  const [isLogin, setIsLogin] = useState(false);
+
   return (
     <div className="App">
       
       <Router>
-          <Nav />
+          {isLogin ? <SuccessLogin isLogin={isLogin} setIsLogin={setIsLogin} /> : <Nav />}
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/shopping" element={<Shopping />} />
@@ -38,7 +43,7 @@ function App() {
                 <Route path="/FAQ" element={<FAQ />} />
                 
                 <Route path="/mypage" element={<Mypage />} />
-                <Route path="/login" element={<SignIn />} />
+                <Route path="/login" element={<SignIn isLogin={isLogin} setIsLogin={setIsLogin} />} />
                 <Route path="/signup" element={<SignUp/>} />
 
                 <Route path="/community/walk" element={<Community />} />
@@ -64,6 +69,3 @@ function App() {
 }
 
 export default App;
-
-
-// nav

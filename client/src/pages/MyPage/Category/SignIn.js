@@ -1,8 +1,8 @@
+/* eslint-disable no-use-before-define */
 import React from 'react'
 import styled from 'styled-components'
 // import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
-// import ReactDOM from "react-dom";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
@@ -99,30 +99,40 @@ box-sizing: border-box;
 // text-decoration: none;
 // `
 
-function SignIn() {
+function SignIn( { isLogin={isLogin}, setIsLogin={setIsLogin} } ) {
+
+  const handleButtonLogin = () => {
+    setIsLogin(!isLogin);
+  };
 
   const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm();
-  axios.defaults.withCredentials = false;
+  axios.defaults.withCredentials = true;
   
   const onSubmit = (data) => {
-    axios.post(`http://211.58.40.128:8080/login`, data).then(response => {
-      const { accessToken } = response.data;
+    axios.post(`http://211.58.40.128:8080/login`, data)
+    .then(response => {
+      const accessToken = response.headers.authorization;
+      const refreshToken = response.headers.refresh;
       
       // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-      sessionStorage.setItem('accessToken', response.data);
-
+      axios.defaults.headers.common['Authorization'] = `${accessToken}`;
+      axios.defaults.headers.common['Authorization'] = `${refreshToken}`;
+      
+      sessionStorage.setItem('accessToken', `${accessToken}`);
+      sessionStorage.setItem('refreshToken', `${refreshToken}`);
+      
     })
     .then(() => {
       navigate('/')
     })
     
-    .catch(error => {
-      console.log(error.response.data);
-      return "이메일 혹은 비밀번호를 확인하세요";
-    })
+    // .catch((err) => {
+    //   console.log(err.response.headers.Authorization);
+    //   return "이메일 혹은 비밀번호를 확인하세요";
+    // })
+    // .catch(err => console.err(err));
   }
 
   return (
@@ -147,7 +157,7 @@ function SignIn() {
                 </div>
             </div>
               {/* 로그인 버튼 */}
-              <input className='siButton' type="submit"></input>
+              <input className='siButton' type="submit" onClick={handleButtonLogin}></input>
             </form>
           </div>
         </div>

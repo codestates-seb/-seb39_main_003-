@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable jsx-a11y/alt-text */
 import styled from 'styled-components';
 import { FaUserAlt } from "react-icons/fa";
@@ -99,9 +100,9 @@ const Wrapper = styled.div `
   }
 
   .profile {
-    width: 6vw;
+    /* width: 6vw;
     height: 4vh;
-    line-height: 4vh;
+    line-height: 4vh; */
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -200,7 +201,12 @@ const MyPage = styled(Link)`
 `
 ;
 
-const Nav = () => {
+const Nav = ( { isLogin={isLogin}, setIsLogin={setIsLogin} } ) => {
+
+  const handleButtonLogout = () => {
+    setIsLogin(!isLogin);
+    window.location.reload();
+  };
 
   const navigate = useNavigate();
 
@@ -222,13 +228,9 @@ const Nav = () => {
 
               <div className='memberBox'>
 
-                <span className="member" onClick={() => {
-                  navigate(`/login`)
-                }}>로그인</span>
-
-                <span className="member" onClick={() => {
-                  navigate(`/signup`)
-                }}>회원가입</span>
+                <span>
+                  환영합니다!
+                </span>
 
                 <span className="profile headerList" onClick={() => {
                   setOpen(!open)
@@ -240,7 +242,7 @@ const Nav = () => {
                 <span className='info'><MyPage to="/mypage">마이페이지</MyPage></span>
                 <span className='info'>장바구니</span>
                 <span className='info'>고객센터</span>
-                <span className='info'>로그인</span>
+                <span className='info' onClick={handleButtonLogout}>로그아웃</span>
               </span>
           </div>
       
