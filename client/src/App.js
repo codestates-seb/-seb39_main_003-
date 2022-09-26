@@ -19,6 +19,10 @@ import Pad from "./pages/Shopping/Category/Pad";
 import Toy from "./pages/Shopping/Category/Toy";
 import Posting from "./pages/Community/detail/Posting";
 import Post from "./pages/Community/detail/Post";
+import Mypage from "./pages/MyPage/Mypage";
+import SignUp from "./pages/MyPage/Category/SignUp";
+import SignIn from "./pages/MyPage/Category/SignIn";
+import Items from "./pages/Shopping/Items";
 
 function App() {
   return (
@@ -32,6 +36,10 @@ function App() {
                 <Route path="/community" element={<Community />} />
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/FAQ" element={<FAQ />} />
+                
+                <Route path="/mypage" element={<Mypage />} />
+                <Route path="/login" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp/>} />
 
                 <Route path="/community/walk" element={<Community />} />
                 <Route path="/community/info" element={<Info />} />
@@ -39,7 +47,7 @@ function App() {
                 <Route path="/community/protect" element={<Protect />} />
                 <Route path="/community/lost" element={<Lost />} />
                 <Route path="/community/posting" element={<Posting />}/>
-                <Route path="/community/post" element={<Post/>}/>
+                <Route path="/community/post/:communityId" element={<Post/>}/>
 
                 <Route path="/shopping/meal" element={<Meal />} />
                 <Route path="/shopping/cookie" element={<Cookie />} />
@@ -47,6 +55,7 @@ function App() {
                 <Route path="/shopping/allVita" element={<AllVita />} />
                 <Route path="/shopping/pad" element={<Pad />} />
                 <Route path="/shopping/toy" element={<Toy />} />
+                <Route path="/shopping/item" element={<Items />} />
             </Routes>
       </Router>
 

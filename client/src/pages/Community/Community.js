@@ -3,8 +3,7 @@ import React from 'react'
 import CommunityNav from '../../components/CommunityNav';
 import Dummy from '../../dummytest/dummyData';
 import { useState } from 'react';
-import { Link } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 
@@ -17,7 +16,6 @@ box-sizing: border-box;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 3px solid blue;
 }
 .cpostterritory > .cbackground{
     padding: 30px 0px;
@@ -32,13 +30,13 @@ box-sizing: border-box;
     background-color: #F9F9F9;
 }
 .cposttop{
-    width: 90vw;
+    width: 95vw;
+    margin-bottom: 20px;
     padding: 10px 10px;
-    margin-bottom: 30px;
 
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 
     background-color: rgb(146 99 255);
@@ -56,8 +54,10 @@ box-sizing: border-box;
     justify-content: center;
     align-items: center;
 }
-.cpost{
+.questions{
+    //(구)cpost
     width: 90vw;
+    margin: 20px 0px 20px 0px;
     padding: 10px 10px;
     border-radius: 20px;
 
@@ -66,6 +66,7 @@ box-sizing: border-box;
     justify-content: space-around;
     align-items: center;
 
+    cursor: pointer;
     background-color: #EEF1FF;
 }
 .title{}
@@ -101,8 +102,8 @@ box-sizing: border-box;
     padding: 0px 20px 0px 20px;
 }
 
-.questions{
-
+/* .questions{
+    //(구)questions
     padding: 5px 0px 5px 0px;
     margin: 20px 0px 20px 0px;
     width: 90vw;
@@ -110,23 +111,21 @@ box-sizing: border-box;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
-}
+    cursor: pointer;
+    border: 1px solid red;
+} */
 
 `;
 
-const StyledLink = styled(Link)`
-    text-decoration: none;
-    padding: 5px 0px 5px 0px;
-    /* margin: 20px 0px 20px 0px; */
-    width: 90vw;
-    /* border: 1px solid lightgray; */
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    color: black;
-`;
 
 function Community() {
+
+    // const [id, setId] = useState(undefined);
+    // 1 === 최종적으로 값을 보여줄 본체
+    // 1 === 마루타 (실험체) 성공적이면 본체로 내용을 복사해줌
+    // useState(초기값) 의 초기값 id === 1
+
+    const navigate = useNavigate();
 
   return (
     <Wrapper>
@@ -149,25 +148,33 @@ function Community() {
                 </div>
                 
                     <div>
-                        {Dummy.map(
-                            (el, index) => (
-                            <div className="questions" key={index}>
-                                <StyledLink to="/community/post">
+                        
+                        {Dummy.map((el, index) => (
+
+                            <div className="questions"
+                                 key={index} // 고유번호
+                                 onClick={
+                                    () => { // 눌렀을때 어떻게 되어야할지 설정해주는 곳
+                                    // setId(el.id)
+                                    navigate(`/community/post/${el.id}`)
+                                    }
+                                    }
+                                    >
                                 <span className="article">{el.title}</span>
                                 <span className="article">{el.content}</span>
                                 <span className="article">{el.username}</span>
-                                </StyledLink>
                             </div>
                         ))}
+
                     </div>
 
-                <div className="cpostmiddle">
+                {/* <div className="cpostmiddle">
                     <div className="cpost">
                         <span className="title">글 제목222</span>
                         <a href="/" className="content">내용222</a>
                         <span className="user">작성자222</span>
                     </div>
-                </div>
+                </div> */}
 
 
                 

@@ -4,7 +4,9 @@ import { FaUserAlt } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import React, { useState } from 'react';
-import UserInfo from './UserInfo';
+import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.png'
+
 
 const Wrapper = styled.div `
   /* position: fixed;
@@ -15,27 +17,54 @@ const Wrapper = styled.div `
     height: 100px;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     line-height: 100px;
     /* border: 3px solid green; */
   }
+
+  .memberBox {
+    width: 61%;
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: right;
+    padding-right: 50px;
+  }
+
+  .member {
+    width: 6vw;
+    height: 4vh;
+    line-height: 4vh;
+    border: 1px solid lightgray;
+    background-color: #EEEEEE;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    margin-right: 10px;
+    font-size: 17px;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: bold;
+      background-color: #CFD2CF;
+    }
+  }
   
   .navbar {
-    width: 100%;
-    height: 150px;
+    height: 7vh;
     /* border: 1px solid red; */
     display: flex;
     justify-content: space-around;
     background-color: #9263FF;
     color: white;
-    font-size: 35px;
+    font-size: 3vmin;
     font-weight: bold;
   }
 
   .navlist {
     display: flex;
     justify-content: center;
-    line-height: 50px;
+    align-items: center;
     border-radius: 15px;
     transition: .3s;
     cursor: pointer;
@@ -70,15 +99,15 @@ const Wrapper = styled.div `
   }
 
   .profile {
-    font-size: 30px;
+    width: 6vw;
+    height: 4vh;
+    line-height: 4vh;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
-    height: 100px;
-    /* border: 1px solid blue; */
-    position: absolute;
-    right: 0%;
+    margin-right: 10px;
+    font-size: 25px;
     cursor: pointer;
   }
 
@@ -88,14 +117,14 @@ const Wrapper = styled.div `
 
   .searchIcon {
     height: 100%;
-    font-size: 24px;
+    font-size: 3.4vmin;
     color: #ff425c;
     cursor: pointer;
     transition: .3s;
     line-height: 100%;
 
     &:hover {
-      font-size: 30px;
+      font-size: 4vmin;
     }
   }
 
@@ -140,7 +169,7 @@ const Wrapper = styled.div `
     padding-left: 20px;
     border: 1px solid lightgray;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 2vmin;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -151,7 +180,7 @@ const Wrapper = styled.div `
   }
 `;
 
-const StyeldLink = styled(Link)`
+const StyledLink = styled(Link)`
   color: white;
   text-decoration: none;
   transition: .3s;
@@ -159,42 +188,82 @@ const StyeldLink = styled(Link)`
   &:hover {
     color: #FEDB39;
   }
-`;
+`
+
+const MyPage = styled(Link)`
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    color: black;
+  }
+`
+;
 
 const Nav = () => {
 
-  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const userButtonClick = () => {
-    setOpen(!open);
-  };
+  const [open, setOpen] = useState(false);
 
   return (
     <Wrapper>
-      <div className="header">
           <div className="headerBox">
-              <span className="logo headerList">로고</span>
+              <span className="logo headerList">
+                {/* 로고 */}
+                <img className="logoImage" alt="logo" src={logo} />
+              </span>
               <div className="search_bar">
                   <input type="text" placeholder="어떤 상품을 찾으세요?" className="search headerList"></input>
                   <span className="searchIcon"><BsSearch /></span>
               </div>
-              <span className="profile headerList" onClick={userButtonClick}><FaUserAlt /></span>
+
+              <div className='memberBox'>
+
+                <span className="member" onClick={() => {
+                  navigate(`/login`)
+                }}>로그인</span>
+
+                <span className="member" onClick={() => {
+                  navigate(`/signup`)
+                }}>회원가입</span>
+
+                <span className="profile headerList" onClick={() => {
+                  setOpen(!open)
+                }}><FaUserAlt /></span>
+
+              </div>
+
               <span className={open ? "show-menu" : "hide-menu"}>
-                <span className='info'>마이페이지</span>
+                <span className='info'><MyPage to="/mypage">마이페이지</MyPage></span>
                 <span className='info'>장바구니</span>
                 <span className='info'>고객센터</span>
-                <span className='info'>로그아웃</span>
+                <span className='info'>로그인</span>
               </span>
           </div>
-      </div>
       
       <div className="navbar">
-        <span className="navlist"><StyeldLink to="/">Home</StyeldLink></span>
+        <span className="navlist" onClick={() => {
+          setOpen(false)
+        }}><StyledLink to="/">Home</StyledLink></span>
+
         <span className="navlist">동물병원</span>
-        <span className="navlist"><StyeldLink to="/shopping">쇼핑</StyeldLink></span>
-        <span className="navlist"><StyeldLink to="/community">커뮤니티</StyeldLink></span>
-        <span className="navlist"><StyeldLink to="/notice">공지사항</StyeldLink></span>
-        <span className="navlist"><StyeldLink to="/FAQ">FAQ</StyeldLink></span>
+
+        <span className="navlist" onClick={() => {
+          setOpen(false)
+        }}><StyledLink to="/shopping">쇼핑</StyledLink></span>
+
+        <span className="navlist" onClick={() => {
+          setOpen(false)
+        }}><StyledLink to="/community">커뮤니티</StyledLink></span>
+
+        <span className="navlist" onClick={() => {
+          setOpen(false)
+        }}><StyledLink to="/notice">공지사항</StyledLink></span>
+        
+        <span className="navlist" onClick={() => {
+          setOpen(false)
+        }}><StyledLink to="/FAQ">FAQ</StyledLink></span>
       </div>
     </Wrapper>
   )

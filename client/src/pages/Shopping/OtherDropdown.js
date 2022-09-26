@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 
-  .eat {
+  .other {
     width: 400px;
     height: 50px;
     display: flex;
@@ -51,8 +51,8 @@ function DropdownEat() {
 
   return (
     <Wrapper>
-      <div className='eat'>
-        <span className='pad' onClick={onClickPad}>배변패드</span>
+      <div className='other'>
+        <span className='pad' onClick={onClickPad}>패드</span>
         <span className='toy' onClick={onClickToy}>장난감</span>
       </div>
     </Wrapper>
