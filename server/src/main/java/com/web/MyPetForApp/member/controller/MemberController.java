@@ -71,8 +71,11 @@ public class MemberController {
     @GetMapping("/member/{memberId}")
     public ResponseEntity memberFind(@PathVariable String memberId) {
         Member findMember = memberService.read(memberId);
-        String profileImg = imageService.findFilesById("member" ,memberId).get(0);
-
+        List<String> fileNameList = imageService.findFilesById("member" ,memberId);
+        String profileImg = null;
+        if(fileNameList.size() > 0) {
+            profileImg = fileNameList.get(0);
+        }
         return new ResponseEntity<>(mapper.memberToResponse(findMember, profileImg) ,HttpStatus.OK);
     }
 

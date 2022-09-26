@@ -46,9 +46,6 @@ public class Member {
     @Column(nullable = false, unique = true)
     private String phone;
 
-    @Column
-    private String profileImg;
-
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
 
@@ -126,8 +123,6 @@ public class Member {
                 password -> this.password = password);
         Optional.ofNullable(member.getPhone()).ifPresent(
                 phone -> this.phone = phone);
-        Optional.ofNullable(member.getProfileImg()).ifPresent(
-                profileImg -> this.profileImg = profileImg);
     }
 
 

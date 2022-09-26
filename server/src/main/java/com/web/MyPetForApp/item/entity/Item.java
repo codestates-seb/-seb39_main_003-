@@ -26,7 +26,6 @@ public class Item extends BaseTimeEntity {
 //    private Long itemId;
 
     @Id
-
     private String itemId;
 
     @Column(nullable = false)

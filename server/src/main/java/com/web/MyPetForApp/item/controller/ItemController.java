@@ -30,14 +30,14 @@ public class ItemController {
     private final ItemMapper mapper;
 
     @PostMapping
-    public ResponseEntity postItem(String jsonBody,
+    public ResponseEntity postItem(@RequestBody ItemDto.Post requestBody,
                                    @RequestPart(required = false) List<MultipartFile> multipartFiles){
-        ItemDto.Post requestBody = null;
-        try {
-            requestBody = new ObjectMapper().readValue(jsonBody, ItemDto.Post.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+//        ItemDto.Post requestBody = null;
+//        try {
+//            requestBody = new ObjectMapper().readValue(jsonBody, ItemDto.Post.class);
+//        } catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
         String itemId = itemService.createItemId(requestBody.getItemCategoryId());
         Item item = itemService.createItem(mapper.itemPostDtoToItem(requestBody, itemId),
                 requestBody.getMemberId(),

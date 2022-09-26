@@ -17,7 +17,7 @@ public class PayDto {
         private int amount;
         private String payBy;
         private String memberId;
-        private Long orderItemId;
+        private Long orderId;
     }
 
     @NoArgsConstructor
