@@ -24,8 +24,8 @@ public class QnaController {
     @PostMapping
     public ResponseEntity postQna(@RequestBody QnaDto.Post requestBody){
         Qna qna = mapper.qnaPostDtoToQna(requestBody);
-        Long memberId = requestBody.getMemberId();
-        Long itemId = requestBody.getItemId();
+        String memberId = requestBody.getMemberId();
+        String itemId = requestBody.getItemId();
         Qna savedQna = qnaService.createQna(qna, memberId, itemId);
         QnaDto.Response response = mapper.qnaToQnaResponseDto(savedQna);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
@@ -39,7 +39,7 @@ public class QnaController {
     }
 
     @GetMapping
-    public ResponseEntity getQnas(@RequestParam Long itemId,
+    public ResponseEntity getQnas(@RequestParam String itemId,
                                   @RequestParam(required = false, defaultValue = "1") int page,
                                   @RequestParam(required = false, defaultValue = "8") int size){
         Page<Qna> pageQnas = qnaService.findQnas(itemId, page-1, size);
@@ -51,7 +51,7 @@ public class QnaController {
     @PatchMapping("/{qnaId}")
     public ResponseEntity patchQna(@PathVariable Long qnaId,
                                    @RequestBody QnaDto.Patch requestBody){
-        Long memberId = requestBody.getMemberId();
+        String memberId = requestBody.getMemberId();
         Qna qna = qnaService.updateQna(qnaId, mapper.qnaPatchDtoToQna(requestBody), memberId);
         QnaDto.Response response = mapper.qnaToQnaResponseDto(qna);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);

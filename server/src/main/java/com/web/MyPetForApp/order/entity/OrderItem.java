@@ -1,5 +1,6 @@
 package com.web.MyPetForApp.order.entity;
 
+import com.web.MyPetForApp.pay.entity.Pay;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class OrderItem {
     private int orderItemCnt;
 
     @Column
-    private Long snapshotItemId;
+    private String snapshotItemId;
 
     @Column
     private String snapshotItemName;
@@ -32,10 +33,12 @@ public class OrderItem {
     @Column
     private String snapshotImage;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_ID")
     private Order order;
+
+    @OneToOne(mappedBy = "orderItem")
+    private Pay pay;
 
     // Order-OrderItem 양방향 연관관계 편의 메서드
     public void changeOrder(Order order){
@@ -45,6 +48,13 @@ public class OrderItem {
         this.order = order;
         if(!order.getOrderItems().contains(this)){
             order.addOrderItem(this);
+        }
+    }
+
+    public void addPay(Pay pay) {
+        this.pay = pay;
+        if(pay.getOrderItem() != this) {
+            pay.changeOrderItem(this);
         }
     }
 }

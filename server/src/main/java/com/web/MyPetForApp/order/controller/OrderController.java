@@ -25,7 +25,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity postOrder(@RequestBody OrderDto.Post requestBody){
         List<OrderItemDto.Post> orderItems = requestBody.getOrderItems();
-        Long memberId = requestBody.getMemberId();
+        String memberId = requestBody.getMemberId();
         Order savedOrder = orderService.createOrder(orderItems, memberId);
         OrderDto.Response response = mapper.orderToOrderResponseDto(savedOrder);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
@@ -39,7 +39,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity getOrders(@RequestParam Long memberId,
+    public ResponseEntity getOrders(@RequestParam String memberId,
                                     @RequestParam(required = false, defaultValue = "1") int page,
                                     @RequestParam(required = false, defaultValue = "10") int size){
         Page<Order> pageOrders = orderService.findOrders(memberId, page-1, size);

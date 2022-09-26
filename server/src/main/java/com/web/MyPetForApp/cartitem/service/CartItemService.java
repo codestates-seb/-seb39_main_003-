@@ -22,7 +22,7 @@ public class CartItemService {
     private final CartItemRepository cartItemRepository;
     private final ItemService itemService;
     private final MemberService memberService;
-    public CartItem createCartItem(CartItem cartItem, Long memberId, Long itemId){
+    public CartItem createCartItem(CartItem cartItem, String memberId, String itemId){
         Member member = memberService.findVerifiedMember(memberId);
         Item item = itemService.findVerifiedItem(itemId);
         verifyExistsCartItem(member, item);
@@ -36,13 +36,13 @@ public class CartItemService {
         return findVerifiedCartItem(cartItemId);
     }
 
-    public Page<CartItem> findCartItems(Long memberId, int page, int size){
+    public Page<CartItem> findCartItems(String memberId, int page, int size){
         Member member = memberService.findVerifiedMember(memberId);
         return cartItemRepository.findAllByMember(member, PageRequest.of(page, size,
                 Sort.by("cartItemId").ascending()));
     }
 
-    public CartItem updateCartItem(Long cartItemId, int itemCnt, Long itemId, Long memberId){
+    public CartItem updateCartItem(Long cartItemId, int itemCnt, String itemId, Long memberId){
         CartItem findCartItem = findVerifiedCartItem(cartItemId);
         Item item = itemService.findVerifiedItem(itemId);
         if(!memberId.equals(findCartItem.getMember().getMemberId())){

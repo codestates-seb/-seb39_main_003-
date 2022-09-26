@@ -14,8 +14,8 @@ public class QnaDto {
     public static class Post{
         private String qnaTitle;
         private String qnaContent;
-        private Long memberId;
-        private Long itemId;
+        private String memberId;
+        private String itemId;
     }
     @Getter
     @AllArgsConstructor
@@ -23,7 +23,7 @@ public class QnaDto {
     public static class Patch{
         private String qnaTitle;
         private String qnaContent;
-        private Long memberId;
+        private String memberId;
     }
     @Getter
     @Builder
@@ -36,7 +36,7 @@ public class QnaDto {
         private String qnaContent;
         private LocalDateTime createAt;
         private LocalDateTime modifiedAt;
-        private Long itemId;
+        private String itemId;
         private String memberName; // 이름? 닉네임?
     }
 

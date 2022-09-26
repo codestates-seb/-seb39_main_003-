@@ -12,7 +12,7 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class Response {
-        private Long memberId;
+        private String memberId;
 
         private String memberName;
 
@@ -26,9 +26,9 @@ public class MemberDto {
 
         private String phone;
 
-        private String profileImg;
-
         private String roles;
+
+        private String profileImg;
     }
 
     @Getter
@@ -48,8 +48,6 @@ public class MemberDto {
 
         private String phone;
 
-        private String profileImg;
-
         private String roles;
     }
 
@@ -58,7 +56,7 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class Patch {
-        private Long memberId;
+        private String memberId;
 
         private String nickName;
 
@@ -67,7 +65,5 @@ public class MemberDto {
         private String address;
 
         private String phone;
-
-        private String profileImg;
     }
 }

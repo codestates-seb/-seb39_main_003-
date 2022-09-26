@@ -30,7 +30,7 @@ public class CartItemMapper {
                 .price(cartItem.getItem().getPrice())
                 .totalPrice(cartItem.getItemCnt() * cartItem.getItem().getPrice())
                 .itemName(cartItem.getItem().getItemName())
-                .image(cartItem.getItem().getItemImages().get(0).getItemThumbnail())
+//                .image(cartItem.getItem().getItemImages().get(0).getItemThumbnail())
                 .itemId(cartItem.getItem().getItemId())
                 .build();
     }
@@ -45,7 +45,7 @@ public class CartItemMapper {
                         .price(cartItem.getItem().getPrice())
                         .totalPrice(cartItem.getItemCnt() * cartItem.getItem().getPrice())
                         .itemName(cartItem.getItem().getItemName())
-                        .image(cartItem.getItem().getItemImages().get(0).getItemThumbnail())
+//                        .image(cartItem.getItem().getItemImages().get(0).getItemThumbnail())
                         .itemId(cartItem.getItem().getItemId())
                         .build())
                 .collect(Collectors.toList());

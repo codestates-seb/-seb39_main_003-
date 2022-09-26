@@ -21,7 +21,7 @@ public class QnaService {
     private final MemberService memberService;
     private final ItemService itemService;
 
-    public Qna createQna(Qna qna, Long memberId, Long itemId){
+    public Qna createQna(Qna qna, String memberId, String itemId){
         Member member = memberService.findVerifiedMember(memberId);
         Item item = itemService.findVerifiedItem(itemId);
         qna.changeItem(item);
@@ -33,13 +33,13 @@ public class QnaService {
         return findVerifiedQna(qnaId);
     }
 
-    public Page<Qna> findQnas(Long itemId, int page, int size){
+    public Page<Qna> findQnas(String itemId, int page, int size){
         Item item = itemService.findVerifiedItem(itemId);
         return qnaRepository.findAllByItem(item, PageRequest.of(page, size,
                 Sort.by("createdAt").descending()));
     }
 
-    public Qna updateQna(Long qnaId, Qna qna, Long memberId){
+    public Qna updateQna(Long qnaId, Qna qna, String memberId){
         Qna findQna = findVerifiedQna(qnaId);
         if(!memberId.equals(findQna.getMember().getMemberId())) {
             throw new IllegalArgumentException("QnA는 작성자만 수정할 수 있습니다.");

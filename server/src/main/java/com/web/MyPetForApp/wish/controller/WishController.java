@@ -17,16 +17,16 @@ public class WishController {
     private final WishMapper mapper;
     @GetMapping
     public ResponseEntity getWish(@RequestBody WishDto.Post requestBody){
-        Long memberId = requestBody.getMemberId();
-        Long itemId = requestBody.getItemId();
+        String memberId = requestBody.getMemberId();
+        String itemId = requestBody.getItemId();
         WishDto.Response response = wishService.findWish(memberId, itemId);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity postWish(@RequestBody WishDto.Post requestBody){
-        Long memberId = requestBody.getMemberId();
-        Long itemId = requestBody.getItemId();
+        String memberId = requestBody.getMemberId();
+        String itemId = requestBody.getItemId();
         WishDto.Response response = wishService.changeWish(memberId, itemId);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }

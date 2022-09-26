@@ -27,11 +27,12 @@ public class OrderService {
     private final ItemService itemService;
     private final MemberService memberService;
 
-    public Order createOrder(List<OrderItemDto.Post> post, Long memberId){
+    public Order createOrder(List<OrderItemDto.Post> post, String memberId){
         Member member = memberService.findVerifiedMember(memberId);
         Order order = new Order();  // Order 생성
         order.changeMember(member); // Order-Member 연관관계 설정
         order.resetInfo(member);    // Order의 주문 정보(주소, 전화번호 등)들을 Member의 정보로 초기화
+        int orderPrice = 0;
         for (OrderItemDto.Post orderItemPostDto : post) {   // orderItemPostDto List들의 요소들을 순회하며 반복
             Item item = itemService.findVerifiedItem(orderItemPostDto.getItemId()); // 상품 검증
             itemService.checkStockCnt(orderItemPostDto.getOrderItemCnt(), item);
@@ -41,19 +42,22 @@ public class OrderService {
                     .snapshotItemId(item.getItemId())
                     .snapshotItemName(item.getItemName())
                     .snapshotPrice(item.getPrice())
-                    .snapshotImage(item.getItemImages().get(0).getItemThumbnail())
+//                    .snapshotImage(item.getItemImages().get(0).getItemThumbnail())
                     .build();
             orderItem.changeOrder(order);  // OrderItem-Order 연관관계 설정
             orderItemRepository.save(orderItem);
         }
         return orderRepository.save(order);
+        // PayService 호출해서 결제와 주문을 하나의 트랜잭션으로 처리하기 (멘토님께 이렇게 하는게 맞는지 여쭤보기)
+
+        // 혹시 다른부분도 트랜잭션 처리할 것이 있는지??
     }
 
     public Order findOrder(Long orderId){
         return findVerifiedOrder(orderId);
     }
 
-    public Page<Order> findOrders(Long memberId, int page, int size){
+    public Page<Order> findOrders(String memberId, int page, int size){
         Member member = memberService.findVerifiedMember(memberId);
         return orderRepository.findAllByMember(member, PageRequest.of(page, size,
                 Sort.by("orderId").descending()));

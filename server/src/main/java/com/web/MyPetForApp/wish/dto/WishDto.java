@@ -11,8 +11,8 @@ public class WishDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Post{
-        private Long itemId;
-        private Long memberId;
+        private String itemId;
+        private String memberId;
     }
     @Getter
     @Builder
