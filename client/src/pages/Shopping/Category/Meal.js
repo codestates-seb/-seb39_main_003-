@@ -106,8 +106,8 @@ function Meal() {
     <Wrapper>
 
       <div className='categoryTab'>
-        <span className='otherCategory line' onClick={onClickEat}>먹거리</span>
         {/* 클릭된 카테고리 focus 효과 주기 */}
+        <span className='otherCategory line' onClick={onClickEat}>먹거리</span>
         <span className='otherCategory line' onClick={onClickVita}>건강관리</span>
         <span className='otherCategory' onClick={onClickPad}>각종용품</span>
       </div>
