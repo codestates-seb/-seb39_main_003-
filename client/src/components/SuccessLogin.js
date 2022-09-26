@@ -205,7 +205,8 @@ const Nav = ( { isLogin={isLogin}, setIsLogin={setIsLogin} } ) => {
 
   const handleButtonLogout = () => {
     setIsLogin(!isLogin);
-    window.location.reload();
+    // localStorage.setItem(accessToken, null);
+    // localStorage.setItem(refreshToken, null);
   };
 
   const navigate = useNavigate();
