@@ -48,7 +48,7 @@ function App() {
                 <Route path="/community/posting" element={<Posting />}/>
                 <Route path="/community/post/:communityId" element={<Post/>}/>
 
-                <Route path="/shopping/meal/:itemId" element={<Meal />} />
+                <Route path="/shopping/meal" element={<Meal />} />
                 <Route path="/shopping/cookie" element={<Cookie />} />
                 <Route path="/shopping/vita" element={<Vita />} />
                 <Route path="/shopping/allVita" element={<AllVita />} />

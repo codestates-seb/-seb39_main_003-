@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
+
 
 const Wrapper = styled.div`
 box-sizing: border-box;
@@ -96,8 +98,30 @@ text-decoration: none;
 `
 
 function SignUp() {
+
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data)
+
+  const onSubmit = (data) => {fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member`, {
+    method: "POST",
+    headers: {
+      "content-Type": "application/json",
+    },
+    body: JSON.stringify(data)})
+
+    .then(() => {
+      navigate('/')
+    })
+    .catch(() => {
+      console.log("오류")
+    })
+  };
+
+
+  const navigate = useNavigate();
+
+
+  
+
 
   return (
     <Wrapper>
@@ -144,6 +168,11 @@ function SignUp() {
                 <div className='suback'>
                   <label>전화번호</label>
                   <input className="sutext" type='text' {...register("phone")}></input>
+                </div>
+
+                <div className='suback'>
+                  <label>프로필 사진</label>
+                  <input className="sutext" type='file' {...register("image")}></input>
                 </div>
             </div>
 
