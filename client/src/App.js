@@ -24,11 +24,16 @@ import SignUp from "./pages/MyPage/Category/SignUp";
 import SignIn from "./pages/MyPage/Category/SignIn";
 import Items from "./pages/Shopping/Items";
 import SuccessLogin from "./components/SuccessLogin";
-// import { useState } from 'react';
+import { useState } from 'react';
 
 function App() {
 
-  // const [isLogin, setIsLogin] = useState(false);
+    const [products, setProducts] = useState([]);
+    const [cart, setCart] = useState([]);
+  
+    const convertPrice = (price) => {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
 
   return (
     <div className="App">
@@ -60,7 +65,10 @@ function App() {
                 <Route path="/shopping/allVita" element={<AllVita />} />
                 <Route path="/shopping/pad" element={<Pad />} />
                 <Route path="/shopping/toy" element={<Toy />} />
-                <Route path="/shopping/item/:itemId" element={<Items />} />
+                <Route path="/shopping/item/:itemId" element={<Items 
+                convertPrice={convertPrice}
+                cart={cart}
+                setCart={setCart}/>} />
             </Routes>
       </Router>
 

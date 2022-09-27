@@ -204,7 +204,15 @@ const MyPage = styled(Link)`
 const Nav = () => {
 
   const handleButtonLogout = () => {
+
     sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
+
+    sessionStorage.setItem('accessToken', null);
+    sessionStorage.setItem('refreshToken', null);
+
+    window.sessionStorage.clear();
+    
     navigate('/');
     window.location.reload();
   };

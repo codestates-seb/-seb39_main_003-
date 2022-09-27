@@ -117,10 +117,15 @@ const Wrapper = styled.div`
   }
 
   .image {
+    width: 16rem;
+    height: 10rem;
     position: relative;
-    bottom: 25%;
+    bottom: 5%;
     border: 1px solid lightgray;
     font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .item_list {
@@ -181,7 +186,7 @@ function Meal() {
         <span className='cookie' onClick={onClickCookie}>간식</span>
       </div>
 
-      <div className='test'>{params.itemId}</div>
+      {/* <div className='test'>{params.itemId}</div> */}
 
       <div className="item_list_box">
             {test.map((item, idx) => {
