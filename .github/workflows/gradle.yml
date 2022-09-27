@@ -9,9 +9,10 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "fetch" ]
+    branches: [ "develope" ]
   pull_request:
-    branches: [ "fetch" ]
+    branches: [ "develope" ]
+  
 
 permissions:
   contents: read
@@ -28,7 +29,22 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      
+    - name: Make Directory for deliver
+      run: mkdir deploy
+      
+    - name: Jar File Copy
+      run: ./server/build/libs/*.jar ./deploy
+      
+    - name: Make Zip File
+      run: zip -r ./mypet-deploy.zip .
+      
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        arguments: build
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_JAEKWAN }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_JAEKWAN }}
+        aws-region: ap-northeast-2
+      
+    - name: Upload To S3
+      run: aws s3 cp --region ap-northeast-2 ./mypet-deploy.zip s3://mypet-cicd/mypet-deploy.zip
