@@ -45,14 +45,14 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
-    public Page<Comment> getComments(String where, Long id, int page, int size){
+    public Page<Comment> getComments(String where, Long boardId,String memberId, int page, int size){
         if(where.equals("members")){
             return commentRepository.findAllByBoard(
-                    checkVerifiedBoard(id),
+                    checkVerifiedBoard(boardId),
                     PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
         }else if(where.equals("boards")){
             return commentRepository.findAllByMember(
-                    checkVerifiedMember(id),
+                    checkVerifiedMember(memberId),
                     PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
         }
         throw new IllegalArgumentException("식별자 오류");
@@ -66,7 +66,7 @@ public class CommentService {
                 () -> new IllegalArgumentException("존재하지 않는 게시글 입니다.")
         );
     }
-    private Member checkVerifiedMember(Long memberId){
+    private Member checkVerifiedMember(String memberId){
         return memberRepository.findById(memberId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 회원 입니다.")
         );

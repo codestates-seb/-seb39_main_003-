@@ -12,7 +12,7 @@ public class BoardDto {
     public static class Post{
         private String title;
         private String boardContents;
-        private Long memberId;
+        private String memberId;
         private List<Long> tagIds;
     }
 

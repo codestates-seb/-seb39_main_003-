@@ -28,7 +28,7 @@ public class BoardService {
     private final BoardTagRepository boardTagRepository;
 
     @Transactional
-    public Board create(Board board, List<Long> tagIds, Long memberId) {
+    public Board create(Board board, List<Long> tagIds, String memberId) {
 
         Optional.ofNullable(idsToBoardTag(board, tagIds))
                 .ifPresent(boardTags -> board.setBoardTags(boardTags));
@@ -113,7 +113,7 @@ public class BoardService {
         );
     }
 
-    private Member checkVerifiedMember(Long memberId) {
+    private Member checkVerifiedMember(String memberId) {
         return memberRepository.findById(memberId).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 회원 입니다.")
         );
