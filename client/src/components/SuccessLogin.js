@@ -201,12 +201,12 @@ const MyPage = styled(Link)`
 `
 ;
 
-const Nav = ( { isLogin={isLogin}, setIsLogin={setIsLogin} } ) => {
+const Nav = () => {
 
   const handleButtonLogout = () => {
-    setIsLogin(!isLogin);
-    // localStorage.setItem(accessToken, null);
-    // localStorage.setItem(refreshToken, null);
+    sessionStorage.removeItem('accessToken');
+    navigate('/');
+    window.location.reload();
   };
 
   const navigate = useNavigate();

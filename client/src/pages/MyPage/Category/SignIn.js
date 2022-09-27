@@ -99,11 +99,11 @@ box-sizing: border-box;
 // text-decoration: none;
 // `
 
-function SignIn( { isLogin={isLogin}, setIsLogin={setIsLogin} } ) {
+function SignIn() {
 
-  const handleButtonLogin = () => {
-    setIsLogin(!isLogin);
-  };
+  let sessionStorage = window.sessionStorage;
+
+  console.log(sessionStorage.getItem("accessToken"))
 
   const navigate = useNavigate();
 
@@ -124,8 +124,10 @@ function SignIn( { isLogin={isLogin}, setIsLogin={setIsLogin} } ) {
       sessionStorage.setItem('refreshToken', `${refreshToken}`);
       
     })
+
     .then(() => {
-      navigate('/')
+      navigate('/');
+      window.location.reload();
     })
     
     // .catch((err) => {
@@ -157,7 +159,7 @@ function SignIn( { isLogin={isLogin}, setIsLogin={setIsLogin} } ) {
                 </div>
             </div>
               {/* 로그인 버튼 */}
-              <input className='siButton' type="submit" onClick={handleButtonLogin}></input>
+              <input className='siButton' type="submit"></input>
             </form>
           </div>
         </div>

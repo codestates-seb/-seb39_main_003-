@@ -2,14 +2,35 @@ import React from 'react'
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  border: 2px solid blue;
+
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+
+ .test {
+   width: 30rem;
+   height: 30rem;
+   border: 2px solid red;
+ }
+
 `;
 
 function Items() {
+
+  // const [test, setTest] = useState(ItemData);
+
+
+    // useEffect(() => {
+  //   fetch(`도메인주소/${item.id}`)
+  //   .then((res) => res.json())
+  //   .then(res => {
+  //     setTest(res)
+  //   })
+  // } , [])
+
   return (
     <Wrapper>
+      <div className='test'></div>
     </Wrapper>
   )
 }

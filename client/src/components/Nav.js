@@ -240,7 +240,10 @@ const Nav = () => {
                 <span className='info'><MyPage to="/mypage">마이페이지</MyPage></span>
                 <span className='info'>장바구니</span>
                 <span className='info'>고객센터</span>
-                <span className='info'>로그인</span>
+                <span className='info' onClick={() => {
+                  navigate('/login')
+                  setOpen(false)
+                }}>로그인</span>
               </span>
           </div>
       

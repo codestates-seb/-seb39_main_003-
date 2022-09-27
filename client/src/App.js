@@ -24,17 +24,17 @@ import SignUp from "./pages/MyPage/Category/SignUp";
 import SignIn from "./pages/MyPage/Category/SignIn";
 import Items from "./pages/Shopping/Items";
 import SuccessLogin from "./components/SuccessLogin";
-import { useState } from 'react';
+// import { useState } from 'react';
 
 function App() {
 
-  const [isLogin, setIsLogin] = useState(false);
+  // const [isLogin, setIsLogin] = useState(false);
 
   return (
     <div className="App">
       
       <Router>
-          {isLogin ? <SuccessLogin isLogin={isLogin} setIsLogin={setIsLogin} /> : <Nav />}
+          {sessionStorage.getItem('accessToken') ? <SuccessLogin /> : <Nav />}
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/shopping" element={<Shopping />} />
@@ -43,7 +43,7 @@ function App() {
                 <Route path="/FAQ" element={<FAQ />} />
                 
                 <Route path="/mypage" element={<Mypage />} />
-                <Route path="/login" element={<SignIn isLogin={isLogin} setIsLogin={setIsLogin} />} />
+                <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp/>} />
 
                 <Route path="/community/walk" element={<Community />} />
@@ -60,7 +60,7 @@ function App() {
                 <Route path="/shopping/allVita" element={<AllVita />} />
                 <Route path="/shopping/pad" element={<Pad />} />
                 <Route path="/shopping/toy" element={<Toy />} />
-                <Route path="/shopping/item" element={<Items />} />
+                <Route path="/shopping/item/:itemId" element={<Items />} />
             </Routes>
       </Router>
 
