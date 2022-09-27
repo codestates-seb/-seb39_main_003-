@@ -47,13 +47,14 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getComments(@PathVariable Long id,
+    public ResponseEntity getComments(@PathVariable Long boardId,
+                                      @PathVariable String memberId,
                                       @RequestParam("where") String where,
                                       @RequestParam(required = false, defaultValue = "1") int page,
                                       @RequestParam(required = false, defaultValue = "10") int size) {
         System.out.println(where);
 
-        Page<Comment> pageComment = commentService.getComments(where, id, page - 1, size);
+        Page<Comment> pageComment = commentService.getComments(where, boardId, memberId, page - 1, size);
         List<Comment> comments = pageComment.getContent();
         List<CommentDto.Response> responses = commentMapper.commentToCommentResponse(comments);
 

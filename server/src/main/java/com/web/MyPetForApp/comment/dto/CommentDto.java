@@ -12,7 +12,7 @@ public class CommentDto {
     @Getter
     public static class Post{
         private Long boardId;
-        private Long memberId;
+        private String memberId;
         private String commentContent;
     }
 
