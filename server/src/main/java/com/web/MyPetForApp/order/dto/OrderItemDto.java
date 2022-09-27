@@ -22,7 +22,7 @@ public class OrderItemDto {
         private int snapshotPrice;
         private int totalPrice;
         private String snapshotItemName;
-        private String image;
+        private String snapshotImage;
         private String snapshotItemId;
     }
 }

@@ -2,6 +2,7 @@ package com.web.MyPetForApp.member.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.web.MyPetForApp.util.StringIdGenerator;
 import com.web.MyPetForApp.image.service.ImageService;
 import com.web.MyPetForApp.member.dto.MemberDto;
 import com.web.MyPetForApp.member.entity.Member;
@@ -23,6 +24,7 @@ public class MemberController {
     private final MemberService memberService;
     private final ImageService imageService;
     private final MemberMapper mapper;
+    private final StringIdGenerator stringIdGenerator;
 
     // 테스트용
     @GetMapping("/user/test")
@@ -36,22 +38,22 @@ public class MemberController {
     }
 
     @PostMapping("/member")
-    public ResponseEntity join(@RequestBody MemberDto.Post post,
+    public ResponseEntity join( String jsonBody,
                                 @RequestPart(required = false) List<MultipartFile> multipartFiles) {
-//        MemberDto.Post post = null;
-//        try {
-//            post = new ObjectMapper().readValue(jsonBody, MemberDto.Post.class);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-        String memberId = memberService.createMemberId();
+        MemberDto.Post post = null;
+        try {
+            post = new ObjectMapper().readValue(jsonBody, MemberDto.Post.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        String memberId = stringIdGenerator.createMemberId();
 
         Member savedMember = memberService.create(mapper.memberPostDtoToMember(post, memberId));
 
         String profileImg = null;
 
         if(multipartFiles != null) {
-            profileImg  = imageService.uploadFile(multipartFiles, "member", memberId).get(0);
+            profileImg  = imageService.uploadFile(multipartFiles, "member", memberId, "profile").get(0);
         }
         return new ResponseEntity<>(mapper.memberToResponse(savedMember, profileImg), HttpStatus.CREATED);
     }
@@ -63,7 +65,7 @@ public class MemberController {
         String profileImg = null;
 
         if(multipartFiles != null) {
-            profileImg  = imageService.uploadFile(multipartFiles, "member", patch.getMemberId()).get(0);
+            profileImg  = imageService.uploadFile(multipartFiles, "member", patch.getMemberId(), "Profile").get(0);
         }
         return new ResponseEntity<>(mapper.memberToResponse(modifiedMember, profileImg), HttpStatus.OK);
     }

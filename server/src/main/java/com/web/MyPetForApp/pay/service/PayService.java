@@ -28,6 +28,11 @@ public class PayService {
         Member findMember = memberService.findVerifiedMember(memberId);
         pay.addOrder(findOrder);
         pay.changeMember(findMember);
+        // 결제 성공되었다 가정 -> 바로 결제 완료로 상태 바꿈
+        pay.updatePayStatus(Pay.PayStatus.PAY_COMPLETE);
+        // 주문 상태도 주문 완료로 바꾼다.
+        findOrder.updateOrderStatus(Order.OrderStatus.ORDER_COMPLETE);
+
         return payRepository.save(pay);
     }
 

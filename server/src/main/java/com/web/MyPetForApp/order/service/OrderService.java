@@ -1,5 +1,6 @@
 package com.web.MyPetForApp.order.service;
 
+import com.web.MyPetForApp.image.service.ImageService;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.item.service.ItemService;
 import com.web.MyPetForApp.member.entity.Member;
@@ -27,6 +28,8 @@ public class OrderService {
     private final ItemService itemService;
     private final MemberService memberService;
 
+    private final ImageService imageService;
+
     public Order createOrder(List<OrderItemDto.Post> post, String memberId){
         Member member = memberService.findVerifiedMember(memberId);
         Order order = new Order();  // Order 생성
@@ -34,6 +37,7 @@ public class OrderService {
         order.resetInfo(member);    // Order의 주문 정보(주소, 전화번호 등)들을 Member의 정보로 초기화
         int orderPrice = 0;
         for (OrderItemDto.Post orderItemPostDto : post) {   // orderItemPostDto List들의 요소들을 순회하며 반복
+            List<String> findImages = imageService.findFilesById("domain",orderItemPostDto.getItemId());
             Item item = itemService.findVerifiedItem(orderItemPostDto.getItemId()); // 상품 검증
             itemService.checkStockCnt(orderItemPostDto.getOrderItemCnt(), item);
             OrderItem orderItem = OrderItem // OrderItem 생성
@@ -42,11 +46,13 @@ public class OrderService {
                     .snapshotItemId(item.getItemId())
                     .snapshotItemName(item.getItemName())
                     .snapshotPrice(item.getPrice())
-//                    .snapshotImage(item.getItemImages().get(0).getItemThumbnail())
+                    .snapshotImage(findImages.get(findImages.size() - 1).substring  // 등록되있는 상품 메인 이미지 저장
+                            (findImages.get(findImages.size() - 1).lastIndexOf("/") + 1))
                     .build();
             orderItem.changeOrder(order);  // OrderItem-Order 연관관계 설정
             orderItemRepository.save(orderItem);
         }
+        order.updateOrderStatus(Order.OrderStatus.PAY_WAIT);
         return orderRepository.save(order);
         // PayService 호출해서 결제와 주문을 하나의 트랜잭션으로 처리하기 (멘토님께 이렇게 하는게 맞는지 여쭤보기)
 
@@ -72,7 +78,7 @@ public class OrderService {
     public void cancelOrder(Long orderId){
         Order findOrder = findVerifiedOrder(orderId);
         int step = findOrder.getOrderStatus().getStepNumber();
-        if(step >= 2){
+        if(step > 2){
             throw new IllegalArgumentException("주문이 확정되기 전에만 취소가 가능합니다.");
         }
         findOrder.updateOrderStatus(Order.OrderStatus.ORDER_CANCEL);
