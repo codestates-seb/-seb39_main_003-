@@ -27,20 +27,23 @@ public class ImageController {
 
     @PostMapping("/file/member")
     public ResponseEntity uploadMemberFile(@RequestPart List<MultipartFile> multipartFiles,
-                                           @RequestParam String requestCode) {
-        List<String> fileNameList = imageService.uploadFile(multipartFiles, "member", requestCode);
+                                           @RequestParam String requestCode,
+                                            @RequestParam String way) {
+        List<String> fileNameList = imageService.uploadFile(multipartFiles, "member", requestCode, way);
         return new ResponseEntity<>(imageMapper.ImageListToImageDto(fileNameList) , HttpStatus.OK);
     }
 
     @DeleteMapping("/file/member")
-    public ResponseEntity removeMemberFile(@RequestParam String storedFileName) {
-        imageService.deleteFile(storedFileName, "member");
+    public ResponseEntity removeMemberFile(@RequestParam String storedFileName,
+                                           @RequestParam String requestId) {
+        imageService.deleteFile(storedFileName, "member", requestId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/file/member")
-    public ResponseEntity downloadMemberFile(@RequestParam String storedFileName) {
-        byte[] data = imageService.downloadFile(storedFileName, "member");
+    public ResponseEntity downloadMemberFile(@RequestParam String storedFileName,
+                                             @RequestParam String requestId) {
+        byte[] data = imageService.downloadFile(storedFileName, "member", requestId);
         ByteArrayResource resource = new ByteArrayResource(data);
         HttpHeaders headers = imageUtils.buildHeaders(storedFileName, data, imageUtils.getFileExtension(storedFileName));
 
@@ -49,20 +52,23 @@ public class ImageController {
 
     @PostMapping("/file/item")
     public ResponseEntity uploadItemFile(@RequestPart List<MultipartFile> multipartFiles,
-                                         @RequestParam String  requestCode) {
-        List<String> fileNameList = imageService.uploadFile(multipartFiles, "item", requestCode);
+                                         @RequestParam String  requestCode,
+                                         @RequestParam String way) {
+        List<String> fileNameList = imageService.uploadFile(multipartFiles, "item", requestCode, way);
         return new ResponseEntity<>(imageMapper.ImageListToImageDto(fileNameList) , HttpStatus.OK);
     }
 
     @DeleteMapping("/file/item")
-    public ResponseEntity removeItemFile(@RequestParam String storedFileName) {
-        imageService.deleteFile(storedFileName, "item");
+    public ResponseEntity removeItemFile(@RequestParam String storedFileName,
+                                         @RequestParam String requestId) {
+        imageService.deleteFile(storedFileName, "item", requestId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/file/item")
-    public ResponseEntity downloadItemFile(@RequestParam String storedFileName) {
-        byte[] data = imageService.downloadFile(storedFileName, "item");
+    public ResponseEntity downloadItemFile(@RequestParam String storedFileName,
+                                           @RequestParam String requestId) {
+        byte[] data = imageService.downloadFile(storedFileName, "item", requestId);
         ByteArrayResource resource = new ByteArrayResource(data);
         HttpHeaders headers = imageUtils.buildHeaders(storedFileName, data, imageUtils.getFileExtension(storedFileName));
 

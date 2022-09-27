@@ -36,6 +36,11 @@ public class PayController {
         return new ResponseEntity<>(mapper.payToResponse(findPay), HttpStatus.OK);
     }
     // 결제 취소 요청
+    // 결제를 취소 요청하면
+    // 환불 처리는 생략하고
+    // 결제 상태 -> 결제 취소
+    // 주문 상태 -> 주문 취소
+    // 주문 내역은 보존한다.
     public ResponseEntity cancelPay() {
         return null;
     }

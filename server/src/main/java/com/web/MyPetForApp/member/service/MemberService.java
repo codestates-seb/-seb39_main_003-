@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,8 +48,14 @@ public class MemberService {
         // 회원이 존재하는지 확인
         Member findMember = findVerifiedMember(memberId);
         // 존재한다면 먼저 해당 회원의 프로필 이미지 삭제
-        String profileImg = imageService.findFilesById("member" ,memberId).get(0);
-        imageService.deleteFile(profileImg, "member");
+        List<String> fileNameList = imageService.findFilesById("member" ,memberId);
+        String profileImg = "";
+        if(fileNameList.size() > 0) {
+            profileImg = fileNameList.get(0).substring(fileNameList.get(0).lastIndexOf("/") + 1);
+        }
+
+        System.out.println("profileImg = " + profileImg);
+        imageService.deleteFile(profileImg, "member", memberId);
         // 해당 회원 정보 삭제
         memberRepository.deleteById(memberId);
     }

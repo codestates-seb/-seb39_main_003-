@@ -34,7 +34,7 @@ public class Member {
     @Column(nullable = false)
     private String nickName;
 
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -43,7 +43,7 @@ public class Member {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false, unique = true)
+//    @Column(nullable = false, unique = true)
     private String phone;
 
     @Enumerated(EnumType.STRING)

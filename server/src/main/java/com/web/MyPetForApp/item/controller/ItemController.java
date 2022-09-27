@@ -2,6 +2,7 @@ package com.web.MyPetForApp.item.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.web.MyPetForApp.util.StringIdGenerator;
 import com.web.MyPetForApp.dto.MultiResponseDto;
 import com.web.MyPetForApp.dto.SingleResponseDto;
 import com.web.MyPetForApp.image.service.ImageService;
@@ -10,14 +11,13 @@ import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.item.mapper.ItemMapper;
 import com.web.MyPetForApp.item.service.ItemService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.http11.upgrade.UpgradeServletInputStream;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,25 +28,31 @@ public class ItemController {
     private final ItemService itemService;
     private final ImageService imageService;
     private final ItemMapper mapper;
+    private final StringIdGenerator stringIdGenerator;
 
     @PostMapping
-    public ResponseEntity postItem(@RequestBody ItemDto.Post requestBody,
-                                   @RequestPart(required = false) List<MultipartFile> multipartFiles){
-//        ItemDto.Post requestBody = null;
-//        try {
-//            requestBody = new ObjectMapper().readValue(jsonBody, ItemDto.Post.class);
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-        String itemId = itemService.createItemId(requestBody.getItemCategoryId());
+    public ResponseEntity postItem( String jsonBody,
+                                   @RequestPart(required = false) List<MultipartFile> mainImg,
+                                   @RequestPart(required = false) List<MultipartFile> detailImg){
+        ItemDto.Post requestBody = null;
+        try {
+            requestBody = new ObjectMapper().readValue(jsonBody, ItemDto.Post.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        String itemId = stringIdGenerator.createItemId();
         Item item = itemService.createItem(mapper.itemPostDtoToItem(requestBody, itemId),
                 requestBody.getMemberId(),
                 requestBody.getItemCategoryId());
 
-        List<String> fileNameList = null;
+        List<String> fileNameList = new ArrayList<>();
 
-        if(multipartFiles != null) {
-           fileNameList = imageService.uploadFile(multipartFiles, "item", itemId);
+        if(mainImg != null) {
+           fileNameList.add(imageService.uploadFile(mainImg, "item", itemId, "main").get(0));
+        }
+
+        if(detailImg != null) {
+            fileNameList.addAll(imageService.uploadFile(detailImg, "item", itemId, "detail"));
         }
 
         ItemDto.Response response = mapper.itemToItemResponseDto(item,fileNameList);

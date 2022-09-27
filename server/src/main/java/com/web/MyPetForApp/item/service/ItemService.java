@@ -90,9 +90,10 @@ public class ItemService {
         Item item = findVerifiedItem(itemId);
         // 상품에 등록되있던 이미지 전체 삭제
         List<String> fileNameList = imageService.findFilesById("item", itemId);
-        fileNameList.forEach(file ->
-                imageService.deleteFile(file, "item"));
-
+        if(fileNameList.size() > 0) {
+            fileNameList.forEach(file ->
+                    imageService.deleteFile(file.substring(file.lastIndexOf("/") + 1), "item", itemId));
+        }
         itemRepository.delete(item);
     }
 

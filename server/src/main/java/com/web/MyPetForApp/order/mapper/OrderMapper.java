@@ -42,7 +42,7 @@ public class OrderMapper {
                         .snapshotPrice(orderItem.getSnapshotPrice())
                         .totalPrice(orderItem.getOrderItemCnt() * orderItem.getSnapshotPrice())
                         .snapshotItemName(orderItem.getSnapshotItemName())
-                        .image(orderItem.getSnapshotImage())
+                        .snapshotImage(orderItem.getSnapshotImage())
                         .snapshotItemId(orderItem.getSnapshotItemId())
                         .build())
                 .collect(Collectors.toList());

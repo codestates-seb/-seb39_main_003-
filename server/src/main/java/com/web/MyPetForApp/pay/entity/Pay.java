@@ -25,10 +25,12 @@ public class Pay {
     private int amount;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private PayBy payBy = PayBy.ACCOUNT_TRANSFER;
 
     @Enumerated(EnumType.STRING)
-    private PayStatus payStatus = PayStatus.PAY_TRY;
+    @Builder.Default
+    private PayStatus payStatus = PayStatus.PAY_WAIT;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -80,8 +82,8 @@ public class Pay {
     }
 
     public enum PayStatus {
-        PAY_TRY(1, "결제 시도"),
-        PAY_WAIT(2, "결제 중"),
+        PAY_WAIT(1, "결제 대기"),
+        PAY_ING(2, "결제 중"),
         PAY_COMPLETE(3, "결제 완료"),
         PAY_CANCEL(4, "결제 취소"),
         PAY_FAIL(5, "결제 실패");
