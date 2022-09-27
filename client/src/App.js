@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
-// import Test from "./pages/test";
 import Main from "./pages/Main";
-// import Footer from "./components/Footer";
 import Shopping from "./pages/Shopping/Shopping";
 import Community from "./pages/Community/Community";
 import Info from "./pages/Community/Info";

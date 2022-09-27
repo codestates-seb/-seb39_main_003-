@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import ItemData from '../../../dummytest/ItemData';
+import ItemDatas from '../../../dummytest/ItemData';
 
 
 const Wrapper = styled.div`
@@ -139,7 +139,7 @@ const Wrapper = styled.div`
 
 function Meal() {
 
-  const [test, setTest] = useState(ItemData);
+  const [test, setTest] = useState(ItemDatas);
 
     // useEffect(() => {
   //   fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member/1`)

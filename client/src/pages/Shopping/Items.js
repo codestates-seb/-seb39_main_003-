@@ -4,7 +4,6 @@ import Minus from './images/icon-minus-line.svg';
 import Plus from './images/icon-plus-line.svg';
 import Cat from './images/image007.png';
 import { useParams } from "react-router-dom";
-// import ItemData from '../../dummytest/dummyData';
 
 
 const Wrapper = styled.div`

@@ -10,8 +10,6 @@ import logo from '../assets/logo.png'
 
 
 const Wrapper = styled.div `
-  /* position: fixed;
-  z-index: 1; */
 
   .headerBox {
     width: 100%;

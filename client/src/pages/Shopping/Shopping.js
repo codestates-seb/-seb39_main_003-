@@ -149,10 +149,15 @@ const Wrapper = styled.div`
   }
 
   .image {
+    width: 16rem;
+    height: 10rem;
     position: relative;
-    bottom: 25%;
+    bottom: 5%;
     border: 1px solid lightgray;
     font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
