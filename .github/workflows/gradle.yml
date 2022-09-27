@@ -10,6 +10,9 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "develope" ]
+  pull_request:
+    branches: [ "develope" ]
+  
 
 permissions:
   contents: read
@@ -26,12 +29,6 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-        
-    - name: Grant Execute Permission For Gradlew
-      run: chmod +x ./server/gradlew
-        
-    - name: Build with Gradle
-      run: ./server/gradlew clean build
       
     - name: Make Directory for deliver
       run: mkdir deploy
