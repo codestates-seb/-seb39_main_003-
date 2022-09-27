@@ -9,9 +9,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "fetch" ]
-  pull_request:
-    branches: [ "fetch" ]
+    branches: [ "develope" ]
 
 permissions:
   contents: read
@@ -52,4 +50,4 @@ jobs:
         aws-region: ap-northeast-2
       
     - name: Upload To S3
-      run: aws s3 cp --region ap-northeast-2 ./mypet-deploy.zip s3://$S3_BUCKET_NAME/mypet-deploy.zip
+      run: aws s3 cp --region ap-northeast-2 ./mypet-deploy.zip s3://mypet-cicd/mypet-deploy.zip
