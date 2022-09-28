@@ -50,7 +50,7 @@ function App() {
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/FAQ" element={<FAQ />} />
                 
-                <Route path="/mypage" element={<Mypage />} />
+                <Route path="/mypage" element={sessionStorage.getItem('accessToken') ? <Mypage /> : <SignIn />} />
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp/>} />
                 <Route path="/mypage/myinfo" element={<Myinfo/>} />
