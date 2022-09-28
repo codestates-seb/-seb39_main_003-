@@ -36,14 +36,17 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 50px;
+  /* border: 1px solid green; */
 }
 
 .siback{
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   padding-top: 50px;
+  /* border: 1px solid red; */
 }
 
 .sitext{
@@ -90,6 +93,7 @@ const Wrapper = styled.div`
   outline:none;
   border-bottom: 2px solid #EEF1FF;
 
+  /* border: 1px solid blue; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -98,6 +102,7 @@ const Wrapper = styled.div`
   text-align: start;
   background-color: #F9F9F9;
 }
+
 `;
 
 function AddProduct() {
@@ -146,19 +151,35 @@ function AddProduct() {
   return (
 
     <Wrapper>
+
       <form className='siBackground' onSubmit={handleSubmit(onSubmit)}>
           <div className='sibox'>
               <div className='siback'>
                 <label>상품 이름</label>
-                <input className="sitext" type='text' {...register("itemName")}></input>
+                <input className="sutext" type='text' {...register("itemName")}></input>
               </div>
 
               <div className='siback'>
                 <label>상품 가격</label>
-                <input className="sitext" type='text' {...register("itemPrice")}></input>
+                <input className="sutext" type='text' {...register("price")}></input>
               </div>
 
-              <div className='siback siback2'>
+              <div className='siback'>
+                <label>재고량</label>
+                <input className="sutext" type="text" {...register("stockCnt")} />
+              </div>
+
+              <div className='siback'>
+                <label>제품 상세설명</label>
+                <input className="sutext" type="text" {...register("info")} />
+              </div>
+
+              <div className='siback'>
+                <label>카테고리</label>
+                <input className="sutext" type="text" {...register("itemCategoryId")} />
+              </div>
+
+              <div className='siback'>
                 <label>상품 이미지</label>
                 <input className="sutext" type="file" {...register("image")} />
               </div>
