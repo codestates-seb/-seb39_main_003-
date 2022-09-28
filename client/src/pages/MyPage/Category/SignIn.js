@@ -103,8 +103,6 @@ function SignIn() {
 
   let sessionStorage = window.sessionStorage;
 
-  console.log(sessionStorage.getItem("accessToken"))
-
   const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm();
@@ -122,9 +120,8 @@ function SignIn() {
       
       sessionStorage.setItem('accessToken', `${accessToken}`);
       sessionStorage.setItem('refreshToken', `${refreshToken}`);
-      
-    })
 
+    })
     .then(() => {
       navigate('/');
       window.location.reload();

@@ -26,6 +26,7 @@ import Cart from "./pages/MyPage/Category/Cart";
 import Wish from "./pages/MyPage/Category/Wish";
 import Order from "./pages/MyPage/Category/Order";
 import SuccessLogin from "./components/SuccessLogin";
+import Addproduct from "./pages/Shopping/AddProduct";
 import { useState } from 'react';
 
 
@@ -66,6 +67,7 @@ function App() {
                 <Route path="/community/posting" element={<Posting />}/>
                 <Route path="/community/post/:communityId" element={<Post/>}/>
 
+                <Route path="/shopping/add" element={<Addproduct />} />
                 <Route path="/shopping/meal" element={<Meal />} />
                 <Route path="/shopping/cookie" element={<Cookie />} />
                 <Route path="/shopping/vita" element={<Vita />} />
