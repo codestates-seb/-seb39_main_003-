@@ -1,0 +1,50 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "develope" ]
+  pull_request:
+    branches: [ "develope" ]
+  
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+      
+    - name: Make Directory for deliver
+      run: mkdir deploy
+      
+    - name: Jar File Copy
+      run: ./server/build/libs/*.jar ./deploy
+      
+    - name: Make Zip File
+      run: zip -r ./mypet-deploy.zip .
+      
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_JAEKWAN }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_JAEKWAN }}
+        aws-region: ap-northeast-2
+      
+    - name: Upload To S3
+      run: aws s3 cp --region ap-northeast-2 ./mypet-deploy.zip s3://mypet-cicd/mypet-deploy.zip

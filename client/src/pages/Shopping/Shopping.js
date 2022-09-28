@@ -8,10 +8,9 @@ import Image3 from '../../assets/dog3.png';
 import EatDropdown from './EatDropdown';
 import HealthDropdown from './HealthDropdown';
 import OtherDropdown from './OtherDropdown';
-// import { useEffect } from 'react';
-import Items from './Items';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import ItemData from '../../dummytest/ItemData';
 
 const Wrapper = styled.div`
 
@@ -28,6 +27,19 @@ const Wrapper = styled.div`
     font-weight: normal;
     font-style: normal;
 }
+
+  .item_box {
+    width: 20%;
+    height: 15rem;
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    overflow-x: hidden;
+    cursor: pointer;
+    margin: 15px;
+  }
 
   .windowBox {
     width: 100%;
@@ -112,34 +124,40 @@ const Wrapper = styled.div`
   .item_list_box {
     width: 100%;
     height: 100%;
-    border: 2px solid green;
+    border: 2px solid red;
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
+    justify-content: space-around;
   }
 
 .item_list {
-    margin: 80px 10px 80px 10px;
-    width: 20%;
-    height: 200px;
-    background-color: skyblue;
-    border: 2px solid royalblue;
+    margin: 0px 10px 0px 10px;
+  }
+
+  .test1 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  .test2 {
+    width: 100%;
+    /* border: 1px solid black; */
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .image {
+    width: 16rem;
+    height: 10rem;
+    position: relative;
+    bottom: 5%;
+    border: 1px solid lightgray;
+    font-size: 2rem;
     display: flex;
     justify-content: center;
-    line-height: 200px;
-    transition: .3s;
-    cursor: pointer;
-
-    &:hover {
-      margin: 80px 10px 80px 10px;
-      width: 23%;
-      height: 220px;
-      background-color: skyblue;
-      border: 2px solid royalblue;
-      display: flex;
-      justify-content: center;
-      line-height: 200px;
-    }
+    align-items: center;
   }
 `;
 
@@ -156,7 +174,7 @@ function Shopping() {
   // const [health, setHealth] = useState(false);
   // const [other, setOther] = useState(false);
 
-  // const [test, setTest] = useState("");
+  const [test, setTest] = useState(ItemData);
 
   // useEffect(() => {
   //   fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member/1`)
@@ -166,17 +184,6 @@ function Shopping() {
   //   })
   // } , [])
 
-  // const eatButtonClick = () => {
-  //   setEat(!eat)
-  // };
-
-  // const healthButtonClick = () => {
-  //   setHealth(!health)
-  // };
-
-  // const otherButtonClick = () => {
-  //   setOther(!other)
-  // };
 
   return (
     <Wrapper>
@@ -226,19 +233,30 @@ function Shopping() {
         <span className="famous">이달의 인기상품</span>
       </div>
 
-      <div class="item_list_box">
-        <span className="item_list" onClick={() => {
-          navigate('/shopping/item')
-        }}>여기는</span>
-        <span className="item_list">데이터를</span>
-        <span className="item_list">받아와야</span>
-        <span className="item_list">할듯</span>
 
-        <span className="item_list">여기는</span>
-        <span className="item_list">데이터를</span>
-        <span className="item_list">받아와야</span>
-        <span className="item_list">할듯</span>
-      </div>
+          <div className="item_list_box">
+            {test.map((item, idx) => {
+              return (
+
+                <div key={idx} className='item_box'>
+
+                    <div className='image'>
+                        <div>{item.image}</div>
+                    </div>
+
+                    <div className='test1'>
+                        <div className="item_list">{item.name}</div>
+                    </div>
+
+                    <div className='test2'>
+                        <div className="item_list">{item.price}원</div>
+                    </div>
+
+                </div>
+              )
+            })}
+          </div>
+
       {/* 인기상품 */}
 
     </Wrapper>

@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable jsx-a11y/alt-text */
 import styled from 'styled-components';
 import { FaUserAlt } from "react-icons/fa";
@@ -9,8 +10,6 @@ import logo from '../assets/logo.png'
 
 
 const Wrapper = styled.div `
-  /* position: fixed;
-  z-index: 1; */
 
   .headerBox {
     width: 100%;
@@ -83,7 +82,7 @@ const Wrapper = styled.div `
     justify-content: center;
     width: 168px;
     height: 100px;
-    /* background-color: #EEF1FF; */
+    background-color: #EEF1FF;
     border-radius: 20px;
     margin-right: 20px;
     cursor: pointer;
@@ -99,9 +98,9 @@ const Wrapper = styled.div `
   }
 
   .profile {
-    width: 6vw;
+    /* width: 6vw;
     height: 4vh;
-    line-height: 4vh;
+    line-height: 4vh; */
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -202,6 +201,20 @@ const MyPage = styled(Link)`
 
 const Nav = () => {
 
+  const handleButtonLogout = () => {
+
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
+
+    sessionStorage.setItem('accessToken', null);
+    sessionStorage.setItem('refreshToken', null);
+
+    window.sessionStorage.clear();
+    
+    navigate('/');
+    window.location.reload();
+  };
+
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -211,11 +224,9 @@ const Nav = () => {
           <div className="headerBox">
               <span className="logo headerList">
                 {/* 로고 */}
-
-                <StyledLink to='/'>
-                  <img className="logoImage" alt="logo" src={logo} />
-                </StyledLink>
-
+                <img className="logoImage" alt="logo" src={logo} onClick={() => {
+                  navigate('/');
+                }}/>
               </span>
               <div className="search_bar">
                   <input type="text" placeholder="어떤 상품을 찾으세요?" className="search headerList"></input>
@@ -224,13 +235,9 @@ const Nav = () => {
 
               <div className='memberBox'>
 
-                <span className="member" onClick={() => {
-                  navigate(`/login`)
-                }}>로그인</span>
-
-                <span className="member" onClick={() => {
-                  navigate(`/signup`)
-                }}>회원가입</span>
+                <span>
+                  환영합니다!
+                </span>
 
                 <span className="profile headerList" onClick={() => {
                   setOpen(!open)
@@ -240,11 +247,9 @@ const Nav = () => {
 
               <span className={open ? "show-menu" : "hide-menu"}>
                 <span className='info'><MyPage to="/mypage">마이페이지</MyPage></span>
-
-                <span className='info'><MyPage to="/mypage/cart">장바구니</MyPage></span>
-                <span className='info'><MyPage to="/mypage/wish">찜 목록</MyPage></span>
-                <span className='info'><MyPage to="/login">로그인</MyPage></span>
-
+                <span className='info'>장바구니</span>
+                <span className='info'>고객센터</span>
+                <span className='info' onClick={handleButtonLogout}>로그아웃</span>
               </span>
           </div>
       

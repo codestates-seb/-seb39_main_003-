@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
-// import Test from "./pages/test";
 import Main from "./pages/Main";
-// import Footer from "./components/Footer";
 import Shopping from "./pages/Shopping/Shopping";
 import Community from "./pages/Community/Community";
 import Info from "./pages/Community/Info";
@@ -27,13 +25,24 @@ import Myinfo from "./pages/MyPage/Category/Myinfo";
 import Cart from "./pages/MyPage/Category/Cart";
 import Wish from "./pages/MyPage/Category/Wish";
 import Order from "./pages/MyPage/Category/Order";
+import SuccessLogin from "./components/SuccessLogin";
+import { useState } from 'react';
+
 
 function App() {
+
+    const [products, setProducts] = useState([]);
+    const [cart, setCart] = useState([]);
+  
+    const convertPrice = (price) => {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
   return (
     <div className="App">
       
       <Router>
-          <Nav />
+          {sessionStorage.getItem('accessToken') ? <SuccessLogin /> : <Nav />}
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/shopping" element={<Shopping />} />
@@ -63,7 +72,10 @@ function App() {
                 <Route path="/shopping/allVita" element={<AllVita />} />
                 <Route path="/shopping/pad" element={<Pad />} />
                 <Route path="/shopping/toy" element={<Toy />} />
-                <Route path="/shopping/item" element={<Items />} />
+                <Route path="/shopping/item/:itemId" element={<Items 
+                convertPrice={convertPrice}
+                cart={cart}
+                setCart={setCart}/>} />
             </Routes>
       </Router>
 
@@ -72,6 +84,3 @@ function App() {
 }
 
 export default App;
-
-
-// nav

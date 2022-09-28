@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import ItemDatas from '../../../dummytest/ItemData';
+
 
 const Wrapper = styled.div`
 
@@ -71,14 +73,81 @@ const Wrapper = styled.div`
     border-right: 2px solid purple;
   }
 
-  .test {
+  /* .test {
     width: 200px;
     height: 200px;
     border: 1px solid red;
+  } */
+
+  .item_list_box {
+    width: 100%;
+    height: 100%;
+    border: 2px solid red;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .item_box {
+    width: 20%;
+    height: 15rem;
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    overflow-x: hidden;
+    cursor: pointer;
+    margin: 15px;
+  }
+
+  .test1 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .test2 {
+    width: 100%;
+    /* border: 1px solid black; */
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .image {
+    width: 16rem;
+    height: 10rem;
+    position: relative;
+    bottom: 5%;
+    border: 1px solid lightgray;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .item_list {
+    margin: 0px 10px 0px 10px;
   }
 `;
 
+
+
+
+
 function Meal() {
+
+  const [test, setTest] = useState(ItemDatas);
+
+    // useEffect(() => {
+  //   fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member/1`)
+  //   .then((res) => res.json())
+  //   .then(res => {
+  //     setTest(res)
+  //   })
+  // } , [])
 
   const navigate = useNavigate();
 
@@ -117,7 +186,32 @@ function Meal() {
         <span className='cookie' onClick={onClickCookie}>간식</span>
       </div>
 
-      <div className='test'>{params.itemId}</div>
+      {/* <div className='test'>{params.itemId}</div> */}
+
+      <div className="item_list_box">
+            {test.map((item, idx) => {
+              return (
+
+                <div key={idx} className='item_box' onClick={() => {
+                  navigate(`/shopping/item/${item.id}`)
+                }}>
+
+                    <div className='image'>
+                        <div>{item.image}</div>
+                    </div>
+
+                    <div className='test1'>
+                        <div className="item_list">{item.name}</div>
+                    </div>
+
+                    <div className='test2'>
+                        <div className="item_list">{item.price}원</div>
+                    </div>
+
+                </div>
+              )
+            })}
+          </div>
 
     </Wrapper>
   
