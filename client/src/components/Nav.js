@@ -45,7 +45,7 @@ const Wrapper = styled.div `
     display: flex;
     justify-content: center;
     margin-right: 10px;
-    font-size: 17px;
+    font-size: 1.2rem;
     cursor: pointer;
 
     &:hover {
