@@ -225,7 +225,7 @@ function SignUp() {
                     }
                   })}></input>
                 </div>
-                {/* 전화번호: 10자 이상 + 11자 미만의 숫자 */}
+                {/* 전화번호: - 기호를 포함한 + 10자 이상 + 11자 미만의 숫자 */}
                 {errors.phone && <span>{errors.phone.message}</span>}
 
                 <div className='suback'>

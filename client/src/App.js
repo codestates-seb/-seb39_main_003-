@@ -23,6 +23,10 @@ import Mypage from "./pages/MyPage/Mypage";
 import SignUp from "./pages/MyPage/Category/SignUp";
 import SignIn from "./pages/MyPage/Category/SignIn";
 import Items from "./pages/Shopping/Items";
+import Myinfo from "./pages/MyPage/Category/Myinfo";
+import Cart from "./pages/MyPage/Category/Cart";
+import Wish from "./pages/MyPage/Category/Wish";
+import Order from "./pages/MyPage/Category/Order";
 
 function App() {
   return (
@@ -40,6 +44,10 @@ function App() {
                 <Route path="/mypage" element={<Mypage />} />
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp/>} />
+                <Route path="/mypage/myinfo" element={<Myinfo/>} />
+                <Route path="/mypage/cart" element={<Cart/>} />
+                <Route path="/mypage/wish" element={<Wish/>} />
+                <Route path="/mypage/order" element={<Order/>} />
 
                 <Route path="/community/walk" element={<Community />} />
                 <Route path="/community/info" element={<Info />} />

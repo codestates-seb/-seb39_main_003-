@@ -83,7 +83,7 @@ const Wrapper = styled.div `
     justify-content: center;
     width: 168px;
     height: 100px;
-    background-color: #EEF1FF;
+    /* background-color: #EEF1FF; */
     border-radius: 20px;
     margin-right: 20px;
     cursor: pointer;
@@ -211,7 +211,9 @@ const Nav = () => {
           <div className="headerBox">
               <span className="logo headerList">
                 {/* 로고 */}
-                <img className="logoImage" alt="logo" src={logo} />
+                <StyledLink to='/'>
+                  <img className="logoImage" alt="logo" src={logo} />
+                </StyledLink>
               </span>
               <div className="search_bar">
                   <input type="text" placeholder="어떤 상품을 찾으세요?" className="search headerList"></input>
@@ -236,9 +238,9 @@ const Nav = () => {
 
               <span className={open ? "show-menu" : "hide-menu"}>
                 <span className='info'><MyPage to="/mypage">마이페이지</MyPage></span>
-                <span className='info'>장바구니</span>
-                <span className='info'>고객센터</span>
-                <span className='info'>로그인</span>
+                <span className='info'><MyPage to="/mypage/cart">장바구니</MyPage></span>
+                <span className='info'><MyPage to="/mypage/wish">찜 목록</MyPage></span>
+                <span className='info'><MyPage to="/login">로그인</MyPage></span>
               </span>
           </div>
       
