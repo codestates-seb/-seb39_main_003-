@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png'
+import axios from 'axios';
 
 
 const Wrapper = styled.div `
@@ -199,21 +200,42 @@ const MyPage = styled(Link)`
 `
 ;
 
+// sessionStorage.removeItem('accessToken');
+// sessionStorage.removeItem('refreshToken');
+
+// sessionStorage.setItem('accessToken', null);
+// sessionStorage.setItem('refreshToken', null);
+
+// window.sessionStorage.clear();
+
+// navigate('/')
+// window.location.reload()
+
 const Nav = () => {
 
   const handleButtonLogout = () => {
-
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('refreshToken');
-
-    sessionStorage.setItem('accessToken', null);
-    sessionStorage.setItem('refreshToken', null);
-
-    window.sessionStorage.clear();
-    
-    navigate('/');
-    window.location.reload();
+    axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
+      sessionStorage.removeItem('refreshToken'),
+      sessionStorage.removeItem('accessToken'),
+      navigate('/'),
+      window.location.reload()
+    )
   };
+
+  // const handleButtonLogout2 = () => {
+  //   axios.post(`http://211.58.40.128:8080/logout?test@naver.com`)
+      
+  //   .then( () => {
+  //     sessionStorage.removeItem('refreshToken')
+  //     sessionStorage.removeItem('accessToken')
+  //   })
+    
+  //   navigate('/')
+  //   window.location.reload()
+    
+  // };
+
+
 
   const navigate = useNavigate();
 
