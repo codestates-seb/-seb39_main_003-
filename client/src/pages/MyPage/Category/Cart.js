@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import Cat from '../../Shopping/images/cat.png'
 
 const Wrapper = styled.div`
 .cartterritory{
@@ -66,7 +68,13 @@ const Wrapper = styled.div`
 
     background-color: #EEF1FF;
 }
-.cartimg{}
+
+.cartimg{
+    width: 10rem;
+    height: 10rem;
+
+}
+
 .cartname{}
 .cartprice{}
 .cartamount{}
@@ -90,7 +98,9 @@ function Cart() {
                 </div>
                 {/* 장바구니 본문 */}
                 <div className='cartBox'>
-                    <img className='cartimg'/>
+                    <span className='cartimgs'>
+                        <img className='cartimg' src={Cat}/>
+                    </span>
                     <span className='cartname'>상품이름</span>
                     <span className='cartprice'>판매가</span>
                     <input className='cartamount' type='number' placeholder='수량'></input>

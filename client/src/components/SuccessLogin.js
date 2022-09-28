@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png'
 import axios from 'axios';
+import ShoppingCart from '../pages/Shopping/images/icon-shopping-cart.svg';
 
 
 const Wrapper = styled.div `
@@ -178,6 +179,16 @@ const Wrapper = styled.div `
       background-color: #F3E0B5;
     }
   }
+
+  .shoppingCart {
+    margin-left: 20px;
+    padding-right: 30px;
+  }
+
+  .welcome {
+    padding-right: 40px;
+    font-size: 1.5rem;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -257,22 +268,29 @@ const Nav = () => {
 
               <div className='memberBox'>
 
-                <span>
+                <span className='welcome'>
                   환영합니다!
                 </span>
 
-                <span className="profile headerList" onClick={() => {
-                  setOpen(!open)
-                }}><FaUserAlt /></span>
+                <span className='shoppingCart profile'>
+                  <img src={ShoppingCart} alt="cart" onClick={() => {
+                    navigate(`/mypage/cart`)
+                  }}/>
+                </span>
+
+                <span className="profile headerlist" onClick={ () => {
+                  sessionStorage.getItem('accessToken') ? navigate(`/mypage`) : navigate(`/login`) }}>
+                  <FaUserAlt />
+                  </span>
 
               </div>
 
-              <span className={open ? "show-menu" : "hide-menu"}>
+              {/* <span className={open ? "show-menu" : "hide-menu"}>
                 <span className='info'><MyPage to="/mypage">마이페이지</MyPage></span>
                 <span className='info'>장바구니</span>
                 <span className='info'>고객센터</span>
                 <span className='info' onClick={handleButtonLogout}>로그아웃</span>
-              </span>
+              </span> */}
           </div>
       
       <div className="navbar">

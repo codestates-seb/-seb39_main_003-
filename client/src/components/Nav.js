@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png'
+import ShoppingCart from '../pages/Shopping/images/icon-shopping-cart.svg';
+import Mypage from '../pages/MyPage/Mypage';
+import Login from '../pages/MyPage/Category/SignIn';
+
 
 
 const Wrapper = styled.div `
@@ -106,9 +110,13 @@ const Wrapper = styled.div `
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
     font-size: 25px;
     cursor: pointer;
+  }
+
+  .shoppingCart {
+    margin-left: 15px;
+    margin-right: -20px;
   }
 
   .headerList {
@@ -232,20 +240,28 @@ const Nav = () => {
                   navigate(`/signup`)
                 }}>회원가입</span>
 
-                <span className="profile headerList" onClick={() => {
-                  setOpen(!open)
-                }}><FaUserAlt /></span>
+                <span className='shoppingCart profile'>
+                  <img src={ShoppingCart} alt="cart" onClick={() => {
+                    navigate(`/login`)
+                  }}/>
+                </span>
+
+                {/* <span className="profile" onClick={ () => { setOpen(!open) } }> */}
+                <span className="profile" onClick={ () => {
+                  sessionStorage.getItem('accessToken') ? navigate(`/mypage`) : navigate(`/login`) }}>
+                  <FaUserAlt />
+                  </span>
 
               </div>
 
-              <span className={open ? "show-menu" : "hide-menu"}>
+              {/* <span className={open ? "show-menu" : "hide-menu"}>
                 <span className='info'><MyPage to="/mypage">마이페이지</MyPage></span>
 
                 <span className='info'><MyPage to="/mypage/cart">장바구니</MyPage></span>
                 <span className='info'><MyPage to="/mypage/wish">찜 목록</MyPage></span>
                 <span className='info'><MyPage to="/login">로그인</MyPage></span>
 
-              </span>
+              </span> */}
           </div>
       
       <div className="navbar">

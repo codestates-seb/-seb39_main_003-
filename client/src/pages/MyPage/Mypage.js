@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const Wrapper = styled.div`
 // 마이페이지 화면
@@ -81,6 +84,19 @@ const StyledLink = styled(Link)`
 `
 
 function Mypage() {
+
+    const navigate = useNavigate();
+
+
+    const handleButtonLogout = () => {
+        axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
+          sessionStorage.removeItem('refreshToken'),
+          sessionStorage.removeItem('accessToken'),
+          navigate('/'),
+          window.location.reload()
+        )
+      };
+
   return (
     <Wrapper>
         {/* 마이페이지 화면 */}
@@ -120,9 +136,9 @@ function Mypage() {
                             </div>
                         </StyledLink>
 
-                        <StyledLink to='/login'>
+                        <StyledLink to='/'>
                             <div className='mpcBox'>
-                                <div className='mpCategory'> 로그인 </div>
+                                <div className='mpCategory' onClick={handleButtonLogout}> 로그아웃 </div>
                             </div>
                         </StyledLink>
                     </div>

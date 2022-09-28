@@ -175,12 +175,13 @@ function Shopping() {
   // const [other, setOther] = useState(false);
 
   const [test, setTest] = useState(ItemData);
+  // const [info, setInfo] = useState({})
 
   // useEffect(() => {
-  //   fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member/1`)
+  //   fetch(`http://211.58.40.128:8080/api/v1/member/M1`)
   //   .then((res) => res.json())
   //   .then(res => {
-  //     setTest(res)
+  //     setInfo(res)
   //   })
   // } , [])
 
