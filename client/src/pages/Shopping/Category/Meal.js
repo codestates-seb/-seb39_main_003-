@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import ItemDatas from '../../../dummytest/ItemData';
+import { Link } from 'react-router-dom'
+
 
 
 const Wrapper = styled.div`
@@ -82,7 +84,7 @@ const Wrapper = styled.div`
   .item_list_box {
     width: 100%;
     height: 100%;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -98,7 +100,7 @@ const Wrapper = styled.div`
     align-items: center;
     overflow-x: hidden;
     cursor: pointer;
-    margin: 15px;
+    margin: 15px 15px 15px 15px;
   }
 
   .test1 {
@@ -131,7 +133,35 @@ const Wrapper = styled.div`
   .item_list {
     margin: 0px 10px 0px 10px;
   }
+
+  .add {
+    width: 100%;
+    height: 3rem;
+    /* border: 1px solid blue; */
+    line-height: 3rem;
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 0px -5px 0px;
+  }
+
+  .addProduct {
+    border: 1px solid green;
+    padding: 10px 20px 10px 20px;
+    margin-right: 36px;
+    background-color: #EEEEEE;
+    cursor: pointer;
+
+    &:hover {
+      font-weight: 550;
+      background-color: #CFD2CF;
+    }
+  }
 `;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+`
 
 
 
@@ -187,6 +217,19 @@ function Meal() {
       </div>
 
       {/* <div className='test'>{params.itemId}</div> */}
+
+      {/* <div className='add'>
+        <span className='addProduct'>상품등록</span>
+      </div> */}
+
+      {sessionStorage.getItem('accessToken') ? 
+        <div className='add'>
+          <StyledLink to='/shopping/add'>
+            <span className='addProduct'>상품등록</span>
+          </StyledLink>
+        </div>
+      :
+        undefined}
 
       <div className="item_list_box">
             {test.map((item, idx) => {

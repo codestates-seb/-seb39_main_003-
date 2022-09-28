@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import Minus from './images/icon-minus-line.svg';
 import Plus from './images/icon-plus-line.svg';
-import Cat from './images/image007.png';
+import Cat from './images/cat.png';
 import { useParams } from "react-router-dom";
 
 
