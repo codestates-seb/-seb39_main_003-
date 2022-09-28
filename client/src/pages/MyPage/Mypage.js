@@ -89,7 +89,7 @@ function Mypage() {
 
 
     const handleButtonLogout = () => {
-        axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
+        axios.post(`http://211.58.40.128:8080/logout?test@naver.com`,
           sessionStorage.removeItem('refreshToken'),
           sessionStorage.removeItem('accessToken'),
           navigate('/'),
