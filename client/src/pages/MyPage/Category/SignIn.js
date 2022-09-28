@@ -120,20 +120,22 @@ function SignIn() {
       
       sessionStorage.setItem('accessToken', `${accessToken}`);
       sessionStorage.setItem('refreshToken', `${refreshToken}`);
-
-    })
-    .then(() => {
+      sessionStorage.setItem("memberId", response.headers.userId);
+      
       navigate('/');
       window.location.reload();
+      alert('로그인에 성공하였습니다')
+      // console.log(response)
     })
-    
-    // .catch((err) => {
-    //   console.log(err.response.headers.Authorization);
-    //   return "이메일 혹은 비밀번호를 확인하세요";
+    // .then(() => {
     // })
+    
+    .catch(err => {
+      console.log(err.response.headers.Authorization);
+      alert("이메일 혹은 비밀번호를 확인하세요") ;
+    })
     // .catch(err => console.err(err));
   }
-
   return (
     <Wrapper>
       {/* 로그인 페이지 */}
