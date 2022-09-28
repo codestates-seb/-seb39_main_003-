@@ -1,5 +1,7 @@
 package com.web.MyPetForApp.order.service;
 
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.image.service.ImageService;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.item.service.ItemService;
@@ -79,14 +81,14 @@ public class OrderService {
         Order findOrder = findVerifiedOrder(orderId);
         int step = findOrder.getOrderStatus().getStepNumber();
         if(step > 2){
-            throw new IllegalArgumentException("주문이 확정되기 전에만 취소가 가능합니다.");
+            throw new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_ORDER);
         }
         findOrder.updateOrderStatus(Order.OrderStatus.ORDER_CANCEL);
     }
 
     public Order findVerifiedOrder(Long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("주문이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
     }
 
 }

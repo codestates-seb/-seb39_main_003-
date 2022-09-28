@@ -49,7 +49,7 @@ public class ItemMapper {
                 .itemCategory(item.getItemCategory().getItemCategory()) // 카테고리 명
                 .member(item.getMember().getNickName()) // 닉네임? 실명? 선택 필요
                 .fileNameList(fileNameList)
-                .thumbNail(fileNameList != null ? fileNameList.get(0) : null)
+                .thumbNail(fileNameList.size() > 0 ? fileNameList.get(0) : null)
                 .build();
 
     }

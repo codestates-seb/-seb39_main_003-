@@ -3,6 +3,8 @@ package com.web.MyPetForApp.image.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.image.util.ImageUtils;
 import com.web.MyPetForApp.item.repository.ItemRepository;
 import com.web.MyPetForApp.member.repository.MemberRepository;
@@ -53,11 +55,11 @@ public class ImageService {
         List<String> fileNameList = new ArrayList<>();
 
         if(domain.equals("member") && !memberRepository.existsMemberByMemberId(requestId)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "해당 회원은 존재하지 않습니다.");
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
 
         if(domain.equals("item") && !itemRepository.existsItemByItemId(requestId)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "해당 상품은 존재하지 않습니다.");
+            throw new BusinessLogicException(ExceptionCode.ITEM_NOT_FOUND);
         }
 
         bucket = assignFolder(domain);
@@ -118,15 +120,15 @@ public class ImageService {
                 objCnt++;
                 // 회원 : 한번에 이미지 1개씩만 업로드할 수 있다.
                 if(domain.equals("member") && fileNameList.size() > 1) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "업로드 가능 파일 개수는 1개입니다.");
+                    throw new BusinessLogicException(ExceptionCode.FILE_UPLOAD_LIMIT_ONE);
                 // 상품 : 한번에 이미지 5개씩만 업로드할 수 있다.
                 } else if (domain.equals("item") && fileNameList.size() > 5) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "업로드 가능 파일 개수는 최대 5개입니다.");
+                    throw new BusinessLogicException(ExceptionCode.FILE_UPLOAD_LIMIT_FIVE);
                 }
                 logger.info("upload " + domain + "requestId : {}", requestId);
                 // 업로드 실패 시 처리
             } catch (IOException e) {
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
+                throw new BusinessLogicException(ExceptionCode.CANNOT_UPLOAD_FILE);
             }
         });
         return fileNameList;
@@ -144,7 +146,7 @@ public class ImageService {
         try {
             return IOUtils.toByteArray(inputStream);
         } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 다운로드에 실패했습니다.");
+            throw new BusinessLogicException(ExceptionCode.CANNOT_DOWNLOAD_FILE);
         }
     }
 
@@ -190,10 +192,10 @@ public class ImageService {
     private void validateFileExists(String resourcePath, String domain, String requestId) {
         if(domain.equals("member")) bucket = memberFolder;
         else if(domain.equals("item")) bucket = itemFolder;
-        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유효한 도메인이 아닙니다.");
+        else throw new BusinessLogicException(ExceptionCode.DOMAIN_IS_INVALID);
 
         if (!amazonS3.doesObjectExist(bucket + "/" + requestId, resourcePath)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "파일이 존재하지 않습니다.");
+            throw new BusinessLogicException(ExceptionCode.FILE_NOT_FOUND);
         }
     }
 
@@ -201,7 +203,7 @@ public class ImageService {
     private String assignFolder(String domain) {
         if(domain.equals("member")) bucket = memberFolder;
         else if(domain.equals("item")) bucket = itemFolder;
-        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "유효한 도메인이 아닙니다.");
+        else throw new BusinessLogicException(ExceptionCode.DOMAIN_IS_INVALID);
         return bucket;
     }
 }

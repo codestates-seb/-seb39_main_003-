@@ -1,5 +1,7 @@
 package com.web.MyPetForApp.member.service;
 
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.image.service.ImageService;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.member.entity.Member;
@@ -25,7 +27,7 @@ public class MemberService {
     Optional<Member> optionalMember = memberRepository.findByEmail(member.getEmail());
 
     if(optionalMember.isPresent()) {
-        throw new IllegalArgumentException("이미 존재하는 회원입니다.");
+        throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     } else {
 //        member.updateRole(Member.MemberRole.ROLE_ADMIN);
         return memberRepository.save(member);
@@ -62,37 +64,37 @@ public class MemberService {
 
     public Member findVerifiedMember(String memberId) {
         return memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     public String emailFind(String phone) {
         Member findMember = memberRepository.findByPhone(phone).orElseThrow(
-                () -> new IllegalArgumentException("회원이 존재하지 않습니다.")
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)
         );
         return findMember.getEmail();
     }
 
     public void passwordChance(String email,String password) {
         Member findMember = memberRepository.findByEmail(email).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "해당 회원은 존재하지 않습니다")
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)
         );
         if(!password.equals(findMember.getPassword())) findMember.updatePassword(password);
-        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "기존 비밀번호와 같지 않아야 합니다.");
+        else throw new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_PASSWORD);
     }
 
     public void emailValidate(String email) {
         boolean isEmail = memberRepository.existsMemberByEmail(email);
-        if(!isEmail) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "해당 회원은 존재하지 않습니다");
+        if(!isEmail) throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
     }
 
     public void phoneValidate(String phone) {
         boolean isPhone = memberRepository.existsMemberByPhone(phone);
-        if(!isPhone) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "해당 회원은 존재하지 않습니다");
+        if(!isPhone) throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
     }
 
     public Member findForPhone(String phone) {
         return memberRepository.findByPhone(phone).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "해당 회원은 존재하지 않습니다")
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)
         );
     }
 

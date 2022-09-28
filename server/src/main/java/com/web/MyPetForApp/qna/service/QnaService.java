@@ -1,5 +1,7 @@
 package com.web.MyPetForApp.qna.service;
 
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.item.service.ItemService;
 import com.web.MyPetForApp.member.entity.Member;
@@ -42,7 +44,7 @@ public class QnaService {
     public Qna updateQna(Long qnaId, Qna qna, String memberId){
         Qna findQna = findVerifiedQna(qnaId);
         if(!memberId.equals(findQna.getMember().getMemberId())) {
-            throw new IllegalArgumentException("QnA는 작성자만 수정할 수 있습니다.");
+            throw new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_QNA);
         }
         findQna.updateQna(qna);
         return findQna;
@@ -55,7 +57,7 @@ public class QnaService {
 
     public Qna findVerifiedQna(Long qnaId) {
         return qnaRepository.findById(qnaId)
-                .orElseThrow(() -> new IllegalArgumentException("QnA가 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.QNA_NOT_FOUND));
     }
 
 }

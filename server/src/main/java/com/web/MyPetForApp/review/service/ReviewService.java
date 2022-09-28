@@ -1,5 +1,7 @@
 package com.web.MyPetForApp.review.service;
 
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.item.service.ItemService;
 import com.web.MyPetForApp.member.entity.Member;
@@ -43,7 +45,7 @@ public class ReviewService {
     public Review updateReview(Long reviewId, Review review, String memberId){
         Review findReview = findVerifiedReview(reviewId);
         if(!memberId.equals(findReview.getMember().getMemberId())){
-            throw  new IllegalArgumentException("리뷰는 작성자만 수정할 수 있습니다.");
+            throw  new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_REVIEW);
         }
         findReview.updateReview(review);
         return findReview;
@@ -56,6 +58,6 @@ public class ReviewService {
 
     public Review findVerifiedReview(Long reviewId) {
         return reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("리뷰가 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.REVIEW_NOT_FOUND));
     }
 }

@@ -7,8 +7,11 @@ import com.web.MyPetForApp.board.entity.Tag;
 import com.web.MyPetForApp.board.repository.BoardRepository;
 import com.web.MyPetForApp.board.repository.BoardTagRepository;
 import com.web.MyPetForApp.board.repository.TagRepository;
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.member.repository.MemberRepository;
+import com.web.MyPetForApp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -24,15 +27,15 @@ import java.util.stream.Collectors;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final TagRepository tagRepository;
-    private final MemberRepository memberRepository;
     private final BoardTagRepository boardTagRepository;
+    private final MemberService memberService;
 
     @Transactional
     public Board create(Board board, List<Long> tagIds, String memberId) {
 
         Optional.ofNullable(idsToBoardTag(board, tagIds))
                 .ifPresent(boardTags -> board.setBoardTags(boardTags));
-        Optional.ofNullable(checkVerifiedMember(memberId))
+        Optional.ofNullable(memberService.findVerifiedMember(memberId))
                 .ifPresent(member -> board.setMember(member));
 
         return boardRepository.save(board);
@@ -40,7 +43,7 @@ public class BoardService {
 
     @Transactional
     public Board update(Long boardId, Board board, List<Long> tagIds) {
-        Board findBoard = checkVerifiedBoard(boardId);
+        Board findBoard = findVerifiedBoard(boardId);
 
         Optional.ofNullable(board.getTitle())
                 .ifPresent(title -> findBoard.setTitle(title));
@@ -56,7 +59,7 @@ public class BoardService {
     }
 
     public void delete(Long boardId) {
-        Board board = checkVerifiedBoard(boardId);
+        Board board = findVerifiedBoard(boardId);
         boardTagRepository.deleteAllByBoard(boardId);
 
         boardRepository.delete(board);
@@ -72,7 +75,7 @@ public class BoardService {
     }
 
     public Board selectBoard(Long boardId) {
-        Board board = checkVerifiedBoard(boardId);
+        Board board = findVerifiedBoard(boardId);
 
         increaseViewCnt(board);
 
@@ -107,15 +110,9 @@ public class BoardService {
         return null;
     }
 
-    private Board checkVerifiedBoard(Long boardId) {
+    public Board findVerifiedBoard(Long boardId) {
         return boardRepository.findById(boardId).orElseThrow(
-                () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")
-        );
-    }
-
-    private Member checkVerifiedMember(String memberId) {
-        return memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 회원 입니다.")
+                () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND)
         );
     }
 

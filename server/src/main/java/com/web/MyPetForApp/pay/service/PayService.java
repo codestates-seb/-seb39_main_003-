@@ -1,5 +1,7 @@
 package com.web.MyPetForApp.pay.service;
 
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.member.repository.MemberRepository;
 import com.web.MyPetForApp.member.service.MemberService;
@@ -23,7 +25,7 @@ public class PayService {
 
     public Pay create(Pay pay,String memberId, Long orderId) {
         Order findOrder = orderRepository.findById(orderId).orElseThrow(
-                () -> new IllegalArgumentException("주문했던 상품이 존재하지 않습니다.")
+                () -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND)
         );
         Member findMember = memberService.findVerifiedMember(memberId);
         pay.addOrder(findOrder);
@@ -46,7 +48,7 @@ public class PayService {
 
     private Pay findVerifiedPay(Long payId) {
         return payRepository.findById(payId).orElseThrow(
-                () -> new IllegalArgumentException("해당 결제 정보가 존재하지 않습니다.")
+                () -> new BusinessLogicException(ExceptionCode.PAY_NOT_FOUND)
         );
     }
 }
