@@ -21,6 +21,7 @@ import Mypage from "./pages/MyPage/Mypage";
 import SignUp from "./pages/MyPage/Category/SignUp";
 import SignIn from "./pages/MyPage/Category/SignIn";
 import Items from "./pages/Shopping/Items";
+import AddProduct from "./pages/Shopping/AddProduct";
 import Myinfo from "./pages/MyPage/Category/Myinfo";
 import Cart from "./pages/MyPage/Category/Cart";
 import Wish from "./pages/MyPage/Category/Wish";
@@ -51,7 +52,7 @@ function App() {
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/FAQ" element={<FAQ />} />
                 
-                <Route path="/mypage" element={<Mypage />} />
+                <Route path="/mypage" element={sessionStorage.getItem('accessToken') ? <Mypage /> : <SignIn />} />
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp/>} />
                 <Route path="/mypage/myinfo" element={<Myinfo/>} />
@@ -74,6 +75,7 @@ function App() {
                 <Route path="/shopping/allVita" element={<AllVita />} />
                 <Route path="/shopping/pad" element={<Pad />} />
                 <Route path="/shopping/toy" element={<Toy />} />
+                <Route path="/shopping/add" element={<AddProduct />} />
                 <Route path="/shopping/item/:itemId" element={<Items 
                 convertPrice={convertPrice}
                 cart={cart}
