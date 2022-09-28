@@ -1,12 +1,12 @@
 package com.web.MyPetForApp.comment.service;
 
-import com.web.MyPetForApp.board.entity.Board;
-import com.web.MyPetForApp.board.repository.BoardRepository;
+import com.web.MyPetForApp.board.service.BoardService;
 import com.web.MyPetForApp.comment.dto.CommentDto;
 import com.web.MyPetForApp.comment.entity.Comment;
 import com.web.MyPetForApp.comment.repository.CommentRepository;
-import com.web.MyPetForApp.member.entity.Member;
-import com.web.MyPetForApp.member.repository.MemberRepository;
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
+import com.web.MyPetForApp.member.service.MemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,18 +21,18 @@ import java.util.Optional;
 @Transactional
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final MemberRepository memberRepository;
-    private final BoardRepository boardRepository;
+    private final MemberService memberService;
+    private final BoardService boardService;
 
     public Comment create(Comment comment){
-        comment.setMember(checkVerifiedMember(comment.getMember().getMemberId()));
-        comment.setBoard(checkVerifiedBoard(comment.getBoard().getBoardId()));
+        comment.setMember(memberService.findVerifiedMember(comment.getMember().getMemberId()));
+        comment.setBoard(boardService.findVerifiedBoard(comment.getBoard().getBoardId()));
 
         return commentRepository.save(comment);
     }
 
     public Comment update(Long commentId, CommentDto.Patch patch){
-        Comment comment = checkVerifiedComment(commentId);
+        Comment comment = findVerifiedComment(commentId);
         Optional.ofNullable(patch.getCommentContent())
                 .ifPresent(content -> comment.setCommentContent(content));
 
@@ -40,7 +40,7 @@ public class CommentService {
     }
 
     public void deleteComment(Long commentId){
-        Comment comment = checkVerifiedComment(commentId);
+        Comment comment = findVerifiedComment(commentId);
 
         commentRepository.delete(comment);
     }
@@ -48,33 +48,23 @@ public class CommentService {
     public Page<Comment> getComments(String where, Long boardId,String memberId, int page, int size){
         if(where.equals("members")){
             return commentRepository.findAllByBoard(
-                    checkVerifiedBoard(boardId),
+                    boardService.findVerifiedBoard(boardId),
                     PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
         }else if(where.equals("boards")){
             return commentRepository.findAllByMember(
-                    checkVerifiedMember(memberId),
+                    memberService.findVerifiedMember(memberId),
                     PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
         }
-        throw new IllegalArgumentException("식별자 오류");
+        throw new BusinessLogicException(ExceptionCode.DOMAIN_IS_INVALID);
     }
 
 
 //----------------------------------------------------------------------------------------------------------
 
-    private Board checkVerifiedBoard(Long boardId) {
-        return boardRepository.findById(boardId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 게시글 입니다.")
-        );
-    }
-    private Member checkVerifiedMember(String memberId){
-        return memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 회원 입니다.")
-        );
-    }
 
-    private Comment checkVerifiedComment(Long commentId){
+    private Comment findVerifiedComment(Long commentId){
         return commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 댓글 입니다.")
+                () -> new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND)
         );
     }
 }

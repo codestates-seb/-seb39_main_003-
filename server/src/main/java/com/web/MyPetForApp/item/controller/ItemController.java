@@ -70,7 +70,7 @@ public class ItemController {
     // 정렬 기준의 기본 값은 우선 판매량(soldCnt) 순으로 해놓았고 추후 변경 예정
     // 지금은 입력받는 정렬 기준에 따라 내림차순으로 정렬이 되도록 변경 (price, soldCnt, wishCnt 등)
     @GetMapping
-    public ResponseEntity getItems(@RequestParam Long itemCategoryId,
+    public ResponseEntity getItems(@RequestParam String itemCategoryId,
                                    @RequestParam(required = false, defaultValue = "1") int page,
                                    @RequestParam(required = false, defaultValue = "8") int size,
                                    @RequestParam(required = false, defaultValue = "soldCnt") String sortBy){

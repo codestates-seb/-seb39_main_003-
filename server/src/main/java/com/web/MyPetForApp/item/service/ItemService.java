@@ -1,5 +1,7 @@
 package com.web.MyPetForApp.item.service;
 
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.image.service.ImageService;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.item.entity.ItemCategory;
@@ -32,7 +34,7 @@ public class ItemService {
     private final MemberService memberService;
     private final ImageService imageService;
 
-    public Item createItem(Item item, String memberId, Long itemCategoryId){
+    public Item createItem(Item item, String memberId, String itemCategoryId){
         Member member = memberService.findVerifiedMember(memberId);
 //        for (String image : itemImages) {
 //            ItemImage itemImage = ItemImage.builder()
@@ -51,9 +53,10 @@ public class ItemService {
         return findVerifiedItem(itemId);
     }
 
-    public Page<Item> findItems(Long itemCategoryId, int page, int size, String sortBy){
-        ItemCategory itemCategory = findVerifiedItemCategory(itemCategoryId);
-        return itemRepository.findAllByItemCategory(itemCategory, PageRequest.of(page, size,
+    public Page<Item> findItems(String itemCategoryId, int page, int size, String sortBy){
+        findVerifiedItemCategory(itemCategoryId);
+
+        return itemRepository.findAllByItemCategoryItemCategoryIdStartingWith(itemCategoryId, PageRequest.of(page, size,
                 Sort.by(sortBy).descending()));
     }
 
@@ -108,17 +111,17 @@ public class ItemService {
     }
     public Item findVerifiedItem(String itemId) {
         return itemRepository.findById(itemId)
-                .orElseThrow(() -> new IllegalArgumentException("상품이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ITEM_NOT_FOUND));
     }
 
-    public ItemCategory findVerifiedItemCategory(Long itemCategoryId) {
-        return itemCategoryRepository.findById(itemCategoryId)
-                .orElseThrow(() -> new IllegalArgumentException("상품 카테고리가 존재하지 않습니다."));
+    public ItemCategory findVerifiedItemCategory(String itemCategoryId) {
+        return itemCategoryRepository.findByItemCategoryId(itemCategoryId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ITEM_CATEGORY_NOT_FOUND));
     }
 
     public void checkStockCnt(int itemCnt, Item item){
         if(item.getStockCnt()<itemCnt){
-            throw new IllegalArgumentException(item.getItemName()+"의 재고량이 부족합니다.");
+            throw new BusinessLogicException(ExceptionCode.OUT_OF_STOCK);
         }
     }
 

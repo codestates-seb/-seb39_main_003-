@@ -2,6 +2,8 @@ package com.web.MyPetForApp.cartitem.service;
 
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.cartitem.repository.CartItemRepository;
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.item.service.ItemService;
 import com.web.MyPetForApp.member.entity.Member;
@@ -46,7 +48,7 @@ public class CartItemService {
         CartItem findCartItem = findVerifiedCartItem(cartItemId);
         Item item = itemService.findVerifiedItem(itemId);
         if(!memberId.equals(findCartItem.getMember().getMemberId())){
-            throw new IllegalArgumentException("해당 장바구니에 대한 회원만 수정할 수 있습니다.");
+            throw new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_CART_ITEM);
         }
         itemService.checkStockCnt(itemCnt, item);
         findCartItem.updateCnt(itemCnt);
@@ -60,13 +62,13 @@ public class CartItemService {
 
     public CartItem findVerifiedCartItem(Long cartItemId) {
         return cartItemRepository.findById(cartItemId)
-                .orElseThrow(() -> new IllegalArgumentException("장바구니 항목이 존재하지 않습니다."));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CART_ITEM_NOT_FOUND));
     }
 
     public void verifyExistsCartItem(Member member, Item item) {
         Optional<CartItem> optionalCartItem = cartItemRepository.findByMemberAndItem(member, item);
         if(optionalCartItem.isPresent()) {
-            throw new IllegalArgumentException("이미 담긴 상품입니다.");
+            throw new BusinessLogicException(ExceptionCode.CART_ITEM_EXISTS);
         }
     }
 }

@@ -16,11 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 public class ItemCategory {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long itemCategoryId;
+    private String itemCategoryId;
 
     @Column(nullable = false, unique = true)
     private String itemCategory;
+
+    @Column
+    private String pid;
 
     @Builder.Default
     @OneToMany(mappedBy = "itemCategory")
