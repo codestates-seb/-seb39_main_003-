@@ -137,8 +137,8 @@ function Mypage() {
                         </StyledLink>
 
                         <StyledLink to='/'>
-                            <div className='mpcBox'>
-                                <div className='mpCategory' onClick={handleButtonLogout}> 로그아웃 </div>
+                            <div className='mpcBox'  onClick={handleButtonLogout}>
+                                <div className='mpCategory'> 로그아웃 </div>
                             </div>
                         </StyledLink>
                     </div>
