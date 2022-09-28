@@ -175,11 +175,12 @@ function Shopping() {
   // const [other, setOther] = useState(false);
 
   const [test, setTest] = useState(ItemData);
-  // const [info, setInfo] = useState({})
+
+  // const [info, setInfo] = useState(undefined);
 
   // useEffect(() => {
-  //   fetch(`http://211.58.40.128:8080/api/v1/member/M1`)
-  //   .then((res) => res.json())
+  //   fetch(`http://211.58.40.128:8080/api/v1/member`)
+  //   .then(res => res.json())
   //   .then(res => {
   //     setInfo(res)
   //   })
