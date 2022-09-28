@@ -67,6 +67,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                             SecurityContextHolder.getContext().setAuthentication(authentication);
                             logger.info("리프레시 토큰 & 액세스 토큰 최신화 완료");
                         }
+                        filterChain.doFilter(request, response);
                     }
                 } else
                     // refresh Token이 요청헤더에 없다면
@@ -75,8 +76,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             }
         } else {
             logger.info("유효한 토큰을 찾지 못하였습니다, uri : {}", request.getRequestURI());
+            filterChain.doFilter(request, response);
         }
-        filterChain.doFilter(request, response);
+
     }
 
     private String resolveToken(HttpServletRequest request, String header) {
