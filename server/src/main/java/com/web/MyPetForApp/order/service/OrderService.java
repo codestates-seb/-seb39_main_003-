@@ -3,10 +3,12 @@ package com.web.MyPetForApp.order.service;
 import com.web.MyPetForApp.exception.BusinessLogicException;
 import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.image.service.ImageService;
+import com.web.MyPetForApp.item.dto.ItemDto;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.item.service.ItemService;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.member.service.MemberService;
+import com.web.MyPetForApp.order.dto.OrderDto;
 import com.web.MyPetForApp.order.dto.OrderItemDto;
 import com.web.MyPetForApp.order.entity.Order;
 import com.web.MyPetForApp.order.entity.OrderItem;
@@ -30,16 +32,16 @@ public class OrderService {
     private final ItemService itemService;
     private final MemberService memberService;
 
-    private final ImageService imageService;
-
-    public Order createOrder(List<OrderItemDto.Post> post, String memberId){
+    public Order createOrder(OrderDto.Post requestBody, String memberId){
         Member member = memberService.findVerifiedMember(memberId);
+        List<OrderItemDto.Post> orderItemList = requestBody.getOrderItems();
         Order order = new Order();  // Order 생성
         order.changeMember(member); // Order-Member 연관관계 설정
-        order.resetInfo(member);    // Order의 주문 정보(주소, 전화번호 등)들을 Member의 정보로 초기화
+
+        orderInformation(requestBody, member, order); // 주문 정보 설정
+
         int orderPrice = 0;
-        for (OrderItemDto.Post orderItemPostDto : post) {   // orderItemPostDto List들의 요소들을 순회하며 반복
-            List<String> findImages = imageService.findFilesById("domain",orderItemPostDto.getItemId());
+        for (OrderItemDto.Post orderItemPostDto : orderItemList) {   // orderItemPostDto List들의 요소들을 순회하며 반복
             Item item = itemService.findVerifiedItem(orderItemPostDto.getItemId()); // 상품 검증
             itemService.checkStockCnt(orderItemPostDto.getOrderItemCnt(), item);
             OrderItem orderItem = OrderItem // OrderItem 생성
@@ -48,8 +50,7 @@ public class OrderService {
                     .snapshotItemId(item.getItemId())
                     .snapshotItemName(item.getItemName())
                     .snapshotPrice(item.getPrice())
-                    .snapshotImage(findImages.get(findImages.size() - 1).substring  // 등록되있는 상품 메인 이미지 저장
-                            (findImages.get(findImages.size() - 1).lastIndexOf("/") + 1))
+                    .snapshotImage(item.getThumbnail())
                     .build();
             orderItem.changeOrder(order);  // OrderItem-Order 연관관계 설정
             orderItemRepository.save(orderItem);
@@ -71,9 +72,9 @@ public class OrderService {
                 Sort.by("orderId").descending()));
     }
 
-    public Order updateOrder(Long orderId, Order.OrderStatus orderStatus){
+    public Order updateOrder(Long orderId, String orderStatus){
         Order order = findVerifiedOrder(orderId);
-        order.updateOrderStatus(orderStatus);
+        order.updateOrderStatus(Order.OrderStatus.of(orderStatus));
         return order;
     }
 
@@ -91,4 +92,23 @@ public class OrderService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
     }
 
+    public void orderInformation(OrderDto.Post requestBody, Member member, Order order) {
+        String newName = requestBody.getNewName();
+        String newAddress = requestBody.getNewAddress();
+        String newPhone = requestBody.getNewPhone();
+        String requirement = requestBody.getRequirement();
+        if(requirement != null){
+            order.changeRequirement(requirement);
+        } else {
+            order.resetRequirement();
+        }
+
+        if(newName != null && newAddress != null && newPhone != null){
+            order.changeNewName(newName);
+            order.changeNewAddress(newAddress);
+            order.changeNewPhone(newPhone);
+        } else {
+            order.resetInfo(member);    // Order의 주문 정보(주소, 전화번호 등)들을 Member의 정보로 초기화
+        }
+    }
 }

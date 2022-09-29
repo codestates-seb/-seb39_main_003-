@@ -9,7 +9,7 @@ public class PayMapper {
     public Pay payPostToPay(PayDto.Post post) {
         return Pay.builder()
                 .amount(post.getAmount())
-                .payBy(Pay.PayBy.valueOf(post.getPayBy()))
+                .payBy(Pay.PayBy.of(post.getPayBy()))
                 .build();
     }
 

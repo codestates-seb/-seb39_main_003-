@@ -48,23 +48,16 @@ public class ItemController {
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity postItem(@ParameterObject @ModelAttribute ItemDto.Post requestBody,
                                    @RequestPart(required = false) List<MultipartFile> mainImg,
-                                   @RequestPart(required = false) List<MultipartFile> detailImg){
+                                   @RequestPart(required = false) List<MultipartFile> detailImg) {
         String itemId = stringIdGenerator.createItemId();
         Item item = itemService.createItem(mapper.itemPostDtoToItem(requestBody, itemId),
                 requestBody.getMemberId(),
-                requestBody.getItemCategoryId());
+                requestBody.getItemCategoryId(),
+                mainImg,
+                detailImg);
 
-        List<String> fileNameList = new ArrayList<>();
-
-        if(mainImg != null) {
-           fileNameList.add(imageService.uploadFile(mainImg, "item", itemId, "main").get(0));
-        }
-
-        if(detailImg != null) {
-            fileNameList.addAll(imageService.uploadFile(detailImg, "item", itemId, "detail"));
-        }
-
-        ItemDto.Response response = mapper.itemToItemResponseDto(item,fileNameList);
+        List<String> fileNameList = imageService.findFilesById("item", item.getItemId());
+        ItemDto.Response response = mapper.itemToItemResponseDto(item, fileNameList);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 

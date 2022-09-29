@@ -69,6 +69,6 @@ public class ItemDto {
         @Schema(description = "상품 이미지 파일 이름 리스트")
         private List<String> fileNameList;
         @Schema(description = "상품 썸네일 이미지 파일 이름")
-        private String thumbNail;
+        private String thumbnail;
     }
 }

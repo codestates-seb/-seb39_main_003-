@@ -46,6 +46,9 @@ public class Item extends BaseTimeEntity {
     @Column(nullable = false) // wishes.size()와 같음
     private int wishCnt;
 
+    @Column
+    private String thumbnail;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
@@ -70,29 +73,30 @@ public class Item extends BaseTimeEntity {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
+
 //    @Builder.Default
 //    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
 //    private List<ItemImage> itemImages = new ArrayList<>();
 
 //    @Transient
 //    private List<String> itemImagess = new ArrayList<>();
-
     // Item-Wish 양방향 연관관계 편의 메서드
+
     public void addWish(Wish wish){
         this.wishes.add(wish);
         if(wish.getItem() != this){
             wish.changeItem(this);
         }
     }
-
     // Item-CartItem 양방향 연관관계 편의 메서드
+
     public void addCartItem(CartItem cartItem){
         this.cartItems.add(cartItem);
         if(cartItem.getItem() != this){
             cartItem.changeItem(this);
         }
     }
-//    public void addItemImage(ItemImage itemImage){
+    //    public void addItemImage(ItemImage itemImage){
 //        this.itemImages.add(itemImage);
 //        if(itemImage.getItem() != this){
 //            itemImage.changeItem(this);
@@ -108,9 +112,12 @@ public class Item extends BaseTimeEntity {
             itemCategory.addItem(this);
         }
     }
-
     public void changeMember(Member member){
         this.member = member;
+    }
+
+    public void changeThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public void updateItem(Item item){

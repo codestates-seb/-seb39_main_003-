@@ -3,11 +3,16 @@ package com.web.MyPetForApp.order.entity;
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.pay.entity.Pay;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity(name = "ORDERS")
 @Getter
@@ -51,6 +56,7 @@ public class Order extends BaseTimeEntity {
             member.addOrder(this);
         }
     }
+
     // Order - OrderItem 양방향 연관관계 편의 메서드
     public void addOrderItem(OrderItem orderItem){
         this.orderItems.add(orderItem);
@@ -58,12 +64,27 @@ public class Order extends BaseTimeEntity {
             orderItem.changeOrder(this);
         }
     }
-
     public void changePay(Pay pay) {
         this.pay = pay;
         if (pay.getOrder() != this) {
             pay.addOrder(this);
         }
+    }
+
+    public void changeNewAddress(String newAddress) {
+        this.newAddress = newAddress;
+    }
+
+    public void changeNewPhone(String newPhone) {
+        this.newPhone = newPhone;
+    }
+
+    public void changeNewName(String newName) {
+        this.newName = newName;
+    }
+
+    public void changeRequirement(String requirement) {
+        this.requirement = requirement;
     }
 
     public void changeOrderItems(List<OrderItem> orderItems){
@@ -75,6 +96,11 @@ public class Order extends BaseTimeEntity {
         PAY_WAIT(3, "결제 대기"),
         ORDER_COMPLETE(4, "주문 완료"),
         ORDER_CANCEL(4, "주문 취소");
+
+        private static final Map<String, String> map = Collections.unmodifiableMap(
+                Stream.of(values()).collect(Collectors.toMap(OrderStatus::getStepDescription, OrderStatus::name))
+        );
+
         @Getter
         private int stepNumber;
 
@@ -85,14 +111,19 @@ public class Order extends BaseTimeEntity {
             this.stepNumber = stepNumber;
             this.stepDescription = stepDescription;
         }
+        public static OrderStatus of(String stepDescription){
+            return OrderStatus.valueOf(map.get(stepDescription));
+        }
     }
     public void updateOrderStatus(OrderStatus orderStatus){
         this.orderStatus = orderStatus;
+    }
+    public void resetRequirement(){
+        this.requirement = "배송 전 연락 부탁드립니다.";
     }
     public void resetInfo(Member member){
         this.newAddress = member.getAddress();
         this.newName = member.getMemberName();
         this.newPhone = member.getPhone();
-        this.requirement = "배송 전 연락 부탁드립니다.";
     }
 }

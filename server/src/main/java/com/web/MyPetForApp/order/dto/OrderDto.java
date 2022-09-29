@@ -16,13 +16,18 @@ public class OrderDto {
         private String memberId;
         @Schema(description = "한 주문에 포함될 상품 리스트 Dto")
         private List<OrderItemDto.Post> orderItems;
+        private String newAddress;
+        private String newPhone;
+        private String newName;
+        private String requirement;
     }
     @Schema(name = "OrderPatch", description = "주문 Patch 요청 모델")
     @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Patch{
-        @Schema(description = "주문 상태")
-        private Order.OrderStatus orderStatus;
+        @Schema(description = "주문 상태", example = "주문 완료")
+        private String orderStatus;
     }
 
     @Schema(name = "OrderResponse", description = "주문 데이터 반환 모델")
@@ -46,7 +51,7 @@ public class OrderDto {
         @Schema(description = "총 주문금액", example = "80000")
         private int orderPrice;
         @Schema(description = "주문 상태")
-        private Order.OrderStatus orderStatus;
+        private String orderStatus;
         @Schema(description = "생성일자", example = "2022-09-28 22:26:56")
         private LocalDateTime createdAt;
         @Schema(description = "마지막 수정 일자", example = "2022-09-28 22:26:56")
