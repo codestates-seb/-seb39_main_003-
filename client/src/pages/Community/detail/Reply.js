@@ -130,9 +130,9 @@ export default function Reply() {
     setInput(e.target.value)
   };
 
-  const clear = () => {
-    setInput("");
-  }
+  // const clear = () => {
+  //   setInput("");
+  // }
 
   const postReply = () => {
     // console.log(input) POST 요청 보내져야하는 곳
