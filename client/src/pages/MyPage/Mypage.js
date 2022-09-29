@@ -65,11 +65,57 @@ const Wrapper = styled.div`
     text-align: center;
     font-weight: 600;
 }
-// 마이페이지 본문
-.mpContent{
-    padding: 30px;
-    overflow-y: scroll;
+// 내 정보 본문
+.myinfoterritory{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+.mitextbox{
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.mitext{
+  margin: 20px;
+  padding: 20px;
+
+  font-size: x-large;
+  font-weight: bolder;
+}
+.micontentbox{
+  width: 90%;
+  padding: 20px;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #EEF1FF;
+}
+// 사진 수정
+.micontent{
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.misort{
+  font-weight: bold;
+}
+.minow{}
+.miedit{}
 `
 
 const StyledLink = styled(Link)`
@@ -89,7 +135,7 @@ function Mypage() {
 
 
     const handleButtonLogout = () => {
-        axios.post(`http://211.58.40.128:8080/logout?test@naver.com`,
+        axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
           sessionStorage.removeItem('refreshToken'),
           sessionStorage.removeItem('accessToken'),
           navigate('/'),
@@ -112,11 +158,11 @@ function Mypage() {
                             </div>
                         </StyledLink>
 
-                        <StyledLink to='/mypage/myinfo'>
+                        {/* <StyledLink to='/mypage/myinfo'>
                             <div className='mpcBox'>
                                 <div className='mpCategory'>내 정보 수정</div>
                             </div>
-                        </StyledLink>
+                        </StyledLink> */}
 
                         <StyledLink to='/mypage/cart'>
                             <div className='mpcBox'>
@@ -143,8 +189,57 @@ function Mypage() {
                         </StyledLink>
                     </div>
                 </div>
-                {/* 마이페이지 본문 */}
-                <div className='mpContent'>My Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page contentMy Page content</div>
+                {/* 내 정보 본문 */}
+                <div className='myinfoterritory'>
+                  <div className='mitextbox'>
+                    <div className='mitext'>기본 회원 정보</div>
+                  </div>
+
+                  <div className='micontentbox'>
+                    
+                    {/* 사진 수정 */}
+                    <div className='micontent'>
+                      <span className='misort'>사진</span>
+                      <span className='minow'>dd</span>
+                      <button className='miedit'>수정</button>
+                    </div>
+                    
+                    {/* 이메일 수정 */}
+                    <div className='micontent'>
+                      <span className='misort'>이메일</span>
+                      <span className='minow'>dd</span>
+                      <button className='miedit'>수정</button>
+                    </div>
+
+                    {/* 비밀번호 수정 */}
+                    <div className='micontent'>
+                      <span className='misort'>비밀번호</span>
+                      <span className='minow'>dd</span>
+                      <button className='miedit'>수정</button>
+                    </div>
+
+                    {/* 닉네임 수정 */}
+                    <div className='micontent'>
+                      <span className='misort'>닉네임</span>
+                      <span className='minow'>dd</span>
+                      <button className='miedit'>수정</button>
+                    </div>
+
+                    {/* 실명 수정 */}
+                    <div className='micontent'>
+                      <span className='misort'>실명</span>
+                      <span className='minow'>dd</span>
+                      <button className='miedit'>수정</button>
+                    </div>
+
+                    {/* 전화번호 수정 */}
+                    <div className='micontent'>
+                      <span className='misort'>전화번호</span>
+                      <span className='minow'>dd</span>
+                      <button className='miedit'>수정</button>
+                    </div>
+                  </div>
+                </div>
             </div>
         </div>
     </Wrapper>

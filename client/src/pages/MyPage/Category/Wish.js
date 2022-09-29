@@ -13,6 +13,7 @@ const Wrapper = styled.div`
 }
 // 찜 목록 텍스트
 .wishBackground{
+  width: 100%;
   padding: 20px;
   margin: 20px;
 
@@ -22,6 +23,9 @@ const Wrapper = styled.div`
   align-items: center;
 }
 .carttext{
+  margin: 20px;
+  padding: 20px;  
+  
   font-size: x-large;
   font-weight: bolder;
   text-align: right;

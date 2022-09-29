@@ -14,6 +14,7 @@ box-sizing: border-box;
 }
 // 주문 내역 텍스트
 .orderBackground{
+  width: 100%;
   padding: 20px;
   margin: 20px;
 
@@ -23,6 +24,9 @@ box-sizing: border-box;
   align-items: center;
 }
 .ordertext{  
+  margin: 20px;
+  padding: 20px;  
+
   font-size: x-large;
   font-weight: bolder;
   text-align: right;

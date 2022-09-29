@@ -15,6 +15,7 @@ const Wrapper = styled.div`
 }
 // 장바구니 텍스트
 .cartBackground{
+    width: 100%;
     padding: 20px;
     margin: 20px;
 
@@ -24,6 +25,9 @@ const Wrapper = styled.div`
     align-items: center;
 }
 .carttext{
+    margin: 20px;
+    padding: 20px;
+    
     font-size: x-large;
     font-weight: bolder;
     text-align: right;
