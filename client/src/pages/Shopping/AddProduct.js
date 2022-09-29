@@ -112,16 +112,21 @@ function AddProduct() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
+    const formData = new FormData();
+    for(const key in data) {
+      formData.append(key, data[key]);
+    }
+    formData.delete("mainImg");
+    formData.append("mainImg", data.mainImg[0]);
+
     fetch(`http://211.58.40.128:8080/api/v1/item`, {
       method: "POST",
-      headers: {
-        "content-Type": "multipart/form-data",
-      },
-      body: JSON.stringify(data)
+      body: formData
     })
 
       .then(() => {
         navigate('/shopping/meal')
+        window.location.reload();
       })
       .catch(() => {
         console.log("오류남 다시하셈")
@@ -186,7 +191,7 @@ function AddProduct() {
 
               <div className='siback'>
                 <label>상품 이미지</label>
-                <input className="sutext" type="file" {...register("image")} />
+                <input className="sutext" type="file" {...register("mainImg")} />
               </div>
 
           </div>

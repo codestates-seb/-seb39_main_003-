@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -157,6 +158,12 @@ const Wrapper = styled.div`
       background-color: #CFD2CF;
     }
   }
+
+  .img {
+    width: 200px;
+    height: 150px;
+    background-size: cover;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -169,21 +176,23 @@ const StyledLink = styled(Link)`
 
 function Meal() {
 
+  const imagePoint = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/000004/main_1.jpeg`
+
   const [test, setTest] = useState(ItemDatas)
 
   const [itemList, setItemList] = useState(undefined);
 
     useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/item/I1CTG1`)
+    fetch(`http://211.58.40.128:8080/api/v1/item?itemCategoryId=1`)
     .then((res) => res.json())
     .then(res => {
-      setItemList(res)
+      setItemList(res.data)
       console.log(res)
     })
-    .catch(err => console.log())
+    .catch(() => console.log())
   } , [])
 
-  console.log(itemList)
+  // console.log(itemList);
 
   const navigate = useNavigate();
 
@@ -231,13 +240,13 @@ function Meal() {
         <span className='addProduct'>상품등록</span>
       </div> */}
 
-      {/* {sessionStorage.getItem('accessToken') ?  */}
-        <div className='add'>
+      {/* {sessionStorage.getItem('accessToken') ? 
+        <div className='add'> */}
           <StyledLink to='/shopping/add'>
             <span className='addProduct'>상품등록</span>
           </StyledLink>
-        </div>
-      {/* :
+        {/* </div>
+       :
         undefined} */}
 
         
@@ -251,7 +260,9 @@ function Meal() {
                 }}>
 
                     <div className='image'>
-                        <div>{el.image}</div>
+                        <div>
+                          <img className='img' src={imagePoint} />
+                        </div>
                     </div>
 
                     <div className='test1'>

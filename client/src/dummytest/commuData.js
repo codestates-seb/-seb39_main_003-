@@ -12,8 +12,8 @@ const commuData = [
 {
   username: '누군가',
   title: '울집 강지도 그럼',
-  content: '나도 자랑임 ㅋㅋㅋ',
-},
+  content: '나도 자랑임 ㅋㅋㅋ'
+}
 ]
 
 

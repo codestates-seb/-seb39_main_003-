@@ -98,16 +98,27 @@ box-sizing: border-box;
 // `
 
 function SignUp() {
-
+  
+  
   const { register, handleSubmit, formState:{errors} } = useForm();
+  
+  // formData.append("imsi", target.imsi.value);
+  // for (let i = 0; i < target.fileToUpload.files.length; i++) {
+  //     formData.append("uploadFiles", target.fileToUpload.files[i]);
+  //   }
+    const onSubmit = (data) => {
+      console.log(data)
+    const formData = new FormData();
+    for(const key in data) {
+      formData.append(key, data[key]);
+    }
+    formData.delete("multipartFiles");
+    formData.append("multipartFiles", data.multipartFiles[0]);
 
-  const onSubmit = (data) => {
     fetch(`http://211.58.40.128:8080/api/v1/member`, {
     method: "POST",
-    headers: {
-      "content-Type": 'multipart/form-data'
-    },
-    body: JSON.stringify(data)})
+    body: formData
+  })
 
     .then(() => {
       navigate('/')
@@ -118,6 +129,7 @@ function SignUp() {
   };
 
   const navigate = useNavigate();
+
 
   return (
     <Wrapper>
@@ -232,7 +244,7 @@ function SignUp() {
 
                 <div className='suback'>
                   <label>프로필 사진</label>
-                  <input className="sutext" type='file' {...register("image")}></input>
+                  <input className="sutext" type='file' {...register("multipartFiles")}></input>
                 </div>
             </div>
 

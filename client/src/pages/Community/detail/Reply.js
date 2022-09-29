@@ -1,3 +1,4 @@
+/* eslint-disable no-sequences */
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import CommuData from '../../../dummytest/commuData';
@@ -116,9 +117,8 @@ const StyledLink = styled(Link)`
 
 export default function Reply() {
 
-  const [reply, setReply] = useState([]);
   const [input, setInput] = useState("");
-
+  const [reply, setReply] = useState([]);
   useEffect(() => {
     // fetch(`url`) GET 요청 받아와야하는 곳
     // .then((res) => {
@@ -130,14 +130,20 @@ export default function Reply() {
     setInput(e.target.value)
   };
 
+  const clear = () => {
+    setInput("");
+  }
+
   const postReply = () => {
     // console.log(input) POST 요청 보내져야하는 곳
     setReply((prev) => {
       const data = [...prev]
-      data.push({
+      data.push(
+        {
         username: "유저네임",
         content: input
-      })
+        }
+      )
       // console.log(data)
       return data
     })
