@@ -33,7 +33,7 @@ public class ItemMapper {
                 .build();
     }
 
-    public ItemDto.Response itemToItemResponseDto(Item item, List<String> fileNameList){
+    public ItemDto.Response itemToItemResponseDto(Item item){
         return ItemDto.Response.builder()
                 .itemId(item.getItemId())
 //                .itemImages(item.getItemImages()
@@ -48,7 +48,6 @@ public class ItemMapper {
                 .wishCnt(item.getWishes().size())   // 찜 수
                 .itemCategory(item.getItemCategory().getItemCategory()) // 카테고리 명
                 .member(item.getMember().getNickName()) // 닉네임? 실명? 선택 필요
-                .fileNameList(fileNameList)
                 .thumbnail(item.getThumbnail())
                 .build();
 

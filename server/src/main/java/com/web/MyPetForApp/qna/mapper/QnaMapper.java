@@ -31,7 +31,7 @@ public class QnaMapper {
                 .qnaContent(qna.getQnaContent())
                 .createAt(qna.getCreatedAt())
                 .modifiedAt(qna.getModifiedAt())
-                .memberName(qna.getMember().getNickName())
+                .nickName(qna.getMember().getNickName())
                 .itemId(qna.getItem().getItemId())
                 .build();
     }
@@ -46,7 +46,7 @@ public class QnaMapper {
                         .qnaContent(qna.getQnaContent())
                         .createAt(qna.getCreatedAt())
                         .modifiedAt(qna.getModifiedAt())
-                        .memberName(qna.getMember().getNickName())
+                        .nickName(qna.getMember().getNickName())
                         .itemId(qna.getItem().getItemId())
                         .build())
                 .collect(Collectors.toList());

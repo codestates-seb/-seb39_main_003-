@@ -4,10 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 public class CartItemDto {
-    @Schema(name = "ItemPost", description = "장바구니 Post 요청 모델")
+    @Schema(name = "CartItemPost", description = "장바구니 Post 요청 모델")
     @Getter
     @AllArgsConstructor
     public static class Post{
@@ -18,7 +17,7 @@ public class CartItemDto {
         @Schema(description = "회원 식별 번호", example = "000001")
         private String memberId;
     }
-    @Schema(name = "ItemPost", description = "장바구니 Patch 요청 모델")
+    @Schema(name = "CartItemPatch", description = "장바구니 Patch 요청 모델")
     @Getter
     @AllArgsConstructor
     public static class Patch{
@@ -29,7 +28,7 @@ public class CartItemDto {
         @Schema(description = "회원 식별 번호", example = "000001")
         private String memberId;
     }
-    @Schema(name = "ItemPost", description = "장바구니 데이터 반환 모델")
+    @Schema(name = "CartItemResponse", description = "장바구니 데이터 반환 모델")
     @Getter
     @Builder
     @AllArgsConstructor

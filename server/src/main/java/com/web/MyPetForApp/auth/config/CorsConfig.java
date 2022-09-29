@@ -14,9 +14,12 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+        config.addAllowedOrigin("http://localhost:3000");
+                config.addAllowedOrigin("https://seb39-main-003-rjwfp0sdz-main003.vercel.app");
+                        config.addAllowedHeader("");
+        config.addAllowedMethod("");
+        config.addExposedHeader("Authorization");
+        config.addExposedHeader("refresh");
         source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);

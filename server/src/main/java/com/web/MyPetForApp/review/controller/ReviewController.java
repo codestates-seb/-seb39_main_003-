@@ -27,7 +27,7 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final ReviewMapper mapper;
 
-    @Operation(summary = "상품 리 등록")
+    @Operation(summary = "상품 리뷰 등록")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "201",
@@ -43,7 +43,7 @@ public class ReviewController {
         ReviewDto.Response response = mapper.reviewToReviewResponseDto(savedReview);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
-    @Operation(summary = "하나의 상품 리 정보 조회")
+    @Operation(summary = "하나의 상품 리뷰 정보 조회")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "200",
@@ -73,7 +73,7 @@ public class ReviewController {
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageReviews), HttpStatus.OK);
     }
 
-    @Operation(summary = "상품 리 정보 수정")
+    @Operation(summary = "상품 리뷰 정보 수정")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "200",

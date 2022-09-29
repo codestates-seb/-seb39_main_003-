@@ -1,8 +1,5 @@
 package com.web.MyPetForApp.item.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.web.MyPetForApp.util.StringIdGenerator;
 import com.web.MyPetForApp.dto.MultiResponseDto;
 import com.web.MyPetForApp.dto.SingleResponseDto;
 import com.web.MyPetForApp.image.service.ImageService;
@@ -10,6 +7,7 @@ import com.web.MyPetForApp.item.dto.ItemDto;
 import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.item.mapper.ItemMapper;
 import com.web.MyPetForApp.item.service.ItemService;
+import com.web.MyPetForApp.util.StringIdGenerator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Tag(name = "상품 API")
@@ -56,8 +53,7 @@ public class ItemController {
                 mainImg,
                 detailImg);
 
-        List<String> fileNameList = imageService.findFilesById("item", item.getItemId());
-        ItemDto.Response response = mapper.itemToItemResponseDto(item, fileNameList);
+        ItemDto.Response response = mapper.itemToItemResponseDto(item);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
@@ -71,8 +67,7 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public ResponseEntity getItem(@PathVariable String itemId){
         Item item = itemService.findItem(itemId);
-        List<String> fileNameList = imageService.findFilesById("item" ,itemId);
-        ItemDto.Response response = mapper.itemToItemResponseDto(item, fileNameList);
+        ItemDto.Response response = mapper.itemToItemResponseDto(item);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
@@ -122,7 +117,7 @@ public class ItemController {
     public ResponseEntity patchItem(@PathVariable String itemId,
                                     @RequestBody ItemDto.Patch requestBody){
         Item item = itemService.updateItem(itemId, mapper.itemPatchDtoToItem(requestBody));
-        ItemDto.Response response = mapper.itemToItemResponseDto(item, null);
+        ItemDto.Response response = mapper.itemToItemResponseDto(item);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
     @Operation(summary = "회원탈퇴")

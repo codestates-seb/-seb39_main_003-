@@ -1,6 +1,5 @@
 package com.web.MyPetForApp.order.dto;
 
-import com.web.MyPetForApp.order.entity.Order;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -16,9 +15,13 @@ public class OrderDto {
         private String memberId;
         @Schema(description = "한 주문에 포함될 상품 리스트 Dto")
         private List<OrderItemDto.Post> orderItems;
+        @Schema(description = "새 주소", example = "서울 중곡동 225-10")
         private String newAddress;
+        @Schema(description = "새 휴대폰번호", example = "010-2060-1122")
         private String newPhone;
+        @Schema(description = "새 이름", example = "홍길동")
         private String newName;
+        @Schema(description = "주문 시 요청사항", example = "안전하게 와주세요")
         private String requirement;
     }
     @Schema(name = "OrderPatch", description = "주문 Patch 요청 모델")

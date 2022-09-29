@@ -21,7 +21,7 @@ public class WishController {
     private final WishService wishService;
     private final WishMapper mapper;
 
-    @Operation(summary = "좋아요 조회")
+    @Operation(summary = "좋아요 조회(좋아요 수, 좋야요 여부)")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "200",

@@ -3,7 +3,6 @@ package com.web.MyPetForApp.order.controller;
 import com.web.MyPetForApp.dto.MultiResponseDto;
 import com.web.MyPetForApp.dto.SingleResponseDto;
 import com.web.MyPetForApp.order.dto.OrderDto;
-import com.web.MyPetForApp.order.dto.OrderItemDto;
 import com.web.MyPetForApp.order.entity.Order;
 import com.web.MyPetForApp.order.mapper.OrderMapper;
 import com.web.MyPetForApp.order.service.OrderService;
@@ -28,7 +27,7 @@ public class OrderController {
     private final OrderMapper mapper;
     private final OrderService orderService;
 
-    @Operation(summary = "주문 요")
+    @Operation(summary = "주문 요청")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "201",
