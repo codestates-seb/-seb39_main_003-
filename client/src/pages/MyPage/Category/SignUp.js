@@ -102,10 +102,6 @@ function SignUp() {
   
   const { register, handleSubmit, formState:{errors} } = useForm();
   
-  // formData.append("imsi", target.imsi.value);
-  // for (let i = 0; i < target.fileToUpload.files.length; i++) {
-  //     formData.append("uploadFiles", target.fileToUpload.files[i]);
-  //   }
     const onSubmit = (data) => {
       console.log(data)
     const formData = new FormData();

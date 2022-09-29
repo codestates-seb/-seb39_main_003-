@@ -138,7 +138,7 @@ export default function Reply() {
     // console.log(input) POST 요청 보내져야하는 곳
     setReply((prev) => {
       const data = [...prev]
-      data.push(
+      data.unshift(
         {
         username: "유저네임",
         content: input

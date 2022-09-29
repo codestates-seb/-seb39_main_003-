@@ -44,7 +44,6 @@ function App() {
       
       <Router>
           {sessionStorage.getItem('accessToken') ? <SuccessLogin /> : <Nav />}
-          {/* {sessionStorage.getItem('accessToken') ? <SuccessLogin /> : <SuccessLogin />} */}
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/shopping" element={<Shopping />} />
@@ -68,7 +67,7 @@ function App() {
                 <Route path="/community/post/:communityId" element={<Post/>}/>
 
                 <Route path="/shopping/add" element={<Addproduct />} />
-                <Route path="/shopping/meal" element={<Meal />} />
+                <Route path="/shopping/meal" element={<Meal convertPrice={convertPrice} />} />
                 <Route path="/shopping/cookie" element={<Cookie />} />
                 <Route path="/shopping/vita" element={<Vita />} />
                 <Route path="/shopping/allVita" element={<AllVita />} />

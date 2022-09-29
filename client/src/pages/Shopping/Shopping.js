@@ -176,10 +176,12 @@ function Shopping() {
 
   const [test, setTest] = useState(ItemData);
 
+  // 유저 정보 조회 로직 (GET)
+
   // const [info, setInfo] = useState(undefined);
 
   // useEffect(() => {
-  //   fetch(`http://211.58.40.128:8080/api/v1/find/M1`)
+  //   fetch(`http://211.58.40.128:8080/api/v1/member/000001`)
   //   .then(res => res.json())
   //   .then(res => {
   //     setInfo(res)

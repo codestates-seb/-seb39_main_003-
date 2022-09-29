@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import Minus from './images/icon-minus-line.svg';
 import Plus from './images/icon-plus-line.svg';
 import Cat from './images/cat.png';
 import { useParams } from "react-router-dom";
-import Write from '../../components/Write';
 
 
 const Wrapper = styled.div`
@@ -265,103 +264,115 @@ function Items( { convertPrice, cart, setCart } ) {
     }
   };
 
-  const setQuantity = (id, quantity) => {
-    const found = cart.filter((el) => el.id === id)[0];
-    const idx = cart.indexOf(found);
-    const cartItem = {
-      id: product.id,
-      image: product.image,
-      name: product.name,
-      quantity: quantity,
-      price: product.price,
-      provider: product.provider,
-    };
-    setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-  };
+  // const setQuantity = (id, quantity) => {
+  //   const found = cart.filter((el) => el.id === id)[0];
+  //   const idx = cart.indexOf(found);
+  //   const cartItem = {
+  //     id: product.id,
+  //     image: product.image,
+  //     name: product.name,
+  //     quantity: quantity,
+  //     price: product.price,
+  //     provider: product.provider,
+  //   };
+  //   setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+  // };
 
-  const handleCart = () => {
-    const cartItem = {
-      id: product.id,
-      image: product.image,
-      itemName: product.name,
-      quantity: count,
-      price: product.price,
-      stockCnt: product.stockCnt,
-      info: product.info
-    };
-    const found = cart.find((el) => el.id === cartItem.id);
-    if (found) setQuantity(cartItem.id, found.quantity + count);
-    else setCart([...cart, cartItem]);
-  };
+  // const handleCart = () => {
+  //   const cartItem = {
+  //     id: product.id,
+  //     image: product.image,
+  //     itemName: product.name,
+  //     quantity: count,
+  //     price: product.price,
+  //     stockCnt: product.stockCnt,
+  //     info: product.info
+  //   };
+  //   const found = cart.find((el) => el.id === cartItem.id);
+  //   if (found) setQuantity(cartItem.id, found.quantity + count);
+  //   else setCart([...cart, cartItem]);
+  // };
 
-  let allChange = {}
+  // let allChange = {}
 
-  if(product.id === id) {
-    allChange = {
-      "id": product.id,
-      "image": product.image,
-      "itemName": product.name,
-      "price": product.price,
-      "stockCnt": product.stockCnt,
-      "info": product.info
-    }
-  }
+  // if(product.id === id) {
+  //   allChange = {
+  //     "id": product.id,
+  //     "image": product.image,
+  //     "itemName": product.name,
+  //     "price": product.price,
+  //     "stockCnt": product.stockCnt,
+  //     "info": product.info
+  //   }
+  // }
 
-  const Patch = () => {
-    fetch(`http://211.58.40.128:8080/api/v1/item/1`,{
-      method: 'PUT',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(allChange)
-      })
-      .then(() => {
-        window.location.reload("/")
-      })
-      .catch(() => {
-        console.log("실패")
-      })
-  }
+  // const Patch = () => {
+  //   fetch(`http://211.58.40.128:8080/api/v1/item/1`,{
+  //     method: 'PUT',
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(allChange)
+  //     })
+  //     .then(() => {
+  //       window.location.reload("/")
+  //     })
+  //     .catch(() => {
+  //       console.log("실패")
+  //     })
+  // }
 
-  const Delete = () => {
-    fetch(`http://211.58.40.128:8080/api/v1/item`, {
-      method: 'DELETE'
-    })
-    .then(() => {
-      // window.location.reload();
-    })
-    .catch(() => {
-      alert('실패')
-    })
-  }
-    // useEffect(() => {
-  //   fetch(`도메인주소/${item.id}`)
-  //   .then((res) => res.json())
-  //   .then(res => {
-  //     setTest(res)
+  // const Delete = () => {
+  //   fetch(`http://211.58.40.128:8080/api/v1/item`, {
+  //     method: 'DELETE'
   //   })
-  // } , [])
+  //   .then(() => {
+  //     // window.location.reload();
+  //   })
+  //   .catch(() => {
+  //     alert('실패')
+  //   })
+  // }
+
+  const [itemInfo, setItemInfo] = useState(undefined)
+
+    useEffect((el) => {
+    fetch(`http://211.58.40.128:8080/api/v1/item/000002`)
+    .then((res) => res.json())
+    .then(res => {
+      setItemInfo(res.data)
+      console.log(res.data)
+    })
+    .catch(() => console.log('실패'))
+  } , [])
 
   return (
     <Wrapper>
       
-    {sessionStorage.getItem('accessToken') ?
+    {/* {sessionStorage.getItem('accessToken') ?
       <div className='deleteBox'>
-        <span className='patch' onClick={Patch}>상품 수정</span>
-        <span className='delete' onClick={Delete}>상품 삭제</span>
+      <span className='patch' onClick={Patch}>상품 수정</span>
+      <span className='delete' onClick={Delete}>상품 삭제</span>
       </div>
       :
       undefined
-      }
+    } */}
 
     <div className='item_top'>
 
-      <div className='item_imagebox'>
-        <img src={Cat} className='catImage' alt="cat"></img>
-      </div>
-      
-      <div className='item_namebox'>고양이 장난감</div>
-      <div className='item_pricebox'>{convertPrice(3000)}</div>
+      {itemInfo && itemInfo.map((el) => {
+    const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
+        return (
+          <>
+            <div className='item_imagebox'>
+              <img src={final} className='catImage' alt="cat"></img>
+            </div>
+            
+            <div className='item_namebox'>{el.itemName}</div>
+            <div className='item_pricebox'>{convertPrice(el.price)}원</div>
+          </>
+        )
+      })}
 
 
     </div>
@@ -397,13 +408,16 @@ function Items( { convertPrice, cart, setCart } ) {
           </div>
 
           <div className='total_info'>
+            
             <span className='total'>
               총 수량 <span className='total_count'>{count}개</span>
             </span>
+
             <span className='total_price'>
               {convertPrice(3000 * count)}
               <span className='total_unit'>원</span>
             </span>
+
           </div>
         </div>
 
@@ -412,15 +426,12 @@ function Items( { convertPrice, cart, setCart } ) {
           <button
             className='btn_cart'
             onClick={() => {
-              handleCart();
+              // handleCart();
             }}
           >
             장바구니
           </button>
         </div>
-
-        <Write />
-
 
     </div>
     

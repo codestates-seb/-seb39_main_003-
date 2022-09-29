@@ -87,14 +87,19 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     /* border: 2px solid red; */
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between; */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
   }
 
   .item_box {
-    width: 20%;
-    height: 15rem;
+    width: 17rem;
+    height: 17rem;
     border: 1px solid gray;
     display: flex;
     flex-direction: column;
@@ -102,22 +107,26 @@ const Wrapper = styled.div`
     align-items: center;
     overflow-x: hidden;
     cursor: pointer;
-    margin: 15px 15px 15px 15px;
+    margin: 30px 0px 15px 93px;
   }
 
-  .test1 {
+  .itemName {
     width: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
     font-size: 1.1rem;
     font-weight: 500;
+    border-bottom: 1px solid lightgray;
   }
 
-  .test2 {
+  .itemPrice {
     width: 100%;
     /* border: 1px solid black; */
     font-size: 1.2rem;
     font-weight: bold;
+    display: flex;
+    justify-content: center;
   }
 
   .image {
@@ -125,8 +134,7 @@ const Wrapper = styled.div`
     height: 10rem;
     position: relative;
     bottom: 5%;
-    border: 1px solid lightgray;
-    font-size: 2rem;
+    /* border: 1px solid lightgray; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -160,9 +168,10 @@ const Wrapper = styled.div`
   }
 
   .img {
-    width: 200px;
-    height: 150px;
+    width: 17.5rem;
+    height: 13rem;
     background-size: cover;
+    margin-bottom: 50px;
   }
 `;
 
@@ -174,25 +183,21 @@ const StyledLink = styled(Link)`
 
 
 
-function Meal() {
-
-  const imagePoint = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/000004/main_1.jpeg`
-
+function Meal( { convertPrice } ) {
+  
   const [test, setTest] = useState(ItemDatas)
-
+  
   const [itemList, setItemList] = useState(undefined);
-
+  
     useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/item?itemCategoryId=1`)
+    fetch(`http://211.58.40.128:8080/api/v1/item?itemCategoryId=11`)
     .then((res) => res.json())
     .then(res => {
       setItemList(res.data)
       console.log(res)
     })
-    .catch(() => console.log())
+    .catch(() => console.log('실패'))
   } , [])
-
-  // console.log(itemList);
 
   const navigate = useNavigate();
 
@@ -214,10 +219,11 @@ function Meal() {
   
   let params = useParams();
 
-  
+  // const imagePoint = https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/
 
   return (
 
+    
 
     <Wrapper>
 
@@ -232,51 +238,42 @@ function Meal() {
         <span className='eat'>사료</span>
         <span className='cookie' onClick={onClickCookie}>간식</span>
       </div>
-
-      {/* <div className='test'>{params.itemId}</div> */}
-
-
-      {/* <div className='add'>
-        <span className='addProduct'>상품등록</span>
-      </div> */}
-
-      {/* {sessionStorage.getItem('accessToken') ? 
-        <div className='add'> */}
-          <StyledLink to='/shopping/add'>
-            <span className='addProduct'>상품등록</span>
-          </StyledLink>
-        {/* </div>
-       :
-        undefined} */}
-
         
 
       <div className="item_list_box">
             {itemList && itemList.map((el, idx) => {
+                const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
               return (
-
                 <div key={idx} className='item_box' onClick={() => {
-                  navigate(`/shopping/item/${el.id}`)
-                }}>
+                  navigate(`/shopping/item/${el.itemId}`)}}>
 
                     <div className='image'>
                         <div>
-                          <img className='img' src={imagePoint} />
+                          <img className='img' src={final} alt='사진' />
                         </div>
                     </div>
 
-                    <div className='test1'>
+                    <div className='itemName'>
                         <div className="item_list">{el.itemName}</div>
                     </div>
 
-                    <div className='test2'>
-                        <div className="item_list">{el.price}원</div>
+                    <div className='itemPrice'>
+                        <div className="item_list">{convertPrice(el.price)}원</div>
                     </div>
 
                 </div>
               )
             })}
-          </div>
+      </div>
+
+      {sessionStorage.getItem('accessToken') ? 
+        <div className='add'>
+          <StyledLink to='/shopping/add'>
+            <span className='addProduct'>상품등록</span>
+          </StyledLink>
+        </div>
+       :
+        undefined}
 
     </Wrapper>
   
