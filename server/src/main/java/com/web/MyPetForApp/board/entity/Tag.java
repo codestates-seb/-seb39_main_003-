@@ -19,6 +19,9 @@ public class Tag {
     private Long tagId;
     @Column(nullable = false, unique = true)
     private String tagName;
+    @Column(nullable = false)
+    private Integer pid;
+
     @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
     @Builder.Default
     private List<BoardTag> boardTags = new ArrayList<>();
