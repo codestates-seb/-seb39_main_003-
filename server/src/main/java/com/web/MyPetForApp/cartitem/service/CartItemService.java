@@ -44,7 +44,7 @@ public class CartItemService {
                 Sort.by("cartItemId").ascending()));
     }
 
-    public CartItem updateCartItem(Long cartItemId, int itemCnt, String itemId, Long memberId){
+    public CartItem updateCartItem(Long cartItemId, int itemCnt, String itemId, String memberId){
         CartItem findCartItem = findVerifiedCartItem(cartItemId);
         Item item = itemService.findVerifiedItem(itemId);
         if(!memberId.equals(findCartItem.getMember().getMemberId())){

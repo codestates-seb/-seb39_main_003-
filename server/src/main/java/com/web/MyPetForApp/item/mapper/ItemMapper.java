@@ -49,7 +49,9 @@ public class ItemMapper {
                 .itemCategory(item.getItemCategory().getItemCategory()) // 카테고리 명
                 .member(item.getMember().getNickName()) // 닉네임? 실명? 선택 필요
                 .fileNameList(fileNameList)
-                .thumbNail(fileNameList.size() > 0 ? fileNameList.get(0) : null)
+                .thumbNail(
+                        fileNameList != null ? fileNameList.size() > 0
+                        ? fileNameList.get(fileNameList.size() - 1) : null : null)
                 .build();
 
     }
@@ -72,9 +74,10 @@ public class ItemMapper {
                         .wishCnt(item.getWishes().size())
                         .itemCategory(item.getItemCategory().getItemCategory())
                         .member(item.getMember().getNickName())
-                        .thumbNail(
-                                imageService.findFilesById("item", item.getItemId()) != null ?
-                                imageService.findFilesById("item", item.getItemId()).get(0) : null)
+                        .thumbNail(imageService.findFilesById("item", item.getItemId()) != null ?
+                                imageService.findFilesById("item", item.getItemId()).size() > 0 ?
+                                imageService.findFilesById("item", item.getItemId())
+                                        .get(imageService.findFilesById("item", item.getItemId()).size() - 1) : null : null)
                         .build())
                 .collect(Collectors.toList());
     }

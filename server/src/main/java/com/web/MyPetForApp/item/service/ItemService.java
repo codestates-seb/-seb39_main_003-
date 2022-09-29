@@ -70,7 +70,7 @@ public class ItemService {
         return listToPage(page, size, wishItems);
     }
 
-    public Item updateItem(String itemId, Item item, List<String> itemImages){
+    public Item updateItem(String itemId, Item item){
         Item findItem = findVerifiedItem(itemId);
 //        if(itemImages != null) {
             // itemImage
