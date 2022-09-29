@@ -73,7 +73,7 @@ public class CartItemController {
         List<CartItemDto.Response> response = mapper.cartItemsToCartItemResponseDto(cartItems);
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageCartItems), HttpStatus.OK);
     }
-    @Operation(summary = "장바구니 정보 수")
+    @Operation(summary = "장바구니 정보 수정")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "200",

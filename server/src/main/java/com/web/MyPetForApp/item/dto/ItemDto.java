@@ -4,9 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 public class ItemDto {
     @Schema(name = "ItemPost", description = "상품 Post 요청 모델")
@@ -66,8 +63,6 @@ public class ItemDto {
         private String itemCategory;
         @Schema(description = "회원")
         private String member;
-        @Schema(description = "상품 이미지 파일 이름 리스트")
-        private List<String> fileNameList;
         @Schema(description = "상품 썸네일 이미지 파일 이름")
         private String thumbnail;
     }

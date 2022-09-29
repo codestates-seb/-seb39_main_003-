@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -53,7 +52,7 @@ public class QnaDto {
         @Schema(description = "상품 식별 번호", example = "000001")
         private String itemId;
         @Schema(description = "회원 이름", example = "홍길동")
-        private String memberName; // 이름? 닉네임?
+        private String nickName; // 이름? 닉네임?
     }
 
 }

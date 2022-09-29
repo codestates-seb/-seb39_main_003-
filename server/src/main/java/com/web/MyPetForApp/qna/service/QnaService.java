@@ -59,5 +59,4 @@ public class QnaService {
         return qnaRepository.findById(qnaId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.QNA_NOT_FOUND));
     }
-
 }
