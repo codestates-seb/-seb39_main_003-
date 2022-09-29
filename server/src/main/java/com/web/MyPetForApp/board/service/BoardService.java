@@ -82,9 +82,9 @@ public class BoardService {
         return board;
     }
 
-    public List<TagDto.Response> getAllTags(){
+    public List<TagDto.Response> getAllTags(int pid){
 
-        List<Tag> tags = tagRepository.findAll();
+        List<Tag> tags = tagRepository.findAllByPid(pid);
 
         return tags.stream().map(tag ->
                 TagDto.Response.builder()

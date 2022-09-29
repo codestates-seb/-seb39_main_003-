@@ -67,9 +67,9 @@ public class BoardController {
 
         return new ResponseEntity<>(new SingleResponseDto<>(detail), HttpStatus.OK);
     }
-    @GetMapping("/boardtags")
-    public ResponseEntity getBoardTags(){
-        List<TagDto.Response> tags = boardService.getAllTags();
+    @GetMapping("/boardtags/{pid}")
+    public ResponseEntity getBoardTags(@PathVariable Integer pid){
+        List<TagDto.Response> tags = boardService.getAllTags(pid);
 
         return new ResponseEntity<>(new SingleResponseDto<>(tags), HttpStatus.OK);
     }
