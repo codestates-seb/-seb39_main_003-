@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
@@ -169,15 +169,21 @@ const StyledLink = styled(Link)`
 
 function Meal() {
 
-  const [test, setTest] = useState(ItemDatas);
+  const [test, setTest] = useState(ItemDatas)
 
-    // useEffect(() => {
-  //   fetch(`http://ec2-52-79-180-182.ap-northeast-2.compute.amazonaws.com:8080/api/v1/member/1`)
-  //   .then((res) => res.json())
-  //   .then(res => {
-  //     setTest(res)
-  //   })
-  // } , [])
+  const [itemList, setItemList] = useState(undefined);
+
+    useEffect(() => {
+    fetch(`http://211.58.40.128:8080/api/v1/item/I1CTG1`)
+    .then((res) => res.json())
+    .then(res => {
+      setItemList(res)
+      console.log(res)
+    })
+    .catch(err => console.log())
+  } , [])
+
+  console.log(itemList)
 
   const navigate = useNavigate();
 
@@ -198,6 +204,8 @@ function Meal() {
   }
   
   let params = useParams();
+
+  
 
   return (
 
@@ -223,34 +231,35 @@ function Meal() {
         <span className='addProduct'>상품등록</span>
       </div> */}
 
-      {sessionStorage.getItem('accessToken') ? 
+      {/* {sessionStorage.getItem('accessToken') ?  */}
         <div className='add'>
           <StyledLink to='/shopping/add'>
             <span className='addProduct'>상품등록</span>
           </StyledLink>
         </div>
-      :
-        undefined}
+      {/* :
+        undefined} */}
 
+        
 
       <div className="item_list_box">
-            {test.map((item, idx) => {
+            {itemList && itemList.map((el, idx) => {
               return (
 
                 <div key={idx} className='item_box' onClick={() => {
-                  navigate(`/shopping/item/${item.id}`)
+                  navigate(`/shopping/item/${el.id}`)
                 }}>
 
                     <div className='image'>
-                        <div>{item.image}</div>
+                        <div>{el.image}</div>
                     </div>
 
                     <div className='test1'>
-                        <div className="item_list">{item.name}</div>
+                        <div className="item_list">{el.itemName}</div>
                     </div>
 
                     <div className='test2'>
-                        <div className="item_list">{item.price}원</div>
+                        <div className="item_list">{el.price}원</div>
                     </div>
 
                 </div>

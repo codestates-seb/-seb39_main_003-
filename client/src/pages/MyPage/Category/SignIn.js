@@ -120,7 +120,7 @@ function SignIn() {
       
       sessionStorage.setItem('accessToken', `${accessToken}`);
       sessionStorage.setItem('refreshToken', `${refreshToken}`);
-      sessionStorage.setItem("memberId", response.headers.userId);
+      sessionStorage.setItem("memberId", 1);
       
       navigate('/');
       window.location.reload();

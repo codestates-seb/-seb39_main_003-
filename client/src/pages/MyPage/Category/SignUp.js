@@ -101,10 +101,11 @@ function SignUp() {
 
   const { register, handleSubmit, formState:{errors} } = useForm();
 
-  const onSubmit = (data) => {fetch(`http://211.58.40.128:8080/api/v1/member`, {
+  const onSubmit = (data) => {
+    fetch(`http://211.58.40.128:8080/api/v1/member`, {
     method: "POST",
     headers: {
-      "content-Type": "application/json",
+      "content-Type": 'multipart/form-data'
     },
     body: JSON.stringify(data)})
 

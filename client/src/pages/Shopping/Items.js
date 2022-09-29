@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import Minus from './images/icon-minus-line.svg';
 import Plus from './images/icon-plus-line.svg';
 import Cat from './images/cat.png';
 import { useParams } from "react-router-dom";
+import Write from '../../components/Write';
 
 
 const Wrapper = styled.div`
@@ -19,7 +21,8 @@ const Wrapper = styled.div`
     /* border: 2px solid red; */
     display: flex;
     flex-direction: column;
-    padding-top: 50px;
+    padding-top: 10px;
+    margin-top: 10px;
     align-items: center;
   }
 
@@ -204,6 +207,45 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
 }
+
+.deleteBox {
+  height: 2.2rem;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-bottom: -10px;
+}
+
+.patch {
+  border: 1px solid gray;
+  padding: 5px 5px 5px 5px;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+  background-color: #EEEEEE;
+
+  &:hover {
+    background-color: #CFD2CF;
+    font-weight: 500;
+  }
+}
+
+.delete {
+  border: 1px solid gray;
+  padding: 5px 5px 5px 5px;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-right: 20px;
+  cursor: pointer;
+  background-color: #EEEEEE;
+
+  &:hover {
+    background-color: #CFD2CF;
+    font-weight: 500;
+  }
+}
 `;
 
 function Items( { convertPrice, cart, setCart } ) {
@@ -241,15 +283,57 @@ function Items( { convertPrice, cart, setCart } ) {
     const cartItem = {
       id: product.id,
       image: product.image,
-      name: product.name,
+      itemName: product.name,
       quantity: count,
       price: product.price,
-      provider: product.provider,
+      stockCnt: product.stockCnt,
+      info: product.info
     };
     const found = cart.find((el) => el.id === cartItem.id);
     if (found) setQuantity(cartItem.id, found.quantity + count);
     else setCart([...cart, cartItem]);
   };
+
+  let allChange = {}
+
+  if(product.id === id) {
+    allChange = {
+      "id": product.id,
+      "image": product.image,
+      "itemName": product.name,
+      "price": product.price,
+      "stockCnt": product.stockCnt,
+      "info": product.info
+    }
+  }
+
+  const Patch = () => {
+    fetch(`http://211.58.40.128:8080/api/v1/item/1`,{
+      method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(allChange)
+      })
+      .then(() => {
+        window.location.reload("/")
+      })
+      .catch(() => {
+        console.log("실패")
+      })
+  }
+
+  const Delete = () => {
+    fetch(`http://211.58.40.128:8080/api/v1/item`, {
+      method: 'DELETE'
+    })
+    .then(() => {
+      // window.location.reload();
+    })
+    .catch(() => {
+      alert('실패')
+    })
+  }
     // useEffect(() => {
   //   fetch(`도메인주소/${item.id}`)
   //   .then((res) => res.json())
@@ -261,6 +345,15 @@ function Items( { convertPrice, cart, setCart } ) {
   return (
     <Wrapper>
       
+    {sessionStorage.getItem('accessToken') ?
+      <div className='deleteBox'>
+        <span className='patch' onClick={Patch}>상품 수정</span>
+        <span className='delete' onClick={Delete}>상품 삭제</span>
+      </div>
+      :
+      undefined
+      }
+
     <div className='item_top'>
 
       <div className='item_imagebox'>
@@ -268,7 +361,7 @@ function Items( { convertPrice, cart, setCart } ) {
       </div>
       
       <div className='item_namebox'>고양이 장난감</div>
-      <div className='item_pricebox'>3000</div>
+      <div className='item_pricebox'>{convertPrice(3000)}</div>
 
 
     </div>
@@ -325,6 +418,8 @@ function Items( { convertPrice, cart, setCart } ) {
             장바구니
           </button>
         </div>
+
+        <Write />
 
 
     </div>

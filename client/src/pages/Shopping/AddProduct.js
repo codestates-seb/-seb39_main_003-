@@ -112,10 +112,10 @@ function AddProduct() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
-    fetch(`사료 데이터 주소`, {
+    fetch(`http://211.58.40.128:8080/api/v1/item`, {
       method: "POST",
       headers: {
-        "content-Type": "application/json",
+        "content-Type": "multipart/form-data",
       },
       body: JSON.stringify(data)
     })
@@ -154,6 +154,11 @@ function AddProduct() {
 
       <form className='siBackground' onSubmit={handleSubmit(onSubmit)}>
           <div className='sibox'>
+              <div className='siback'>
+                <label>회원 번호</label>
+                <input className="sutext" type='text' {...register("memberId")}></input>
+              </div>
+
               <div className='siback'>
                 <label>상품 이름</label>
                 <input className="sutext" type='text' {...register("itemName")}></input>

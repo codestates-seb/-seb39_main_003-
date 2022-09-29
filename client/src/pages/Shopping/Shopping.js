@@ -179,7 +179,7 @@ function Shopping() {
   // const [info, setInfo] = useState(undefined);
 
   // useEffect(() => {
-  //   fetch(`http://211.58.40.128:8080/api/v1/member`)
+  //   fetch(`http://211.58.40.128:8080/api/v1/find/M1`)
   //   .then(res => res.json())
   //   .then(res => {
   //     setInfo(res)

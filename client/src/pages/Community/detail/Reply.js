@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-// import { useState } from 'react'
-import CommuData from '../../../dummytest/dummyData';
+import CommuData from '../../../dummytest/commuData';
 import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
@@ -117,8 +116,32 @@ const StyledLink = styled(Link)`
 
 export default function Reply() {
 
-  // const [reply, setReply] = useState(["울집 갱쥐도 그럼"]);
-  // const [input, setInput] = useState("");
+  const [reply, setReply] = useState([]);
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    // fetch(`url`) GET 요청 받아와야하는 곳
+    // .then((res) => {
+      setReply(CommuData)
+    // })
+  }, [])
+
+  const textInput = (e) => {
+    setInput(e.target.value)
+  };
+
+  const postReply = () => {
+    // console.log(input) POST 요청 보내져야하는 곳
+    setReply((prev) => {
+      const data = [...prev]
+      data.push({
+        username: "유저네임",
+        content: input
+      })
+      // console.log(data)
+      return data
+    })
+  };
 
   return (
     <Wrapper>
@@ -127,8 +150,8 @@ export default function Reply() {
         {/* 댓글 작성란 */}
         <div className='replyTerritory'>
           <div className='rbackground'>
-           <input className='replyText' type="text"></input>
-            <button className='replyButton'>등록</button>
+           <input className='replyText' type="text" onChange={textInput}></input>
+            <button className='replyButton' onClick={postReply}>등록</button>
           </div>
         </div>
 
@@ -139,7 +162,7 @@ export default function Reply() {
             return <p>{reply}</p>
           })
           } */}
-          {CommuData.map(
+          {reply.map(
             (el, index) => (
             <div className="questions" key={index}>
                 <span className="article">{el.username}</span>

@@ -44,7 +44,8 @@ function App() {
     <div className="App">
       
       <Router>
-          {sessionStorage.getItem('accessToken') ? <SuccessLogin /> : <Nav />}
+          {/* {sessionStorage.getItem('accessToken') ? <SuccessLogin /> : <Nav />} */}
+          {sessionStorage.getItem('accessToken') ? <SuccessLogin /> : <SuccessLogin />}
             <Routes>
                 <Route path="/" element={<Main />} />
                 <Route path="/shopping" element={<Shopping />} />
@@ -56,7 +57,7 @@ function App() {
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp/>} />
                 <Route path="/mypage/myinfo" element={<Myinfo/>} />
-                <Route path="/mypage/cart" element={<Cart/>} />
+                <Route path="/mypage/cart" element={<Cart />} />
                 <Route path="/mypage/wish" element={<Wish/>} />
                 <Route path="/mypage/order" element={<Order/>} />
 
