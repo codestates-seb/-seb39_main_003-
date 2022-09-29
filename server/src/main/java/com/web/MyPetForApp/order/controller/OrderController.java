@@ -37,9 +37,9 @@ public class OrderController {
     )
     @PostMapping
     public ResponseEntity postOrder(@RequestBody OrderDto.Post requestBody){
-        List<OrderItemDto.Post> orderItems = requestBody.getOrderItems();
+//        List<OrderItemDto.Post> orderItems = requestBody.getOrderItems();
         String memberId = requestBody.getMemberId();
-        Order savedOrder = orderService.createOrder(orderItems, memberId);
+        Order savedOrder = orderService.createOrder(requestBody, memberId);
         OrderDto.Response response = mapper.orderToOrderResponseDto(savedOrder);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
@@ -85,7 +85,7 @@ public class OrderController {
     @PatchMapping("/{orderId}")
     public ResponseEntity patchOrder(@PathVariable Long orderId,
                                      @RequestBody OrderDto.Patch requestBody){
-        Order.OrderStatus orderStatus = requestBody.getOrderStatus();
+        String orderStatus = requestBody.getOrderStatus();
         Order order = orderService.updateOrder(orderId, orderStatus);
         OrderDto.Response response = mapper.orderToOrderResponseDto(order);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);

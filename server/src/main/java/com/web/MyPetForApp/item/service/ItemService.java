@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class ItemService {
     private final MemberService memberService;
     private final ImageService imageService;
 
-    public Item createItem(Item item, String memberId, String itemCategoryId){
+    public Item createItem(Item item, String memberId, String itemCategoryId, List<MultipartFile> mainImg, List<MultipartFile> detailImg){
         Member member = memberService.findVerifiedMember(memberId);
 //        for (String image : itemImages) {
 //            ItemImage itemImage = ItemImage.builder()
@@ -46,7 +47,18 @@ public class ItemService {
         ItemCategory itemCategory = findVerifiedItemCategory(itemCategoryId);
         item.changeMember(member);
         item.changeItemCategory(itemCategory);
-        return itemRepository.save(item);
+        Item savedItem = itemRepository.save(item);
+
+        String thumbnail = null;
+        if (mainImg != null) {
+            thumbnail = imageService.uploadFile(mainImg, "item", item.getItemId(), "main").get(0);
+        }
+
+        if (detailImg != null) {
+            imageService.uploadFile(detailImg, "item", item.getItemId(), "detail");
+        }
+        savedItem.changeThumbnail(thumbnail);
+        return savedItem;
     }
 
     public Item findItem(String itemId){

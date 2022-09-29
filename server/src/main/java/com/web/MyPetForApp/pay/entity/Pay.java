@@ -8,17 +8,27 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 public class Pay {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long PayId;
 
     @Column(nullable = false)
@@ -33,6 +43,8 @@ public class Pay {
     private PayStatus payStatus = PayStatus.PAY_WAIT;
 
     @CreatedDate
+    @Column(nullable = false)
+    @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -69,6 +81,10 @@ public class Pay {
         ACCOUNT_TRANSFER(3, "계좌이체"),
         KAKAO_PAY(4, "카카오 페이");
 
+        private static final Map<String, String> map = Collections.unmodifiableMap(
+                Stream.of(values()).collect(Collectors.toMap(Pay.PayBy::getPayDescription, Pay.PayBy::name))
+        );
+
         @Getter
         private int payNumber;
 
@@ -78,6 +94,9 @@ public class Pay {
         PayBy(int payNumber, String payDescription) {
             this.payNumber = payNumber;
             this.payDescription = payDescription;
+        }
+        public static Pay.PayBy of(String payDescription){
+            return Pay.PayBy.valueOf(map.get(payDescription));
         }
     }
 

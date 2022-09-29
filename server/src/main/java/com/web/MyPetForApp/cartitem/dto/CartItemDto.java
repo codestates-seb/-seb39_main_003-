@@ -45,7 +45,7 @@ public class CartItemDto {
         @Schema(description = "상품 이름", example = "5000")
         private String itemName;
         @Schema(description = "상품 이미지", example = "5000")
-        private String image;
+        private String thumbnail;
         @Schema(description = "상품 식별 번호", example = "000001")
         private String itemId;
     }
