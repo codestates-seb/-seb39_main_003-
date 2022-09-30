@@ -125,17 +125,14 @@ function SignIn() {
       navigate('/');
       window.location.reload();
       alert('로그인에 성공하였습니다')
-      // console.log(response)
     })
-    // .then(() => {
-    // })
-    
     .catch(err => {
       console.log(err.response.headers.Authorization);
       alert("이메일 혹은 비밀번호를 확인하세요") ;
     })
     // .catch(err => console.err(err));
   }
+
   return (
     <Wrapper>
       {/* 로그인 페이지 */}
@@ -157,6 +154,11 @@ function SignIn() {
                   <input className="sitext" type='password' {...register("password")}></input>
                 </div>
             </div>
+
+            {/* <button>
+              <a href='211.204.66.186:8080/oauth2/authorization/google'>구글 로그인</a>
+            </button> */}
+
               {/* 로그인 버튼 */}
               <input className='siButton' type="submit"></input>
             </form>

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import dummyData from '../../../dummytest/dummyData';
 
 const Wrapper = styled.div`
 //게시글 포스팅 등록 화면
@@ -77,6 +79,7 @@ const Wrapper = styled.div`
   margin-bottom: 20px;
 }
 .postbuttontext{
+  border-style: none;
   background-color: #EEF1FF;
   color: #000000;
   font-weight: bold;
@@ -100,6 +103,39 @@ text-decoration: none;
 `
 
 function Posting() {
+
+  const [ title, setTitle ] = useState("")
+  const [ content, setContent ] = useState("")
+  const [ list, setList ] = useState([])
+
+  useEffect(()=>{
+    //fetch(``)
+    //.then((res)=>{
+      setList(dummyData)
+    //})
+  }, [])
+
+  const titleInput = (e) => {
+    setTitle(e.target.value)
+  };
+  const contentInput = (e) => {
+    setContent(e.target.value)
+  };
+
+  const postContent = () => {
+    setList((prev) => {
+      const data = [...prev]
+      data.push(
+        {
+          title: title,
+          content: content
+        }
+      )
+      console.log(data)
+      return data
+    })
+  };
+
   return (
     <Wrapper>
       {/* 게시글 포스팅 등록 화면 */}
@@ -108,16 +144,16 @@ function Posting() {
           {/* 게시글 제목 */}
           <div className='posttitle'>
             <span className='title'>글 제목</span>
-            <input className='titletext' type="textarea" placeholder='내용을 입력해주세요.'></input>
+            <input className='titletext' type="text" onChange={titleInput} placeholder='내용을 입력해주세요.'></input>
           </div>
           {/* 게시글 내용 */}
           <div className='postcontent'>
-            <input className='contenttext' type="textarea" placeholder="내용을 입력해주세요."></input>
+            <input className='contenttext' type="text" onChange={contentInput} placeholder="내용을 입력해주세요."></input>
           </div>
         </div>
         {/* 게시글 등록 버튼 */}
         <StyledLink to={"/community"} className='postbutton'>
-          <span to={"/community"} className="postbuttontext">등록</span>
+          <button to={"/community"} className="postbuttontext" onClick={postContent} >등록</button>
         </StyledLink>
       </div>
     </Wrapper>
