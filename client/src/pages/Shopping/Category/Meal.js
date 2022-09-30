@@ -273,7 +273,8 @@ function Meal( { convertPrice } ) {
           </StyledLink>
         </div>
        :
-        undefined}
+        undefined
+      }
 
     </Wrapper>
   
