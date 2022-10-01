@@ -3,11 +3,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import ItemDatas from '../../../dummytest/ItemData';
 import { Link } from "react-router-dom";
-
-
-
 
 const Wrapper = styled.div`
 
@@ -185,7 +181,7 @@ const StyledLink = styled(Link)`
 
 function Meal( { convertPrice } ) {
   
-  const [test, setTest] = useState(ItemDatas)
+  // const [test, setTest] = useState(ItemDatas)
   
   const [itemList, setItemList] = useState(undefined);
   
@@ -198,6 +194,7 @@ function Meal( { convertPrice } ) {
     })
     .catch(() => console.log('실패'))
   } , [])
+  // console.log(itemList)
 
   const navigate = useNavigate();
 
@@ -217,13 +214,21 @@ function Meal( { convertPrice } ) {
     navigate(`/shopping/pad`)
   }
   
-  let params = useParams();
+  // let params = useParams();
 
-  // const imagePoint = https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/
+  // const Search = () => {
+  //   const location = useLocation();
+  //   console.log(location);
+
+  // const handleClick = () => {
+  //   navigate(`/shopping/item/${itemList.itemId}`, {
+  //     state: {
+  //       id: itemList.itemId
+  //     }
+  //   })
+  // }
 
   return (
-
-    
 
     <Wrapper>
 
@@ -244,8 +249,13 @@ function Meal( { convertPrice } ) {
             {itemList && itemList.map((el, idx) => {
                 const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
               return (
-                <div key={idx} className='item_box' onClick={() => {
-                  navigate(`/shopping/item/${el.itemId}`)}}>
+                
+                <Link to={`/shopping/item/${el.itemId}`} key={idx} className='item_box' state={
+                  {id: el.itemId,
+                  thumbnail: el.thumbnail}
+                  // {thumbnail:el.thumbnail}
+                  }>
+                    {/* <div key={idx} className='item_box' onClick={handleClick} state> */}
 
                     <div className='image'>
                         <div>
@@ -260,8 +270,9 @@ function Meal( { convertPrice } ) {
                     <div className='itemPrice'>
                         <div className="item_list">{convertPrice(el.price)}원</div>
                     </div>
-
-                </div>
+                  
+                    {/* </div> */}
+                </Link>
               )
             })}
       </div>
