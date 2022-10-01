@@ -5,6 +5,7 @@ import Minus from './images/icon-minus-line.svg';
 import Plus from './images/icon-plus-line.svg';
 import Cat from './images/cat.png';
 import { useParams } from "react-router-dom";
+import { useLocation } from 'react-router';
 
 
 const Wrapper = styled.div`
@@ -17,11 +18,10 @@ const Wrapper = styled.div`
   .item_top {
     width: 100%;
     height: 40rem;
-    /* border: 2px solid red; */
+    border: 2px solid red;
     display: flex;
     flex-direction: column;
-    padding-top: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     align-items: center;
   }
 
@@ -34,7 +34,7 @@ const Wrapper = styled.div`
   }
 
   .item_imagebox {
-    width : 90%;
+    width : 40rem;
     height: 25rem;
     /* border: 2px solid blue; */
     display: flex;
@@ -42,23 +42,24 @@ const Wrapper = styled.div`
     align-items: center;
   }
 
-  .item_namebox {
+  .item_nameBox {
     width: 90%;
     height: 5rem;
     /* border: 2px solid green; */
     display: flex;
-    align-items: center;
+    justify-content: center;
+    margin: 20px 0px 10px 0px;
     padding-left: 2rem;
     font-size: 2rem;
     font-weight: 600;
   }
 
-  .item_pricebox {
+  .item_infoBox {
     width: 90%;
     height: 5rem;
     /* border: 2px solid gray; */
     display: flex;
-    align-items: center;
+    justify-content: center;
     padding-left: 2rem;
     font-size: 1.5rem;
     font-weight: 500;
@@ -116,7 +117,8 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-top: 30px;
+  border: 2px solid blue;
 }
 
 .sum .sum_price {
@@ -197,10 +199,11 @@ const Wrapper = styled.div`
   padding-right: 70px;
 }
 
-.catImage {
+.itemImage {
   background-size: cover;
   width : 90%;
   height: 25rem;
+  padding-top: 40px;
   /* border: 2px solid blue; */
   display: flex;
   justify-content: center;
@@ -254,6 +257,25 @@ function Items( { convertPrice, cart, setCart } ) {
   const [product, setProduct] = useState({});
   const [count, setCount] = useState(1);
 
+  const location = useLocation();
+
+  const [itemInfo, setItemInfo] = useState([])
+
+    useEffect(() => {
+    fetch(`http://211.58.40.128:8080/api/v1/item/${location.state.id}`)
+    .then((res) => res.json())
+    .then(res => {
+      setItemInfo(res.data)
+      // console.log(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  } , [])
+
+  const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${location.state.thumbnail}`
+
+
   // 상세페이지에서 물건 수량 조절
   const handleQuantity = (type) => {
     if (type === "plus") {
@@ -264,34 +286,32 @@ function Items( { convertPrice, cart, setCart } ) {
     }
   };
 
-  // const setQuantity = (id, quantity) => {
-  //   const found = cart.filter((el) => el.id === id)[0];
-  //   const idx = cart.indexOf(found);
-  //   const cartItem = {
-  //     id: product.id,
-  //     image: product.image,
-  //     name: product.name,
-  //     quantity: quantity,
-  //     price: product.price,
-  //     provider: product.provider,
-  //   };
-  //   setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-  // };
+  const setQuantity = (id, quantity) => {
+    const found = cart.filter((el) => el.id === id)[0];
+    const idx = cart.indexOf(found);
+    const cartItem = {
+      id: itemInfo.itemId,
+      image: {final},
+      name: itemInfo.itemName,
+      quantity: quantity,
+      price: itemInfo.price,
+      info: itemInfo.info
+    };
+    setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+  };
 
-  // const handleCart = () => {
-  //   const cartItem = {
-  //     id: product.id,
-  //     image: product.image,
-  //     itemName: product.name,
-  //     quantity: count,
-  //     price: product.price,
-  //     stockCnt: product.stockCnt,
-  //     info: product.info
-  //   };
-  //   const found = cart.find((el) => el.id === cartItem.id);
-  //   if (found) setQuantity(cartItem.id, found.quantity + count);
-  //   else setCart([...cart, cartItem]);
-  // };
+  const handleCart = () => {
+    const cartItem = {
+      id: itemInfo.itemId,
+      image: {final},
+      name: itemInfo.itemName,
+      price: itemInfo.price,
+      info: itemInfo.info
+    };
+    const found = cart.find((el) => el.id === cartItem.id);
+    if (found) setQuantity(cartItem.id, found.quantity + count);
+    else setCart([...cart, cartItem]);
+  };
 
   // let allChange = {}
 
@@ -307,8 +327,8 @@ function Items( { convertPrice, cart, setCart } ) {
   // }
 
   // const Patch = () => {
-  //   fetch(`http://211.58.40.128:8080/api/v1/item/1`,{
-  //     method: 'PUT',
+  //   fetch(`http://211.58.40.128:8080/api/v1/item/${itemInfo.itemId}`,{
+  //     method: 'PATCH',
   //       headers: {
   //         "Content-Type": "application/json",
   //       },
@@ -323,7 +343,7 @@ function Items( { convertPrice, cart, setCart } ) {
   // }
 
   // const Delete = () => {
-  //   fetch(`http://211.58.40.128:8080/api/v1/item`, {
+  //   fetch(`http://211.58.40.128:8080/api/v1/item/${itemInfo.itemId}`, {
   //     method: 'DELETE'
   //   })
   //   .then(() => {
@@ -333,18 +353,6 @@ function Items( { convertPrice, cart, setCart } ) {
   //     alert('실패')
   //   })
   // }
-
-  const [itemInfo, setItemInfo] = useState(undefined)
-
-    useEffect((el) => {
-    fetch(`http://211.58.40.128:8080/api/v1/item/000002`)
-    .then((res) => res.json())
-    .then(res => {
-      setItemInfo(res.data)
-      console.log(res.data)
-    })
-    .catch(() => console.log('실패'))
-  } , [])
 
   return (
     <Wrapper>
@@ -358,82 +366,74 @@ function Items( { convertPrice, cart, setCart } ) {
       undefined
     } */}
 
-    <div className='item_top'>
-
-      {itemInfo && itemInfo.map((el) => {
-    const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
-        return (
+    <div className="item_top">
           <>
-            <div className='item_imagebox'>
-              <img src={final} className='catImage' alt="cat"></img>
+            <div className="item_imagebox">
+              <img src={final}
+               className="itemImage" alt="cat"></img>
             </div>
             
-            <div className='item_namebox'>{el.itemName}</div>
-            <div className='item_pricebox'>{convertPrice(el.price)}원</div>
+            <div className="item_nameBox">{itemInfo.itemName}</div>
+            <div className="item_infoBox">{itemInfo.info}</div>
           </>
-        )
-      })}
 
 
+            <div className="item_bottom">
+              <div className="amount">
+                <img
+                  className="minus"
+                  src={Minus}
+                  alt="minus"
+                  onClick={() => handleQuantity("minus")}
+                />
+
+                <div className="count">
+                  <span>{count}</span>
+                </div>
+
+                <img
+                  className="plus"
+                  src={Plus}
+                  alt="plus"
+                  onClick={() => handleQuantity("plus")}
+                />
+                </div>
+
+            <div className="sum">
+                  <div>
+                    <span className="sum_price">총 상품 금액</span>
+                  </div>
+
+                  <div className="total_info">
+                    
+                    <span className="total">
+                      총 수량 <span className="total_count">{count}개</span>
+                    </span>
+
+                    <span className="total_price">
+                      {convertPrice(itemInfo.price * count)}
+                      <span className="total_unit">원</span>
+                    </span>
+
+                  </div>
+                </div>
+
+                <div className="btn">
+                  <button className="btn_buy">바로 구매</button>
+                  
+                  <button
+                    className="btn_cart"
+                    onClick={() => {
+                      handleCart();
+                    }}
+                  >
+                    장바구니
+                  </button>
+                </div>
+
+            </div>
     </div>
 
-
-
-
-
-    <div className='item_bottom'>
-      <div className='amount'>
-        <img
-          className='minus'
-          src={Minus}
-          alt="minus"
-          onClick={() => handleQuantity("minus")}
-        />
-
-        <div className='count'>
-          <span>{count}</span>
-        </div>
-
-        <img
-          className='plus'
-          src={Plus}
-          alt="plus"
-          onClick={() => handleQuantity("plus")}
-        />
-        </div>
-
-    <div className='sum'>
-          <div>
-            <span className='sum_price'>총 상품 금액</span>
-          </div>
-
-          <div className='total_info'>
-            
-            <span className='total'>
-              총 수량 <span className='total_count'>{count}개</span>
-            </span>
-
-            <span className='total_price'>
-              {convertPrice(3000 * count)}
-              <span className='total_unit'>원</span>
-            </span>
-
-          </div>
-        </div>
-
-        <div className='btn'>
-          <button className='btn_buy'>바로 구매</button>
-          <button
-            className='btn_cart'
-            onClick={() => {
-              // handleCart();
-            }}
-          >
-            장바구니
-          </button>
-        </div>
-
-    </div>
     
     </Wrapper>
   )
