@@ -56,7 +56,7 @@ function App() {
                 <Route path="/mypage" element={sessionStorage.getItem('accessToken') ? <Mypage /> : <SignIn />} />
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp/>} />
-                <Route path="/mypage/cart" element={<Cart />} />
+                <Route path="/mypage/cart" element={<Cart cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />
                 <Route path="/mypage/wish" element={<Wish/>} />
                 <Route path="/mypage/order" element={<Order/>} />
 
@@ -70,7 +70,7 @@ function App() {
 
                 <Route path="/shopping/add" element={<Addproduct />} />
                 <Route path="/shopping/meal" element={<Meal convertPrice={convertPrice} />} />
-                <Route path="/shopping/cookie" element={<Cookie />} />
+                <Route path="/shopping/cookie" element={<Cookie convertPrice={convertPrice} />} />
                 <Route path="/shopping/vita" element={<Vita />} />
                 <Route path="/shopping/allVita" element={<AllVita />} />
                 <Route path="/shopping/pad" element={<Pad />} />
