@@ -305,6 +305,7 @@ function Items( { convertPrice, cart, setCart } ) {
       id: itemInfo.itemId,
       image: {final},
       name: itemInfo.itemName,
+      quantity: count,
       price: itemInfo.price,
       info: itemInfo.info
     };
@@ -420,12 +421,10 @@ function Items( { convertPrice, cart, setCart } ) {
 
                 <div className="btn">
                   <button className="btn_buy">바로 구매</button>
-                  
+
                   <button
                     className="btn_cart"
-                    onClick={() => {
-                      handleCart();
-                    }}
+                    onClick={ () => { handleCart() } }
                   >
                     장바구니
                   </button>
