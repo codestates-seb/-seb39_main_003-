@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 // import { Link } from 'react-router-dom'
 import Cat from '../../Shopping/images/cat.png'
@@ -87,7 +87,42 @@ const Wrapper = styled.div`
 
 function Cart( {cart, setCart, convertPrice} ) {
 
-    
+  const [total, setTotal] = useState(0);
+  const [checkLists, setCheckLists] = useState([]);
+  const isAllChecked =
+    cart.length === checkLists.length && checkLists.length !== 0;
+
+    const found = checkLists.map((checkList) =>
+    cart.filter((el) => el.id === parseInt(checkList))
+  );
+
+  const handleQuantity = (type, id, quantity) => {
+    const found = cart.filter((el) => el.id === id)[0];
+    const idx = cart.indexOf(found);
+
+    if (type === "plus") {
+      const cartItem = {
+        id: found.id,
+        image: found.image,
+        name: found.name,
+        quantity: quantity,
+        price: found.price,
+        provider: found.provider,
+      };
+      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+    } else {
+      if (quantity === 0) return;
+      const cartItem = {
+        id: found.id,
+        image: found.image,
+        name: found.name,
+        quantity: quantity,
+        price: found.price,
+        provider: found.provider,
+      };
+      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+    }
+  };
 
   return (
     <Wrapper>
