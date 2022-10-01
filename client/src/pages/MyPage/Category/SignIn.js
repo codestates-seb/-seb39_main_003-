@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 // import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
@@ -130,8 +130,20 @@ function SignIn() {
       console.log(err.response.headers.Authorization);
       alert("이메일 혹은 비밀번호를 확인하세요") ;
     })
-    // .catch(err => console.err(err));
   }
+
+//   const GoogleLogin = () => {
+
+  
+//     fetch(`http://211.204.66.186:8080/oauth/google/login`, {
+//       method: 'POST'
+//     })
+//     .then(() => {
+//       navigate('/')
+//     })
+//     .catch(() => console.log('실패'))
+// }
+
 
   return (
     <Wrapper>
@@ -139,6 +151,7 @@ function SignIn() {
       <div className='signInTerritory'>
         <div className='signInBackground'>
           
+
           {/* 로그인 본문 */}
           <h2 className='text'>Sign In</h2>
           <div className='siBackground'>
@@ -155,9 +168,9 @@ function SignIn() {
                 </div>
             </div>
 
-            {/* <button>
-              <a href='211.204.66.186:8080/oauth2/authorization/google'>구글 로그인</a>
-            </button> */}
+            <button>
+              <a href='http://211.204.66.186:8080/oauth/google/login'>구글 로그인</a>
+            </button>
 
               {/* 로그인 버튼 */}
               <input className='siButton' type="submit"></input>
