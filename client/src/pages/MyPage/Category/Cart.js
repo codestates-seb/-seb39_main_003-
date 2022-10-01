@@ -85,7 +85,10 @@ const Wrapper = styled.div`
 .orderbutton{}
 `
 
-function Cart() {
+function Cart( {cart, setCart, convertPrice} ) {
+
+    
+
   return (
     <Wrapper>
         <div className='cartterritory'>
@@ -103,7 +106,7 @@ function Cart() {
                 {/* 장바구니 본문 */}
                 <div className='cartBox'>
                     <span className='cartimgs'>
-                        <img className='cartimg' src={Cat}/>
+                        {/* <img className='cartimg' src={Cat}/> */}
                     </span>
                     <span className='cartname'>상품이름</span>
                     <span className='cartprice'>판매가</span>
