@@ -190,7 +190,7 @@ function Meal( { convertPrice } ) {
     .then((res) => res.json())
     .then(res => {
       setItemList(res.data)
-      console.log(res)
+      // console.log(res)
     })
     .catch(() => console.log('실패'))
   } , [])
