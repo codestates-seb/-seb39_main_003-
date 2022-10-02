@@ -60,7 +60,7 @@ const Wrapper = styled.div`
 // useState로 cartList setCartList 설정해서 초기값 배열로 담아주고
 // GET 요청으로 장바구니 데이터에 있는 상품들 불러온 다음 
 // map 함수 돌려서 장바구니 데이터에 추가된 상품들 하나씩 조회 가능하게끔 하기
-function CartBody() {
+function CartBody( {convertPrice} ) {
 
   const [cartList, setCartList ] = useState([])
 
@@ -92,8 +92,9 @@ function CartBody() {
     <Wrapper>
 
       {cartList && cartList.map((el, idx) => {
+        
       const Image = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
-      const readCartItemId = () => {
+      const deleteCartItemId = () => {
         fetch(`http://211.58.40.128:8080/api/v1/cart/${el.cartItemId}`, {
           method: 'DELETE'
         })
@@ -106,19 +107,26 @@ function CartBody() {
       }
 
       const Plus = (count) => {
-        fetch(`http://211.58.40.128:8080/api/v1/cart/${el.cartItemId}`, {
+        fetch(`http://211.58.40.128:8080/api/v1/cart/00000${el.cartItemId}`, {
           method: 'PATCH',
           headers: {
-            "content-type": "application/json"
+            "content-type": "application/json",
+            "accept": "application/json"
           },
           body: JSON.stringify({
-            "itemCnt" : count + 1
+            cartItemId: el.cartItemId,
+            itemCnt: count + 1,
+            price: el.price,
+            totalPrice: el.price,
+            itemName: el.itemName,
+            thumbnail: el.thumbnail,
+            itemId: el.itemId
           })
         })
       }
 
       const Minus = (count) => {
-        fetch(`http://211.58.40.128:8080/api/v1/cart/${el.cartItemId}`, {
+        fetch(`http://211.58.40.128:8080/api/v1/cart/00000${el.cartItemId}`, {
           method: 'PATCH',
           headers: {
             "content-type": "application/json"
@@ -152,7 +160,7 @@ function CartBody() {
                 </span>
 
                 <span className='itemAll deleteBox'>
-                  <span className='listDelete' onClick={readCartItemId}>
+                  <span className='listDelete' onClick={deleteCartItemId}>
                     <ImCancelCircle />
                   </span>
                 </span>
