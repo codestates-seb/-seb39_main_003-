@@ -171,6 +171,16 @@ const Wrapper = styled.div`
   }
 `;
 
+const ListLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+
+  .item_name {
+    color: blue;
+    font-weight: 600;
+  }
+`;
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: black;
@@ -250,7 +260,7 @@ function Meal( { convertPrice } ) {
                 const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
               return (
                 
-                <Link to={`/shopping/item/${el.itemId}`} key={idx} className='item_box' state={
+                <ListLink to={`/shopping/item/${el.itemId}`} key={idx} className='item_box' state={
                   {id: el.itemId,
                   thumbnail: el.thumbnail}
                   // {thumbnail:el.thumbnail}
@@ -264,7 +274,7 @@ function Meal( { convertPrice } ) {
                     </div>
 
                     <div className='itemName'>
-                        <div className="item_list">{el.itemName}</div>
+                        <div className="item_list item_name">{el.itemName}</div>
                     </div>
 
                     <div className='itemPrice'>
@@ -272,7 +282,7 @@ function Meal( { convertPrice } ) {
                     </div>
                   
                     {/* </div> */}
-                </Link>
+                </ListLink>
               )
             })}
       </div>

@@ -323,8 +323,8 @@ function Items( { convertPrice, cart, setCart } ) {
     })
     .then((res) => res.json())  
     .then((result) => console.log(result))
-    // .then(() => navigate(`/mypage/cart`))
-    .catch(alert('같은 아이템이 존재합니다'))
+    .then(() => navigate(`/mypage/cart`))
+    .catch(alert('장바구니에 추가되었습니다 !!'))
 
     // const cartItem = {
     //   id: itemInfo.itemId,
