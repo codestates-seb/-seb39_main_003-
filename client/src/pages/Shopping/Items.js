@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import Minus from './images/icon-minus-line.svg';
 import Plus from './images/icon-plus-line.svg';
-import Cat from './images/cat.png';
 import { useParams } from "react-router-dom";
 import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 
 const Wrapper = styled.div`
@@ -253,6 +253,7 @@ const Wrapper = styled.div`
 function Items( { convertPrice, cart, setCart } ) {
 
   // const [test, setTest] = useState(ItemData);
+  const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [count, setCount] = useState(1);
@@ -266,7 +267,7 @@ function Items( { convertPrice, cart, setCart } ) {
     .then((res) => res.json())
     .then(res => {
       setItemInfo(res.data)
-      // console.log(res.data)
+      console.log(res.data)
     })
     .catch((err) => {
       console.log(err)
@@ -286,32 +287,57 @@ function Items( { convertPrice, cart, setCart } ) {
     }
   };
 
-  const setQuantity = (id, quantity) => {
+  const setQuantity = (id) => {
     const found = cart.filter((el) => el.id === id)[0];
     const idx = cart.indexOf(found);
     const cartItem = {
       id: itemInfo.itemId,
       image: {final},
       name: itemInfo.itemName,
-      quantity: quantity,
       price: itemInfo.price,
+      quantity: count,
       info: itemInfo.info
     };
     setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
   };
 
   const handleCart = () => {
-    const cartItem = {
-      id: itemInfo.itemId,
-      image: {final},
-      name: itemInfo.itemName,
-      quantity: count,
-      price: itemInfo.price,
-      info: itemInfo.info
-    };
-    const found = cart.find((el) => el.id === cartItem.id);
-    if (found) setQuantity(cartItem.id, found.quantity + count);
-    else setCart([...cart, cartItem]);
+
+    fetch(`http://211.58.40.128:8080/api/v1/cart`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        itemId: itemInfo.itemId,
+        name: itemInfo.itemName, 
+        price: itemInfo.itemPrice,
+        image: `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${itemInfo.thumbnail}`,
+        itemCnt: count,
+        memberId: "000001"
+        // "itemCnt": 1,
+        // "itemId": "000002",
+        // "memberId": "000001"
+      }),
+    })
+    .then((res) => res.json())  
+    .then((result) => console.log(result))
+    // .then(() => navigate(`/mypage/cart`))
+    .catch(alert('같은 아이템이 존재합니다'))
+
+    // const cartItem = {
+    //   id: itemInfo.itemId,
+    //   image: `${final}`,
+    //   name: itemInfo.itemName,
+    //   quantity: count,
+    //   price: itemInfo.price,
+    //   info: itemInfo.info
+    // };
+    // const found = cart.find((el) => el.id === cartItem.id);
+    // if (found) setQuantity(cartItem.id, found.quantity + count);
+    // else setCart([...cart, cartItem]);
+    // console.log('장바구니')
   };
 
   // let allChange = {}
@@ -424,8 +450,7 @@ function Items( { convertPrice, cart, setCart } ) {
 
                   <button
                     className="btn_cart"
-                    onClick={ () => { handleCart() } }
-                  >
+                    onClick={handleCart}>
                     장바구니
                   </button>
                 </div>

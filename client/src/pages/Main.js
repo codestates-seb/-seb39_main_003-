@@ -152,6 +152,8 @@ function Main() {
 
   return (
     <Wrapper>
+
+
       {/* 캐러셀 컴포넌트 */}
     <div className="windowBox">
       <div className="window">
@@ -164,6 +166,9 @@ function Main() {
     </div>
       {/* 캐러셀 컴포넌트 */}
   
+        {/* <button>
+          <a href='http://ec2-15-165-63-80.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google'>구글 로그인</a>
+        </button> */}
 
         {/* 메뉴 탭 컴포넌트 */}
       <div className="tabBox">

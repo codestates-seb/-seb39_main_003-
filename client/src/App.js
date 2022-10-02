@@ -22,7 +22,7 @@ import SignUp from "./pages/MyPage/Category/SignUp";
 import SignIn from "./pages/MyPage/Category/SignIn";
 import Items from "./pages/Shopping/Items";
 import AddProduct from "./pages/Shopping/AddProduct";
-import Cart from "./pages/MyPage/Category/Cart";
+import Cart from "./pages/MyPage/Category/Cart/Cart";
 import Wish from "./pages/MyPage/Category/Wish";
 import Order from "./pages/MyPage/Category/Order";
 import SuccessLogin from "./components/SuccessLogin";

@@ -150,7 +150,6 @@ function SignIn() {
       {/* 로그인 페이지 */}
       <div className='signInTerritory'>
         <div className='signInBackground'>
-          
 
           {/* 로그인 본문 */}
           <h2 className='text'>Sign In</h2>
@@ -168,9 +167,6 @@ function SignIn() {
                 </div>
             </div>
 
-            <button>
-              <a href='http://211.204.66.186:8080/oauth/google/login'>구글 로그인</a>
-            </button>
 
               {/* 로그인 버튼 */}
               <input className='siButton' type="submit"></input>

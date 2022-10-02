@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 // import { Link } from 'react-router-dom'
-import Cat from '../../Shopping/images/cat.png'
+import Body from './CartBody';
 
 const Wrapper = styled.div`
 .cartterritory{
@@ -107,7 +107,7 @@ function Cart( {cart, setCart, convertPrice} ) {
         name: found.name,
         quantity: quantity,
         price: found.price,
-        provider: found.provider,
+        info: found.info,
       };
       setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
     } else {
@@ -118,13 +118,37 @@ function Cart( {cart, setCart, convertPrice} ) {
         name: found.name,
         quantity: quantity,
         price: found.price,
-        provider: found.provider,
+        info: found.info,
       };
       setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
     }
   };
 
+  const handleRemove = (id) => {
+    setCart(cart.filter((cart) => cart.id !== id));
+    setCheckLists(checkLists.filter((check) => parseInt(check) !== id));
+  };
+
+  const handleCheckList = (checked, id) => {
+    if (checked) {
+      setCheckLists([...checkLists, id]);
+    } else {
+      setCheckLists(checkLists.filter((check) => check !== id));
+    }
+  };
+
+  const handleCheckAll = (checked) => {
+    if (checked) {
+      const checkItems = [];
+      cart.map((cart) => checkItems.push(`${cart.id}`));
+      setCheckLists(checkItems);
+    } else {
+      setCheckLists([]);
+    }
+  };
+
   return (
+
     <Wrapper>
         <div className='cartterritory'>
             {/* 장바구니 텍스트 */}
@@ -138,15 +162,21 @@ function Cart( {cart, setCart, convertPrice} ) {
                     <span className='carttab'>판매가</span>
                     <span className='carttab'>수량</span>
                 </div>
+
                 {/* 장바구니 본문 */}
-                <div className='cartBox'>
+                {/* <div className='cartBox'>
                     <span className='cartimgs'>
-                        {/* <img className='cartimg' src={Cat}/> */}
+
                     </span>
                     <span className='cartname'>상품이름</span>
                     <span className='cartprice'>판매가</span>
                     <input className='cartamount' type='number' placeholder='수량'></input>
-                </div>
+                </div> */}
+
+                <Body />
+
+
+                {/* 주문하기 버튼 */}
                 <button className='orderbutton'>주문하기</button>
             </div>
         </div>
