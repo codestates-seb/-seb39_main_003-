@@ -340,58 +340,59 @@ function Items( { convertPrice, cart, setCart } ) {
     // console.log('장바구니')
   };
 
-  // let allChange = {}
+  let allChange = {}
 
-  // if(product.id === id) {
-  //   allChange = {
-  //     "id": product.id,
-  //     "image": product.image,
-  //     "itemName": product.name,
-  //     "price": product.price,
-  //     "stockCnt": product.stockCnt,
-  //     "info": product.info
-  //   }
-  // }
+  if(product.id === id) {
+    allChange = {
+      "id": product.id,
+      "image": product.image,
+      "itemName": product.name,
+      "price": product.price,
+      "stockCnt": product.stockCnt,
+      "info": product.info
+    }
+  }
 
-  // const Patch = () => {
-  //   fetch(`http://211.58.40.128:8080/api/v1/item/${itemInfo.itemId}`,{
-  //     method: 'PATCH',
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(allChange)
-  //     })
-  //     .then(() => {
-  //       window.location.reload("/")
-  //     })
-  //     .catch(() => {
-  //       console.log("실패")
-  //     })
-  // }
+  const Patch = () => {
+    fetch(`http://211.58.40.128:8080/api/v1/item/${itemInfo.itemId}`,{
+      method: 'PATCH',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(allChange)
+      })
+      .then(() => {
+        window.location.reload("/")
+      })
+      .catch(() => {
+        console.log("실패")
+      })
+  }
 
-  // const Delete = () => {
-  //   fetch(`http://211.58.40.128:8080/api/v1/item/${itemInfo.itemId}`, {
-  //     method: 'DELETE'
-  //   })
-  //   .then(() => {
-  //     // window.location.reload();
-  //   })
-  //   .catch(() => {
-  //     alert('실패')
-  //   })
-  // }
+  const Delete = () => {
+    fetch(`http://211.58.40.128:8080/api/v1/item/${itemInfo.itemId}`, {
+      method: 'DELETE'
+    })
+    .then(() => {
+      navigate('/shopping/meal')
+      window.location.reload();
+    })
+    .catch(() => {
+      alert('실패')
+    })
+  }
 
   return (
     <Wrapper>
       
-    {/* {sessionStorage.getItem('accessToken') ?
+    {sessionStorage.getItem('accessToken') ?
       <div className='deleteBox'>
       <span className='patch' onClick={Patch}>상품 수정</span>
       <span className='delete' onClick={Delete}>상품 삭제</span>
       </div>
       :
       undefined
-    } */}
+    }
 
     <div className="item_top">
           <>
