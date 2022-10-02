@@ -23,6 +23,7 @@ import SignIn from "./pages/MyPage/Category/SignIn";
 import Items from "./pages/Shopping/Items";
 import AddProduct from "./pages/Shopping/AddProduct";
 import Cart from "./pages/MyPage/Category/Cart/Cart";
+import CartBody from "./pages/MyPage/Category/Cart/CartBody";
 import Wish from "./pages/MyPage/Category/Wish";
 import Order from "./pages/MyPage/Category/Order";
 import SuccessLogin from "./components/SuccessLogin";
@@ -56,6 +57,7 @@ function App() {
                 <Route path="/mypage" element={sessionStorage.getItem('accessToken') ? <Mypage /> : <SignIn />} />
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp/>} />
+                <Route path="/mypage/cart" element={<Cart cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />
                 <Route path="/mypage/cart" element={<Cart cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />
                 <Route path="/mypage/wish" element={<Wish/>} />
                 <Route path="/mypage/order" element={<Order/>} />
