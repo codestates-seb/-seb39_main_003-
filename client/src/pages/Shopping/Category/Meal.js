@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import Cat from '../images/cat.png';
 
 const Wrapper = styled.div`
 
@@ -191,8 +192,6 @@ const StyledLink = styled(Link)`
 
 function Meal( { convertPrice } ) {
   
-  // const [test, setTest] = useState(ItemDatas)
-  
   const [itemList, setItemList] = useState(undefined);
   
     useEffect(() => {
@@ -257,7 +256,7 @@ function Meal( { convertPrice } ) {
 
       <div className="item_list_box">
             {itemList && itemList.map((el, idx) => {
-                const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
+                // const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
               return (
                 
                 <ListLink to={`/shopping/item/${el.itemId}`} key={idx} className='item_box' state={
@@ -269,7 +268,7 @@ function Meal( { convertPrice } ) {
 
                     <div className='image'>
                         <div>
-                          <img className='img' src={final} alt='사진' />
+                          <img className='img' src={Cat} alt='사진' />
                         </div>
                     </div>
 
