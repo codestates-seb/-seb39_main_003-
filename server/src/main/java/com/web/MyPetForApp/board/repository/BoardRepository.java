@@ -18,4 +18,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     Page<Board> findAllByTags(@Param(value = "tagIds") List<Long> tagIds,
                               @Param(value = "size") Integer size,
                               Pageable pageable);
+
+    Page<Board> findByTitleContaining(String keyword, Pageable pageable);
 }

@@ -94,6 +94,14 @@ public class BoardService {
         ).collect(Collectors.toList());
     }
 
+    public Page<Board> searchBoards(String keyword, int page, int size) {
+        Page<Board> boards = boardRepository.findByTitleContaining(
+                keyword,
+                PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
+
+        return boards;
+    }
+
     //-----------------------------------------------------------------------------------------
 
     private List<BoardTag> idsToBoardTag(Board board, List<Long> tagIds) {

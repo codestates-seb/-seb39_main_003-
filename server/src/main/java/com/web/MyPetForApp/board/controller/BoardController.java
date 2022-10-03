@@ -71,6 +71,17 @@ public class BoardController {
         return new ResponseEntity<>("delete success", HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity searchBoards(@RequestParam(defaultValue = "") String q,
+                                       @RequestParam(required = false, defaultValue = "1") int page,
+                                       @RequestParam(required = false, defaultValue = "10") int size){
+        Page<Board> pageBoards = boardService.searchBoards(q, page-1, size);
+        List<Board> boards = pageBoards.getContent();
+        List<BoardDto.Response> responses = boardMapper.boardToBoardResponse(boards);
+
+        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageBoards), HttpStatus.OK);
+    }
+
     @Operation(summary = "게시판 리스트 조회")
     @ApiResponses(
             @ApiResponse(

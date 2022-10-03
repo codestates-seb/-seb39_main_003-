@@ -3,7 +3,7 @@ package com.web.MyPetForApp.item.entity;
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.member.entity.Member;
-import com.web.MyPetForApp.qna.entity.Qna;
+import com.web.MyPetForApp.qna.entity.Question;
 import com.web.MyPetForApp.review.entity.Review;
 import com.web.MyPetForApp.wish.entity.Wish;
 import lombok.AllArgsConstructor;
@@ -63,7 +63,7 @@ public class Item extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<Qna> qnas = new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
