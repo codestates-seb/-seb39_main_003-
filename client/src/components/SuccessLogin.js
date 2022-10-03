@@ -13,6 +13,13 @@ import ShoppingCart from '../pages/Shopping/images/icon-shopping-cart.svg';
 
 const Wrapper = styled.div `
 
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
   .headerBox {
     width: 100%;
     height: 100px;
@@ -135,34 +142,6 @@ const Wrapper = styled.div `
     align-items: center;
   }
 
-  .show-menu{
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  width: 15%;
-  height: 500px;
-  position: absolute;
-  top: 10%;
-  right: 0%;
-  transition: 1s;
-  background-color: #FEFBF6;
-  border-left: 3px solid black;
-  border-top: 3px solid black;
-  border-bottom: 3px solid black;
-  z-index: 1;
-  border-radius: 5px;
-}
-
-  .hide-menu{
-  width: 15%;
-  height: 30%;
-  position: absolute;
-  left: -15%;
-  transition: 1s;
-  background-color: #FEFBF6;
-}
-
   .info {
     width: 100%;
     height: 500px;
@@ -188,6 +167,8 @@ const Wrapper = styled.div `
   .welcome {
     padding-right: 40px;
     font-size: 1.5rem;
+    color: #9263FF;
+    font-family: Cafe24Ssurround;
   }
 `;
 
@@ -224,14 +205,14 @@ const MyPage = styled(Link)`
 
 const Nav = () => {
 
-  const handleButtonLogout = () => {
-    axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
-      sessionStorage.removeItem('refreshToken'),
-      sessionStorage.removeItem('accessToken'),
-      navigate('/'),
-      window.location.reload()
-    )
-  };
+  // const handleButtonLogout = () => {
+  //   axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
+  //     sessionStorage.removeItem('refreshToken'),
+  //     sessionStorage.removeItem('accessToken'),
+  //     navigate('/'),
+  //     window.location.reload()
+  //   )
+  // };
 
   // const handleButtonLogout2 = () => {
   //   axios.post(`http://211.58.40.128:8080/logout?test@naver.com`)
@@ -257,7 +238,8 @@ const Nav = () => {
           <div className="headerBox">
               <span className="logo headerList">
                 {/* 로고 */}
-                <img className="logoImage" alt="logo" src={logo} onClick={() => {
+                <img className="logoImage" alt="logo" src="https://cdn.discordapp.com/attachments/1020944788419248179/1026519523848880189/logoForSubmit.jpg"
+                onClick={() => {
                   navigate('/');
                 }}/>
               </span>
@@ -269,7 +251,7 @@ const Nav = () => {
               <div className='memberBox'>
 
                 <span className='welcome'>
-                  환영합니다!
+                  어서오라개!
                 </span>
 
                 <span className='shoppingCart profile'>
