@@ -5,6 +5,7 @@ import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.pay.entity.Pay;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -40,7 +41,8 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @BatchSize(size = 1000)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -92,9 +94,8 @@ public class Order extends BaseTimeEntity {
     }
     public enum OrderStatus{
         ORDER_REQUEST(1, "주문 요청"),
-        ORDER_CONFIRM(2, "주문 접수"),
-        PAY_WAIT(3, "결제 대기"),
-        ORDER_COMPLETE(4, "주문 완료"),
+        ORDER_COMPLETE(2, "주문 완료"),
+        ORDER_CONFIRM(3, "주문 확정"),
         ORDER_CANCEL(4, "주문 취소");
 
         private static final Map<String, String> map = Collections.unmodifiableMap(

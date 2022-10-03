@@ -1,5 +1,6 @@
 package com.web.MyPetForApp.pay.controller;
 
+import com.web.MyPetForApp.order.dto.OrderDto;
 import com.web.MyPetForApp.pay.dto.PayDto;
 import com.web.MyPetForApp.pay.entity.Pay;
 import com.web.MyPetForApp.pay.mapper.PayMapper;
@@ -11,20 +12,24 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 @Tag(name = "결제 API")
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1/pay")
 public class PayController {
 
     private final PayService payService;
     private final PayMapper mapper;
 
-    @Operation(summary = "결제 등록 요청")
+    @Operation(summary = "결제 요청")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "201",
@@ -32,10 +37,11 @@ public class PayController {
             )
     )
     @PostMapping
-    public ResponseEntity postPay(@RequestBody PayDto.Post post ) {
+    public ResponseEntity postPay(@Valid @RequestBody PayDto.Post post ) {
         String memberId = post.getMemberId();
-        Long orderId = post.getOrderId();
-        Pay savedPay = payService.create(mapper.payPostToPay(post), memberId,orderId);
+        Pay pay = mapper.payPostToPay(post);
+        OrderDto.Post orderPostDto = mapper.payPostToOrderPost(post);
+        Pay savedPay = payService.create(pay, memberId, orderPostDto);
 
         return new ResponseEntity<>(mapper.payToResponse(savedPay), HttpStatus.CREATED);
     }
@@ -49,7 +55,7 @@ public class PayController {
     )
     // 결제 정보 조회 요청
     @GetMapping("/{payId}")
-    public ResponseEntity getPay(@PathVariable Long payId) {
+    public ResponseEntity getPay(@Positive @PathVariable Long payId) {
         Pay findPay = payService.read(payId);
         return new ResponseEntity<>(mapper.payToResponse(findPay), HttpStatus.OK);
     }
