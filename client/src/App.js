@@ -58,8 +58,8 @@ function App() {
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp/>} />
                 <Route path="/mypage/cart" element={<Cart cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />
-                <Route path="/mypage/cart" element={<Cart cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />
-                <Route path="/mypage/wish" element={<Wish/>} />
+                <Route path="/mypage/cart" element={<CartBody cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />
+                <Route path="/mypage/wish" element={<Wish convertPrice={convertPrice} />} />
                 <Route path="/mypage/order" element={<Order/>} />
 
                 <Route path="/community/walk" element={<Community />} />
