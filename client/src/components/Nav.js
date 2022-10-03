@@ -186,6 +186,11 @@ const Wrapper = styled.div `
       background-color: #F3E0B5;
     }
   }
+
+  .logoImage {
+    width: 11rem;
+    height: 6.5rem;
+  }
 `;
 
 const StyledLink = styled(Link)`
