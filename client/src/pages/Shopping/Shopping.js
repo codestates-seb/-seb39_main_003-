@@ -11,6 +11,7 @@ import OtherDropdown from './OtherDropdown';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ItemData from '../../dummytest/ItemData';
+import Cat from './images/cat.png';
 
 const Wrapper = styled.div`
 
@@ -27,6 +28,13 @@ const Wrapper = styled.div`
     font-weight: normal;
     font-style: normal;
 }
+
+  .img {
+    width: 20rem;
+    height: 13rem;
+    background-size: cover;
+    margin-bottom: 50px;
+  }
 
   .item_box {
     width: 20%;
@@ -163,6 +171,18 @@ const Wrapper = styled.div`
 
 function Shopping() {
 
+  const [itemList, setItemList] = useState(undefined);
+  
+  useEffect(() => {
+  fetch(`http://211.58.40.128:8080/api/v1/item?itemCategoryId=11`)
+  .then((res) => res.json())
+  .then(res => {
+    setItemList(res.data)
+    // console.log(res)
+  })
+  .catch(() => console.log('실패'))
+} , [])
+
   const navigate = useNavigate();
 
 
@@ -239,21 +259,23 @@ function Shopping() {
 
 
           <div className="item_list_box">
-            {test.map((item, idx) => {
+            {itemList && itemList.map((el, idx) => {
               return (
 
                 <div key={idx} className='item_box'>
 
                     <div className='image'>
-                        <div>{item.image}</div>
+                        <div>
+                           <img className='img' src={Cat} alt='사진' />
+                        </div>
                     </div>
 
                     <div className='test1'>
-                        <div className="item_list">{item.name}</div>
+                        <div className="item_list">{el.itemName}</div>
                     </div>
 
                     <div className='test2'>
-                        <div className="item_list">{item.price}원</div>
+                        <div className="item_list">{el.price}원</div>
                     </div>
 
                 </div>
