@@ -1,6 +1,7 @@
 package com.web.MyPetForApp.board.repository;
 
 import com.web.MyPetForApp.board.entity.Board;
+import com.web.MyPetForApp.board.entity.BoardCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -12,18 +13,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    @Query(nativeQuery = true,
-            value = "SELECT * FROM board WHERE board_id IN" +
-                    "(SELECT board_id FROM board_tag WHERE tag_id IN (:tagIds)" +
-                    "GROUP BY board_id HAVING COUNT(board_id) = :size)")
-    Page<Board> findAllByTags(@Param(value = "tagIds") List<Long> tagIds,
-                              @Param(value = "size") Integer size,
-                              Pageable pageable);
+
+    @EntityGraph(attributePaths = {"member"})
+    Page<Board> findAllByBoardCategory(BoardCategory boardCategory, Pageable pageable);
 
     @Override
     @EntityGraph(attributePaths = {"member"})
     Optional<Board> findById(Long boardId);
 
     @EntityGraph(attributePaths = {"member"})
-    Page<Board> findByTitleContaining(String keyword, Pageable pageable);
+    Page<Board> findByBoardCategoryAndTitleContaining(BoardCategory boardCategory,
+                                                      String keyword,
+                                                      Pageable pageable);
 }

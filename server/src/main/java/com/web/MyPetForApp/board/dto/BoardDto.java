@@ -18,8 +18,8 @@ public class BoardDto {
         private String boardContents;
         @Schema(description = "작성 회원 식별번호", example = "000001")
         private String memberId;
-        @Schema(description = "작성할 게시판의 태그(종류)", example = "11")
-        private List<Long> tagIds;
+        @Schema(description = "작성할 게시판의 카테고리(종류)", example = "11")
+        private Long categoryId;
     }
     @Schema(name = "BoardPatch", description = "게시판 Patch 요청 모델")
     @Getter
@@ -28,9 +28,8 @@ public class BoardDto {
         private String title;
         @Schema(description = "게시글 내용", example = "내용1")
         private String boardContents;
-        @Schema(description = "작성할 게시판의 태그(종류)", example = "11")
-        private List<Long> tagIds;
     }
+
     @Schema(name = "BoardDetail", description = "게시판 상세 페이지 데이터 반환 모델")
     @Builder
     @Setter
@@ -51,6 +50,7 @@ public class BoardDto {
         @Schema(description = "마지막 수정 일자", example = "2022-09-28 22:26:56")
         private LocalDateTime modifiedAt;
     }
+
     @Schema(name = "BoardResponse", description = "게시판 Post 요청 모델")
     @Builder
     @Getter

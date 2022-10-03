@@ -36,11 +36,11 @@ public class Board extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @Builder.Default
-    private List<BoardTag> boardTags = new ArrayList<>();
-
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CATEGORY_ID")
+    private BoardCategory boardCategory;
 
     // Board-Comment 양방향 연관관계 편의 메서드
     public void addComment(Comment comment){

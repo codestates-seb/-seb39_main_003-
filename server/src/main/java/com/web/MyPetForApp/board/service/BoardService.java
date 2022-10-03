@@ -1,16 +1,12 @@
 package com.web.MyPetForApp.board.service;
 
-import com.web.MyPetForApp.board.dto.TagDto;
+import com.web.MyPetForApp.board.dto.BoardCategoryDto;
 import com.web.MyPetForApp.board.entity.Board;
-import com.web.MyPetForApp.board.entity.BoardTag;
-import com.web.MyPetForApp.board.entity.Tag;
+import com.web.MyPetForApp.board.entity.BoardCategory;
+import com.web.MyPetForApp.board.repository.BoardCategoryRepository;
 import com.web.MyPetForApp.board.repository.BoardRepository;
-import com.web.MyPetForApp.board.repository.BoardTagRepository;
-import com.web.MyPetForApp.board.repository.TagRepository;
 import com.web.MyPetForApp.exception.BusinessLogicException;
 import com.web.MyPetForApp.exception.ExceptionCode;
-import com.web.MyPetForApp.member.entity.Member;
-import com.web.MyPetForApp.member.repository.MemberRepository;
 import com.web.MyPetForApp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -26,50 +22,42 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
-    private final TagRepository tagRepository;
-    private final BoardTagRepository boardTagRepository;
+    private final BoardCategoryRepository boardCategoryRepository;
     private final MemberService memberService;
 
     @Transactional
-    public Board create(Board board, List<Long> tagIds, String memberId) {
+    public Board create(Board board, String memberId, Long boardCategoryId) {
 
-        Optional.ofNullable(idsToBoardTag(board, tagIds))
-                .ifPresent(boardTags -> board.setBoardTags(boardTags));
         Optional.ofNullable(memberService.findVerifiedMember(memberId))
                 .ifPresent(member -> board.setMember(member));
+        Optional.ofNullable(findVerifiedBoardCategory(boardCategoryId))
+                .ifPresent(boardCategory -> board.setBoardCategory(boardCategory));
 
         return boardRepository.save(board);
     }
 
-    @Transactional
-    public Board update(Long boardId, Board board, List<Long> tagIds) {
+    public Board update(Long boardId, Board board) {
         Board findBoard = findVerifiedBoard(boardId);
 
         Optional.ofNullable(board.getTitle())
                 .ifPresent(title -> findBoard.setTitle(title));
         Optional.ofNullable(board.getBoardContent())
                 .ifPresent(contents -> findBoard.setBoardContent(contents));
-        Optional.ofNullable(idsToBoardTag(findBoard, tagIds))
-                .ifPresent(boardTags -> {
-                    boardTagRepository.deleteAllByBoard(boardId);
-                    findBoard.setBoardTags(boardTags);
-                });
 
         return boardRepository.save(findBoard);
     }
 
     public void delete(Long boardId) {
         Board board = findVerifiedBoard(boardId);
-        boardTagRepository.deleteAllByBoard(boardId);
 
         boardRepository.delete(board);
     }
 
-    public Page<Board> getBoard(List<Long> tagIds, int page, int size) {
-        Page<Board> boards = boardRepository.findAllByTags(
-                tagIds,
-                tagIds.size(),
-                PageRequest.of(page, size, Sort.by("modified_at").descending()));
+    public Page<Board> getBoard(Long boardCategoryId, int page, int size) {
+
+        Page<Board> boards = boardRepository.findAllByBoardCategory(
+                findVerifiedBoardCategory(boardCategoryId),
+                PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
 
         return boards;
     }
@@ -82,20 +70,23 @@ public class BoardService {
         return board;
     }
 
-    public List<TagDto.Response> getAllTags(int pid){
+    public List<BoardCategoryDto.Response> getCategories(int pid){
 
-        List<Tag> tags = tagRepository.findAllByPid(pid);
+        List<BoardCategory> boardCategories = boardCategoryRepository.findAllByPid(pid);
 
-        return tags.stream().map(tag ->
-                TagDto.Response.builder()
-                        .tagId(tag.getTagId())
-                        .tagName(tag.getTagName())
+        return boardCategories.stream()
+                .map(boardCategory -> BoardCategoryDto.Response.builder()
+                        .boardCategoryId(boardCategory.getCategoryId())
+                        .boardCategoryName(boardCategory.getCategoryName())
+                        .pid(boardCategory.getPid())
                         .build()
         ).collect(Collectors.toList());
     }
 
-    public Page<Board> searchBoards(String keyword, int page, int size) {
-        Page<Board> boards = boardRepository.findByTitleContaining(
+    public Page<Board> searchBoards(Long categoryId, String keyword, int page, int size) {
+
+        Page<Board> boards = boardRepository.findByBoardCategoryAndTitleContaining(
+                findVerifiedBoardCategory(categoryId),
                 keyword,
                 PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
 
@@ -104,18 +95,10 @@ public class BoardService {
 
     //-----------------------------------------------------------------------------------------
 
-    private List<BoardTag> idsToBoardTag(Board board, List<Long> tagIds) {
-        if (!tagIds.isEmpty()) {
-            List<BoardTag> boardTags = tagIds.stream()
-                    .map(id ->
-                            BoardTag.builder()
-                                    .board(board)
-                                    .tag(tagRepository.findById(id).get())
-                                    .build()
-                    ).collect(Collectors.toList());
-            return boardTags;
-        }
-        return null;
+    public BoardCategory findVerifiedBoardCategory(Long categoryId){
+        return boardCategoryRepository.findById(categoryId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND)
+        );
     }
 
     public Board findVerifiedBoard(Long boardId) {

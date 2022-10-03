@@ -2,6 +2,7 @@ package com.web.MyPetForApp.board.mapper;
 
 import com.web.MyPetForApp.board.dto.BoardDto;
 import com.web.MyPetForApp.board.entity.Board;
+import com.web.MyPetForApp.board.entity.BoardCategory;
 import com.web.MyPetForApp.comment.dto.CommentDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
