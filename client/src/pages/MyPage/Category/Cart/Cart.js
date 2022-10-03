@@ -16,17 +16,14 @@ const Wrapper = styled.div`
 // 장바구니 텍스트
 .cartBackground{
     width: 100%;
-    padding: 20px;
-    margin: 20px;
 
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
 }
 .carttext{
     margin: 20px;
-    padding: 20px;
     
     font-size: x-large;
     font-weight: bolder;
@@ -54,7 +51,7 @@ const Wrapper = styled.div`
     padding: 10px;
 
     font-weight: bold;
-    font-size: large;
+    font-size: 2rem;
     color: #9263FF;
 }
 .cartBox{
@@ -87,80 +84,74 @@ const Wrapper = styled.div`
 
 function Cart( {cart, setCart, convertPrice} ) {
 
-  const [total, setTotal] = useState(0);
-  const [checkLists, setCheckLists] = useState([]);
-  const isAllChecked =
-    cart.length === checkLists.length && checkLists.length !== 0;
+  // const [checkLists, setCheckLists] = useState([]);
 
-    const found = checkLists.map((checkList) =>
-    cart.filter((el) => el.id === parseInt(checkList))
-  );
+  // const handleQuantity = (type, id, quantity) => {
+  //   const found = cart.filter((el) => el.id === id)[0];
+  //   const idx = cart.indexOf(found);
 
-  const handleQuantity = (type, id, quantity) => {
-    const found = cart.filter((el) => el.id === id)[0];
-    const idx = cart.indexOf(found);
+  //   if (type === "plus") {
+  //     const cartItem = {
+  //       id: found.id,
+  //       image: found.image,
+  //       name: found.name,
+  //       quantity: quantity,
+  //       price: found.price,
+  //       info: found.info,
+  //     };
+  //     setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+  //   } else {
+  //     if (quantity === 0) return;
+  //     const cartItem = {
+  //       id: found.id,
+  //       image: found.image,
+  //       name: found.name,
+  //       quantity: quantity,
+  //       price: found.price,
+  //       info: found.info,
+  //     };
+  //     setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+  //   }
+  // };
 
-    if (type === "plus") {
-      const cartItem = {
-        id: found.id,
-        image: found.image,
-        name: found.name,
-        quantity: quantity,
-        price: found.price,
-        info: found.info,
-      };
-      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-    } else {
-      if (quantity === 0) return;
-      const cartItem = {
-        id: found.id,
-        image: found.image,
-        name: found.name,
-        quantity: quantity,
-        price: found.price,
-        info: found.info,
-      };
-      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-    }
-  };
+  // const handleRemove = (id) => {
+  //   setCart(cart.filter((cart) => cart.id !== id));
+  //   setCheckLists(checkLists.filter((check) => parseInt(check) !== id));
+  // };
 
-  const handleRemove = (id) => {
-    setCart(cart.filter((cart) => cart.id !== id));
-    setCheckLists(checkLists.filter((check) => parseInt(check) !== id));
-  };
+  // const handleCheckList = (checked, id) => {
+  //   if (checked) {
+  //     setCheckLists([...checkLists, id]);
+  //   } else {
+  //     setCheckLists(checkLists.filter((check) => check !== id));
+  //   }
+  // };
 
-  const handleCheckList = (checked, id) => {
-    if (checked) {
-      setCheckLists([...checkLists, id]);
-    } else {
-      setCheckLists(checkLists.filter((check) => check !== id));
-    }
-  };
-
-  const handleCheckAll = (checked) => {
-    if (checked) {
-      const checkItems = [];
-      cart.map((cart) => checkItems.push(`${cart.id}`));
-      setCheckLists(checkItems);
-    } else {
-      setCheckLists([]);
-    }
-  };
+  // const handleCheckAll = (checked) => {
+  //   if (checked) {
+  //     const checkItems = [];
+  //     cart.map((cart) => checkItems.push(`${cart.id}`));
+  //     setCheckLists(checkItems);
+  //   } else {
+  //     setCheckLists([]);
+  //   }
+  // };
 
   return (
 
     <Wrapper>
         <div className='cartterritory'>
             {/* 장바구니 텍스트 */}
-            <div className='cartBackground'>
+            {/* <div className='cartBackground'>
                 <span className='carttext'>장바구니</span>
-            </div>
+            </div> */}
+            
             <div className='cartlistBackground'>
                 {/* 장바구니 탭 */}
                 <div className='carttabBackground'>
-                    <span className='carttab'>상품명</span>
-                    <span className='carttab'>판매가</span>
-                    <span className='carttab'>수량</span>
+                    <span className='carttab'>장바구니</span>
+                    {/* <span className='carttab'>판매가</span>
+                    <span className='carttab'>수량</span> */}
                 </div>
 
                 {/* 장바구니 본문 */}
