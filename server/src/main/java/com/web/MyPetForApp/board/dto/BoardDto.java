@@ -46,8 +46,6 @@ public class BoardDto {
         private int view;
         @Schema(description = "회원 별명", example = "별명1")
         private String nickName;
-        @Schema(description = "해당 게시판의 태그 이름들", example = "일상")
-        private List<String> tagNames;
         @Schema(description = "생성일자", example = "2022-09-28 22:26:56")
         private LocalDateTime createdAt;
         @Schema(description = "마지막 수정 일자", example = "2022-09-28 22:26:56")

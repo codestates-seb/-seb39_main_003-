@@ -37,11 +37,6 @@ public class BoardMapper {
                 .createdAt(board.getCreatedAt())
                 .modifiedAt(board.getModifiedAt())
                 .nickName(board.getMember().getNickName())
-                .tagNames(
-                        board.getBoardTags().stream()
-                                .map(boardTag -> boardTag.getTag().getTagName())
-                                .collect(Collectors.toList())
-                )
                 .build();
     }
 

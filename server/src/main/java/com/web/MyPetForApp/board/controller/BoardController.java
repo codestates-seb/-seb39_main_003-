@@ -92,7 +92,7 @@ public class BoardController {
     @GetMapping
     public ResponseEntity getBoardList(@Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
                                        @Parameter(description = "한 페이지 당 게시글 수") @RequestParam(required = false, defaultValue = "10") int size,
-                                    @RequestBody List<Long> tagIds){
+                                       @RequestBody List<Long> tagIds){
         Page<Board> pageBoards = boardService.getBoard(tagIds, page-1, size);
         List<Board> boards = pageBoards.getContent();
         List<BoardDto.Response> responses = boardMapper.boardToBoardResponse(boards);

@@ -78,9 +78,9 @@ public class CommentController {
                     description = "OK"
             )
     )
-    @GetMapping("/{id}")
-    public ResponseEntity getComments(@PathVariable Long boardId,
-                                      @PathVariable String memberId,
+    @GetMapping
+    public ResponseEntity getComments(@RequestParam(required = false, defaultValue = "0") Long boardId,
+                                      @RequestParam(required = false, defaultValue = "000000") String memberId,
                                       @Parameter(description = "댓글 조회 기준", example = "boards") @RequestParam("where") String where,
                                       @Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
                                       @Parameter(description = "한 페이지 당 게시글 수") @RequestParam(required = false, defaultValue = "10") int size) {

@@ -30,7 +30,7 @@ public class Board extends BaseTimeEntity {
     @Builder.Default
     private int view = 0;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
