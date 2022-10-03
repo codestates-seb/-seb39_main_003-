@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
@@ -130,6 +130,18 @@ const StyledLink = styled(Link)`
 `
 
 function Mypage() {
+
+    const [info, setInfo] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://211.58.40.128:8080/api/v1/member/000001`)
+    .then(res => res.json())
+    .then(res => {
+      setInfo(res)
+      console.log(res)
+    })
+  } , [])
+
 
     const navigate = useNavigate();
 
