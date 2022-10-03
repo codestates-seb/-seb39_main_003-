@@ -5,22 +5,36 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
+
 public class ItemDto {
     @Schema(name = "ItemPost", description = "상품 Post 요청 모델")
     @Getter
     @AllArgsConstructor
     public static class Post{
         @Schema(description = "회원 식별 번호", example = "000001")
+        @NotBlank
         private String memberId;
+
         @Schema(description = "상품 이름", example = "다이슨 청소기")
+        @NotBlank(message = "상품명은 공백이 아니어야 합니다.")
         private String itemName;
+
         @Schema(description = "상품 가격", example = "80000")
+        @Min(value = 100, message = "가격은 100원 이상이어야 합니다.")
         private int price;
+
         @Schema(description = "상품 재고량", example = "100")
+        @PositiveOrZero
         private int stockCnt;
+
         @Schema(description = "상품 상세정보", example = "안녕하세요....")
         private String info;
+
         @Schema(description = "상품 카테고리 식별번호", example = "1")
+        @NotBlank
         private String itemCategoryId;
     }
 
@@ -29,13 +43,20 @@ public class ItemDto {
     @AllArgsConstructor
     public static class Patch{
         @Schema(description = "회원 식별 번호", example = "000001")
-        private Long memberId;
+        @NotBlank
+        private String memberId;
+
         @Schema(description = "상품 이름", example = "다이슨 청소기")
         private String itemName;
+
         @Schema(description = "상품 가격", example = "80000")
+        @Min(value = 100, message = "가격은 100원 이상이어야 합니다.")
         private int price;
+
         @Schema(description = "상품 재고량", example = "100")
+        @PositiveOrZero
         private int stockCnt;
+
         @Schema(description = "상품 상세정보", example = "안녕하세요....")
         private String info;
     }

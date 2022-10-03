@@ -11,11 +11,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Tag(name = "좋아요 API")
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1/wish")
 public class WishController {
     private final WishService wishService;
@@ -29,7 +33,7 @@ public class WishController {
             )
     )
     @GetMapping
-    public ResponseEntity getWish(@RequestBody WishDto.Post requestBody){
+    public ResponseEntity getWish(@Valid @RequestBody WishDto.Post requestBody){
         String memberId = requestBody.getMemberId();
         String itemId = requestBody.getItemId();
         WishDto.Response response = wishService.findWish(memberId, itemId);
@@ -44,7 +48,7 @@ public class WishController {
             )
     )
     @PostMapping
-    public ResponseEntity postWish(@RequestBody WishDto.Post requestBody){
+    public ResponseEntity postWish(@Valid @RequestBody WishDto.Post requestBody){
         String memberId = requestBody.getMemberId();
         String itemId = requestBody.getItemId();
         WishDto.Response response = wishService.changeWish(memberId, itemId);
