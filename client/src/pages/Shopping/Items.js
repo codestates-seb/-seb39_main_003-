@@ -6,6 +6,12 @@ import Plus from './images/icon-plus-line.svg';
 import { useParams } from "react-router-dom";
 import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router-dom';
+import Cat from './images/cat.png';
+import QnA from './QnA';
+import Review from './Review';
+import { BsHeart } from "react-icons/bs";
+import { BsHeartFill } from "react-icons/bs";
+
 
 
 const Wrapper = styled.div`
@@ -18,7 +24,7 @@ const Wrapper = styled.div`
   .item_top {
     width: 100%;
     height: 40rem;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     display: flex;
     flex-direction: column;
     margin-top: 20px;
@@ -118,7 +124,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 30px;
-  border: 2px solid blue;
+  margin-bottom: 10px;
+  /* border: 2px solid blue; */
 }
 
 .sum .sum_price {
@@ -179,6 +186,7 @@ const Wrapper = styled.div`
 .btn {
   display: flex;
   justify-content: space-between;
+  /* border: 2px solid red; */
 }
 
 .btn .btn_cart {
@@ -248,15 +256,73 @@ const Wrapper = styled.div`
     font-weight: 500;
   }
 }
+
+.allBox {
+  height: 20rem;
+  margin-top: 50px;
+  border: 1px solid red;
+}
+
+.componentBox {
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid blue;
+}
+
+.QnA {
+  width: 50%;
+  height: 5rem;
+  border-right: 1px solid green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  background-color: #F2F5F7;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #3D3D4F;
+    color: white;
+  }
+}
+
+.review {
+  width: 50%;
+  height: 5rem;
+  /* border: 1px solid green; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  background-color: #F2F5F7;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #3D3D4F;
+    color: white;
+  }
+}
+
+.wish {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  margin-right: 20px;
+  color: red;
+  /* border: 2px solid blue; */
+}
 `;
 
 function Items( { convertPrice, cart, setCart } ) {
 
-  // const [test, setTest] = useState(ItemData);
+  const [change, setChange] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [count, setCount] = useState(1);
+  const [clickHeart, setClickHeart] = useState(false)
 
   const location = useLocation();
 
@@ -267,7 +333,7 @@ function Items( { convertPrice, cart, setCart } ) {
     .then((res) => res.json())
     .then(res => {
       setItemInfo(res.data)
-      console.log(res.data)
+      // console.log(res.data)
     })
     .catch((err) => {
       console.log(err)
@@ -275,31 +341,6 @@ function Items( { convertPrice, cart, setCart } ) {
   } , [])
 
   const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${location.state.thumbnail}`
-
-
-  // 상세페이지에서 물건 수량 조절
-  const handleQuantity = (type) => {
-    if (type === "plus") {
-      setCount(count + 1);
-    } else {
-      if (count === 1) return;
-      setCount(count - 1);
-    }
-  };
-
-  const setQuantity = (id) => {
-    const found = cart.filter((el) => el.id === id)[0];
-    const idx = cart.indexOf(found);
-    const cartItem = {
-      id: itemInfo.itemId,
-      image: {final},
-      name: itemInfo.itemName,
-      price: itemInfo.price,
-      quantity: count,
-      info: itemInfo.info
-    };
-    setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-  };
 
   const handleCart = () => {
 
@@ -316,57 +357,34 @@ function Items( { convertPrice, cart, setCart } ) {
         image: `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${itemInfo.thumbnail}`,
         itemCnt: count,
         memberId: "000001"
-        // "itemCnt": 1,
-        // "itemId": "000002",
-        // "memberId": "000001"
       }),
     })
     .then((res) => res.json())  
-    .then((result) => console.log(result))
+    // .then((result) => console.log(result))
     .then(() => navigate(`/mypage/cart`))
     .catch(alert('장바구니에 추가되었습니다 !!'))
 
-    // const cartItem = {
-    //   id: itemInfo.itemId,
-    //   image: `${final}`,
-    //   name: itemInfo.itemName,
-    //   quantity: count,
-    //   price: itemInfo.price,
-    //   info: itemInfo.info
-    // };
-    // const found = cart.find((el) => el.id === cartItem.id);
-    // if (found) setQuantity(cartItem.id, found.quantity + count);
-    // else setCart([...cart, cartItem]);
-    // console.log('장바구니')
   };
 
-  let allChange = {}
-
-  if(product.id === id) {
-    allChange = {
-      "id": product.id,
-      "image": product.image,
-      "itemName": product.name,
-      "price": product.price,
-      "stockCnt": product.stockCnt,
-      "info": product.info
-    }
-  }
-
-  const Patch = () => {
-    fetch(`http://211.58.40.128:8080/api/v1/item/${itemInfo.itemId}`,{
-      method: 'PATCH',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(allChange)
-      })
-      .then(() => {
-        window.location.reload("/")
-      })
-      .catch(() => {
-        console.log("실패")
-      })
+  const handleButtonWish = () => {
+    fetch(`http://211.58.40.128:8080/api/v1/wish`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        memberId: "000001",
+        itemId: itemInfo.itemId
+      }),
+    })
+    .then((res) => res.json())  
+    // .then(res => console.log(res))
+    .then(() => {
+      alert("찜 목록에 추가되었습니다")
+      navigate(`/mypage/wish`)
+    })
+    .catch(err => console.log(err))
   }
 
   const Delete = () => {
@@ -376,6 +394,9 @@ function Items( { convertPrice, cart, setCart } ) {
     .then(() => {
       navigate('/shopping/meal')
       window.location.reload();
+    })
+    .then(() => {
+      
     })
     .catch(() => {
       alert('실패')
@@ -387,7 +408,7 @@ function Items( { convertPrice, cart, setCart } ) {
       
     {sessionStorage.getItem('accessToken') ?
       <div className='deleteBox'>
-      <span className='patch' onClick={Patch}>상품 수정</span>
+      {/* <span className='patch' onClick={Patch}>상품 수정</span> */}
       <span className='delete' onClick={Delete}>상품 삭제</span>
       </div>
       :
@@ -397,7 +418,7 @@ function Items( { convertPrice, cart, setCart } ) {
     <div className="item_top">
           <>
             <div className="item_imagebox">
-              <img src={final}
+              <img src={Cat}
                className="itemImage" alt="cat"></img>
             </div>
             
@@ -407,56 +428,60 @@ function Items( { convertPrice, cart, setCart } ) {
 
 
             <div className="item_bottom">
-              <div className="amount">
-                <img
-                  className="minus"
-                  src={Minus}
-                  alt="minus"
-                  onClick={() => handleQuantity("minus")}
-                />
 
-                <div className="count">
-                  <span>{count}</span>
-                </div>
+                <div className="sum">
+                    <div>
+                      <span className="sum_price">상품 금액</span>
+                    </div>
 
-                <img
-                  className="plus"
-                  src={Plus}
-                  alt="plus"
-                  onClick={() => handleQuantity("plus")}
-                />
-                </div>
+                    <div className="total_info">
+                      
+                      <span className="total">
+                        <span className="total_count">{count}개</span>
+                      </span>
 
-            <div className="sum">
-                  <div>
-                    <span className="sum_price">총 상품 금액</span>
-                  </div>
+                      <span className="total_price">
+                        {convertPrice(itemInfo.price * count)}
+                        <span className="total_unit">원</span>
+                      </span>
 
-                  <div className="total_info">
-                    
-                    <span className="total">
-                      총 수량 <span className="total_count">{count}개</span>
-                    </span>
-
-                    <span className="total_price">
-                      {convertPrice(itemInfo.price * count)}
-                      <span className="total_unit">원</span>
-                    </span>
-
-                  </div>
+                    </div>
                 </div>
 
                 <div className="btn">
-                  <button className="btn_buy">바로 구매</button>
+                      <button className="btn_buy">바로 구매</button>
 
-                  <button
-                    className="btn_cart"
-                    onClick={handleCart}>
-                    장바구니
-                  </button>
+                      <button
+                        className="btn_cart"
+                        onClick={handleCart}>
+                        장바구니
+                      </button>
+
+                      <span className='wish' onClick={() => {
+                        handleButtonWish(setClickHeart(!clickHeart))
+                      }}>
+                      {clickHeart === false ? <BsHeart /> : <BsHeartFill />}
+                      </span>
                 </div>
 
             </div>
+    </div>
+
+    <div className='allBox'>
+      <div className='componentBox'>
+        <span className='QnA component' onClick={() => {
+          setChange("QnA")
+        }}>QnA</span>
+        <span className='review component' onClick={() => {
+          setChange("리뷰")
+        }}>Review</span>
+      </div>
+
+      {change === "QnA" ?
+      <QnA itemId={itemInfo.itemId} memberId={itemInfo.memberId}/>
+      :
+      <Review itemId={itemInfo.itemId} memberId={itemInfo.memberId} />}
+
     </div>
 
     
