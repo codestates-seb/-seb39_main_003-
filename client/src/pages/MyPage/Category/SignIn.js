@@ -100,15 +100,15 @@ box-sizing: border-box;
 // `
 
 function SignIn() {
-
-  let sessionStorage = window.sessionStorage;
-
+  
   const navigate = useNavigate();
-
+  
   const { register, handleSubmit } = useForm();
+
   axios.defaults.withCredentials = true;
   
   const onSubmit = (data) => {
+
     axios.post(`http://211.58.40.128:8080/login`, data)
     .then(response => {
       const accessToken = response.headers.authorization;
@@ -120,7 +120,6 @@ function SignIn() {
       
       sessionStorage.setItem('accessToken', `${accessToken}`);
       sessionStorage.setItem('refreshToken', `${refreshToken}`);
-      sessionStorage.setItem("memberId", 1);
       
       navigate('/');
       window.location.reload();
@@ -131,19 +130,6 @@ function SignIn() {
       alert("이메일 혹은 비밀번호를 확인하세요") ;
     })
   }
-
-//   const GoogleLogin = () => {
-
-  
-//     fetch(`http://211.204.66.186:8080/oauth/google/login`, {
-//       method: 'POST'
-//     })
-//     .then(() => {
-//       navigate('/')
-//     })
-//     .catch(() => console.log('실패'))
-// }
-
 
   return (
     <Wrapper>
