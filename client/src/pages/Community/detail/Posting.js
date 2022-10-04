@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import dummyData from '../../../dummytest/dummyData';
+// import dummyData from '../../../dummytest/dummyData';
+import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
 //게시글 포스팅 등록 화면
@@ -75,16 +76,23 @@ const Wrapper = styled.div`
   background-color: #f9f9f9;
 }
 //게시글 등록 버튼
-.postbutton{
+/* .postbutton{
   margin-bottom: 20px;
-}
+} */
 .postbuttontext{
+  width: 15vw;
+  height: 10vh;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 1px 2px 2px lightgray;
+
   border-style: none;
   background-color: #EEF1FF;
   color: #000000;
   font-weight: bold;
   &:hover{
-    color: #9263FF;
+    background-color: #9263FF;
+    color: #f9f9f9;
   }
 }
 `
@@ -107,13 +115,14 @@ function Posting() {
   const [ title, setTitle ] = useState("")
   const [ content, setContent ] = useState("")
   const [ list, setList ] = useState([])
+  const navigate = useNavigate();
 
-  useEffect(()=>{
-    //fetch(``)
-    //.then((res)=>{
-      setList(dummyData)
-    //})
-  }, [])
+  // useEffect(()=>{
+  //   //fetch(``)
+  //   //.then((res)=>{
+  //     setList(dummyData)
+  //   //})
+  // }, [])
 
   const titleInput = (e) => {
     setTitle(e.target.value)
@@ -123,18 +132,41 @@ function Posting() {
   };
 
   const postContent = () => {
-    setList((prev) => {
-      const data = [...prev]
-      data.push(
-        {
-          title: title,
-          content: content
-        }
-      )
-      console.log(data)
-      return data
+    fetch(`http://211.58.40.128:8080/api/v1/board`, {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "title" : title,
+        "boardContents" : content,
+        "memberId" : "000001",
+        "tagIds" : [
+            1
+        ]
+      }),
     })
+    .then(() => {
+      navigate(`/community`);
+    })
+    .catch(() => {
+      console.log("fail~~");
+    });
   };
+
+  // const postContent = () => {
+  //   setList((prev) => {
+  //     const data = [...prev]
+  //     data.push(
+  //       {
+  //         title: title,
+  //         content: content
+  //       }
+  //     )
+  //     console.log(data)
+  //     return data
+  //   })
+  // };
 
   return (
     <Wrapper>
@@ -152,9 +184,9 @@ function Posting() {
           </div>
         </div>
         {/* 게시글 등록 버튼 */}
-        <StyledLink to={"/community"} className='postbutton'>
-          <button to={"/community"} className="postbuttontext" onClick={postContent} >등록</button>
-        </StyledLink>
+        {/* <StyledLink to={"/community"} className='postbutton'> */}
+          <button className="postbuttontext" onClick={postContent} >등록</button>
+        {/* </StyledLink> */}
       </div>
     </Wrapper>
   )

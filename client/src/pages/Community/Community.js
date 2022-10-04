@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import React from 'react'
 import CommunityNav from '../../components/CommunityNav';
-import Dummy from '../../dummytest/dummyData';
-import { useState } from 'react';
+// import Dummy from '../../dummytest/dummyData';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
@@ -127,6 +127,24 @@ function Community() {
 
     const navigate = useNavigate();
 
+    const [list, setList] = useState([]);
+
+    useEffect(() => {
+        fetch(`http://211.58.40.128:8080/api/v1/board?tagIds=1`, {
+            method: "GET",
+            headers: {
+                "content-Type": "application/json",
+            },
+            //get요청이라 body는 필요없어
+        })
+        .then((res) => res.json())
+        .then((res) => {
+            setList(res.data);
+            console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+    }, []);
+
   return (
     <Wrapper>
 
@@ -142,29 +160,30 @@ function Community() {
         <div className="cpostterritory">
             <div className="cbackground">
                 <div className="cposttop">
-                    <span className="cposttext">글 제목11</span>
-                    <span className="cposttext">내용11</span>
-                    <span className="cposttext">작성자11</span>
+                    <span className="cposttext">작성자</span>
+                    <span className="cposttext">글 제목</span>
+                    <span className="cposttext">내용</span>
                 </div>
                 
                     <div>
                         
-                        {Dummy.map((el, index) => (
-
+                        {list && list.map((el, index) => {
+                            return(
                             <div className="questions"
                                  key={index} // 고유번호
                                  onClick={
                                     () => { // 눌렀을때 어떻게 되어야할지 설정해주는 곳
                                     // setId(el.id)
-                                    navigate(`/community/post/${el.id}`)
+                                    navigate(`/community/post/${el.boardId}`)
                                     }
                                     }
                                     >
+                                <span className="article">{el.nickName}</span>
                                 <span className="article">{el.title}</span>
-                                <span className="article">{el.content}</span>
-                                <span className="article">{el.username}</span>
+                                <span className="article">{el.boardContent}</span>
                             </div>
-                        ))}
+                            )
+                        })}
 
                     </div>
 

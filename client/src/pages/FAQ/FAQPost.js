@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import faqData from "../dummytest/faqData";
+// import faqData from "../../dummytest/faqData";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
@@ -76,17 +76,24 @@ const Wrapper = styled.div`
     background-color: #f9f9f9;
   }
   //게시글 등록 버튼
-  .postbutton {
-    margin-bottom: 20px;
+  /* .postbutton{
+  margin-bottom: 20px;
+} */
+.postbuttontext{
+  width: 15vw;
+  height: 10vh;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 1px 2px 2px lightgray;
+
+  border-style: none;
+  background-color: #EEF1FF;
+  color: #000000;
+  font-weight: bold;
+  &:hover{
+    background-color: #9263FF;
+    color: #f9f9f9;
   }
-  .postbuttontext {
-    border-style: none;
-    background-color: #eef1ff;
-    color: #000000;
-    font-weight: bold;
-    &:hover {
-      color: #9263ff;
-    }
   }
 `;
 const StyledLink = styled(Link)`
@@ -122,37 +129,39 @@ function FAQPost() {
     setContent(e.target.value);
   };
 
+  // setList((prev) => {
+  //   const data = [...prev]
+  //   data.unshift(
+  //     {
+  //       title: title,
+  //       boardContents: content
+  //     }
+  //   )
+  //   console.log(data)
+  //   return data
+  // })
+
   const postContent = () => {
-    fetch(`http://localhost:3001/FAQ`, {
+    fetch(`http://211.58.40.128:8080/api/v1/board`, {
       method: "POST",
       headers: {
         "content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: 4,
-        title: title,
-        content: content,
+        "title" : title,
+        "boardContents" : content,
+        "memberId" : "000001",
+        "tagIds" : [
+            3
+        ]
       }),
     })
       .then(() => {
         navigate(`/FAQ`);
       })
       .catch(() => {
-        console.log("오류남 다시하셈");
+        console.log("실패");
       });
-
-    // setList((prev) => {
-    //   const data = [...prev]
-    //   data.unshift(
-    //     {
-    //       id: '4',
-    //       title: title,
-    //       content: content
-    //     }
-    //   )
-    //   console.log(data)
-    //   return data
-    // })
   };
 
   return (

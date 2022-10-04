@@ -29,7 +29,8 @@ import Order from "./pages/MyPage/Category/Order";
 import SuccessLogin from "./components/SuccessLogin";
 import Addproduct from "./pages/Shopping/AddProduct";
 import { useState } from 'react';
-import FAQPost from "./pages/FAQPost";
+// import FAQPost from "./pages/FAQPost";
+import FAQPost from "./pages/FAQ/FAQPost";
 
 
 function App() {
@@ -52,7 +53,8 @@ function App() {
                 <Route path="/community" element={<Community />} />
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/FAQ" element={<FAQ />} />
-                <Route path="/FAQPOST" element={<FAQPost />} />
+                <Route path="/FAQ/FAQPOST" element={<FAQPost />} />
+                {/* <Route path="/FAQPOST" element={<FAQPost />} /> */}
                 
                 <Route path="/mypage" element={sessionStorage.getItem('accessToken') ? <Mypage /> : <SignIn />} />
                 <Route path="/login" element={<SignIn />} />
