@@ -12,6 +12,13 @@ const Wrapper = styled.div`
   margin: 40px 0px 20px 0px;
   /* border: 1px solid red; */
 
+  @font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
   .listBox {
     width: 100%;
     border: 1px solid lightgray;
@@ -64,20 +71,32 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid red;
+    border: 1px solid purple;
+    background-color: #EEE3CB;
+    border-radius: 7px;
+    margin-bottom: 2rem;
+    font-family: Cafe24Ssurround;
   }
 
   .totalPrice {
-    font-size: 1.5rem;
-    font-weight: 400
+    font-size: 1.7rem;
   }
 
   .checkBox {
-    height: 2rem;
+    height: 3rem;
     border: 1px solid gray;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  .type {
+    position: relative;
+    left: 19rem;
+    padding: 0px 8.2rem;
+    border: 1px solid red;
   }
 
   .checkLine {
@@ -93,7 +112,35 @@ const Wrapper = styled.div`
     height: 1rem;
     /* border: 1px solid red; */
   }
-`;
+
+  .orderBox {
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    margin-bottom: 2rem;
+    font-family: Cafe24Ssurround;
+  }
+
+  `;
+
+const StyledLink = styled(Link)`
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: black;
+  /* border: 2px solid red; */
+  
+  .orderbutton {
+    padding: 15px 40px;
+    border: 1px solid purple;
+    border-radius: 20px;
+
+    &:hover {
+      background-color: #EEF1FF;
+    }
+  }
+  `
 
 // useState로 cartList setCartList 설정해서 초기값 배열로 담아주고
 // GET 요청으로 장바구니 데이터에 있는 상품들 불러온 다음 
@@ -115,7 +162,7 @@ function CartBody( {convertPrice} ) {
     })
   }, [])
 
-    let totalPrice = 0
+    // let totalPrice = 0
     // for(let i = 0; i < cartList.length; i++) {
     //   totalPrice += cartList[i].price * cartList[i].itemCnt
     // }
@@ -126,10 +173,10 @@ function CartBody( {convertPrice} ) {
     <Wrapper>
 
       <div className='checkBox'>
-        <span>박스</span>
-        <span>이미지</span>
-        <span>가격</span>
-        <span>수량</span>
+        {/* <span>박스</span>
+        <span>이미지</span> */}
+        <span className='type'>가격</span>
+        <span className='type'>수량</span>
       </div>
 
       {cartList && cartList.map((el, idx) => {
@@ -209,7 +256,7 @@ function CartBody( {convertPrice} ) {
               <div className='listBox'>
 
                 <div className='checkLine'>
-                  <input className="check" type="checkBox" onChange={handleChecked}
+                  <input className="check" type="checkbox" onChange={handleChecked}
                   name={el.itemName}
                   // onChange={(e) => handleCheckList(e.currentTarget.checked, `${el.cartItemId}`)}
                   // defaultChecked={true}
@@ -222,7 +269,7 @@ function CartBody( {convertPrice} ) {
 
                 <span className='listName itemAll'>{el.itemName}</span>
 
-                <span className='listPrice itemAll'>{el.price} 원</span>
+                <span className='listPrice itemAll'>{convertPrice(el.price)} 원</span>
                 
                 <span className='listCount itemAll'>
 
@@ -254,12 +301,14 @@ function CartBody( {convertPrice} ) {
     })}
 
       <div className='totalBox'>
-        <span className='totalPrice'>총 금액 : {testPrice} 원</span>
+        <span className='totalPrice'>총 금액 : {convertPrice(testPrice)} 원</span>
       </div>
-      
-    <Link to={`/mypage/order`} state={ {list: checkLists} }>
-      <button className='orderbutton'>주문하기</button>
-    </Link>
+
+      <div className='orderBox'>
+        <StyledLink to={`/mypage/order`} state={ {list: checkLists} }>
+          <span className='orderbutton'>주문하기</span>
+        </StyledLink>
+      </div>
 
     </Wrapper>
   
