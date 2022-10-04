@@ -1,6 +1,7 @@
 package com.web.MyPetForApp.auth.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.web.MyPetForApp.auth.dto.AuthDetails;
 import com.web.MyPetForApp.auth.provider.TokenProvider;
 import com.web.MyPetForApp.member.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +48,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain, Authentication authResult) throws IOException, ServletException {
         logger.info(("로그인 성공 유저 처리"));
 
-        String accessToken = tokenProvider.createAccessToken(authResult);
-        String refreshToken = tokenProvider.renewalRefreshToken(authResult);
+        AuthDetails authDetails = (AuthDetails) authResult.getPrincipal();
+
+        String accessToken = tokenProvider.createAccessToken(authDetails.getMember().getMemberId(), authDetails.getEmail());
+        String refreshToken = tokenProvider.renewalRefreshToken(authDetails.getMember().getMemberId(), authDetails.getEmail());
         response.addHeader("Authorization", "Bearer " + accessToken);
         response.addHeader("refresh", "Bearer " + refreshToken);
     }

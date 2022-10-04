@@ -3,7 +3,6 @@ package com.web.MyPetForApp.image.controller;
 import com.web.MyPetForApp.image.mapper.ImageMapper;
 import com.web.MyPetForApp.image.service.ImageService;
 import com.web.MyPetForApp.image.util.ImageUtils;
-import com.web.MyPetForApp.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

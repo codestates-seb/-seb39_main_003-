@@ -106,6 +106,13 @@ public class QnaController {
 
 //    ---------------------------------------------------------------------------------------------
 
+    @Operation(summary = "QnA에 대한 답변 등록")
+    @ApiResponses(
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "CREATED"
+            )
+    )
     @PostMapping("/answer")
     public ResponseEntity postAnswer(@RequestBody AnswerDto.Post post){
         Answer answer = answerMapper.answerPostToAnswer(post);
@@ -115,6 +122,13 @@ public class QnaController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    @Operation(summary = "QnA 답변 정보 수정")
+    @ApiResponses(
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK"
+            )
+    )
     @PatchMapping("/answer")
     public ResponseEntity patchAnswer(@RequestBody AnswerDto.Post patch){
         Answer answer = qnaService.updateAnswer(patch);
@@ -123,6 +137,13 @@ public class QnaController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    @Operation(summary = "하나의 QnA 답변 정보 조회")
+    @ApiResponses(
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK"
+            )
+    )
     @GetMapping("/answer/{questionId}")
     public ResponseEntity getAnswer(@PathVariable Long questionId){
         Answer answer = qnaService.findAnswer(questionId);
@@ -130,7 +151,13 @@ public class QnaController {
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
-
+    @Operation(summary = "QnA 답변 삭제")
+    @ApiResponses(
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "No Content"
+            )
+    )
     @DeleteMapping("/answer/{answerId}")
     public ResponseEntity deleteAnswer(@PathVariable Long answerId){
         qnaService.deleteAnswer(answerId);

@@ -12,16 +12,13 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -95,8 +92,6 @@ public class ImageService {
                        amazonS3.deleteObject(new DeleteObjectRequest(bucket, o.getKey().substring(8)))
                 );
             }
-
-            // 상세 이미지 처리 : 상세 이미지가 저장된 갯수가 5개 이상이면 가장 오래전에 업로드(수정)한 파일을 지우고 업로드한다. (수정)
             // 해당 상품의 이미지가 저장된 갯수가 5개 이상이면 5번 이미지를 지우고 업로드한다. 4
             if(way.equals("detail")&& objCnt >= 4) {
                 amazonS3.deleteObject(new DeleteObjectRequest(bucket, objectSummaryList.get(objectSummaryList.size() - 1).getKey().substring(6)));

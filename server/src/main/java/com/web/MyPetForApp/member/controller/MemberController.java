@@ -1,13 +1,10 @@
 package com.web.MyPetForApp.member.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.web.MyPetForApp.util.StringIdGenerator;
-import com.web.MyPetForApp.image.service.ImageService;
 import com.web.MyPetForApp.member.dto.MemberDto;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.member.mapper.MemberMapper;
 import com.web.MyPetForApp.member.service.MemberService;
+import com.web.MyPetForApp.util.StringIdGenerator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,7 +27,6 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
-    private final ImageService imageService;
     private final MemberMapper mapper;
     private final StringIdGenerator stringIdGenerator;
 
@@ -56,16 +52,12 @@ public class MemberController {
     public ResponseEntity join( @ParameterObject @ModelAttribute MemberDto.Post post,
                                 @RequestPart(required = false) List<MultipartFile> multipartFiles) {
 
+
         String memberId = stringIdGenerator.createMemberId();
 
-        Member savedMember = memberService.create(mapper.memberPostDtoToMember(post, memberId));
+        Member savedMember = memberService.create(mapper.memberPostDtoToMember(post, memberId), multipartFiles);
 
-        String profileImg = null;
-
-        if(multipartFiles != null) {
-            profileImg  = imageService.uploadFile(multipartFiles, "member", memberId, "profile").get(0);
-        }
-        return new ResponseEntity<>(mapper.memberToResponse(savedMember, profileImg), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.memberToResponse(savedMember), HttpStatus.CREATED);
     }
 
     @Operation(summary = "회원 정보 수정")
@@ -78,13 +70,9 @@ public class MemberController {
     @PatchMapping(value = "/member", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity memberModify(@ParameterObject @ModelAttribute MemberDto.Patch patch,
                                        @RequestPart(required = false) List<MultipartFile> multipartFiles) {
-        Member modifiedMember = memberService.update(mapper.memberPatchToMember(patch));
-        String profileImg = null;
 
-        if(multipartFiles != null) {
-            profileImg  = imageService.uploadFile(multipartFiles, "member", patch.getMemberId(), "Profile").get(0);
-        }
-        return new ResponseEntity<>(mapper.memberToResponse(modifiedMember, profileImg), HttpStatus.OK);
+        Member modifiedMember = memberService.update(mapper.memberPatchToMember(patch), multipartFiles);
+        return new ResponseEntity<>(mapper.memberToResponse(modifiedMember), HttpStatus.OK);
     }
 
     @Operation(summary = "하나의 회원 정보 조회")
@@ -97,12 +85,8 @@ public class MemberController {
     @GetMapping("/member/{memberId}")
     public ResponseEntity memberFind(@PathVariable String memberId) {
         Member findMember = memberService.read(memberId);
-        List<String> fileNameList = imageService.findFilesById("member" ,memberId);
-        String profileImg = null;
-        if(fileNameList.size() > 0) {
-            profileImg = fileNameList.get(0);
-        }
-        return new ResponseEntity<>(mapper.memberToResponse(findMember, profileImg) ,HttpStatus.OK);
+
+        return new ResponseEntity<>(mapper.memberToResponse(findMember) ,HttpStatus.OK);
     }
 
     @Operation(summary = "회원탈퇴")
@@ -151,7 +135,13 @@ public class MemberController {
         memberService.phoneValidate(phone);
         return new ResponseEntity<>("need new password", HttpStatus.OK);
     }
-
+    @Operation(summary = "회원 비밀번호 찾기(2) : 새 비밀번호로 변경")
+    @ApiResponses(
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK"
+            )
+    )
     @PatchMapping("/member/findPassword")
     public ResponseEntity findPasswordChange(@Parameter(description = "인증에 쓰일 이메일") @RequestParam String email,
                                              @Parameter(description = "새 비밀번호") @RequestParam String password) {

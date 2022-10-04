@@ -79,9 +79,9 @@ public class CommentController {
             )
     )
     @GetMapping
-    public ResponseEntity getComments(@RequestParam(required = false, defaultValue = "0") Long boardId,
-                                      @RequestParam(required = false, defaultValue = "000000") String memberId,
-                                      @Parameter(description = "댓글 조회 기준", example = "boards") @RequestParam("where") String where,
+    public ResponseEntity getComments(@Parameter(description = "댓글 조회할 기준 게시판", example = "1") @RequestParam(required = false, defaultValue = "1") Long boardId,
+                                      @Parameter(description = "댓글 조회 기준 회원", example = "boards") @RequestParam(required = false, defaultValue = "000000" ) String memberId,
+                                      @Parameter(description = "댓글 조회 기준", example = "boards || members") @RequestParam("where") String where,
                                       @Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
                                       @Parameter(description = "한 페이지 당 게시글 수") @RequestParam(required = false, defaultValue = "10") int size) {
         System.out.println(where);

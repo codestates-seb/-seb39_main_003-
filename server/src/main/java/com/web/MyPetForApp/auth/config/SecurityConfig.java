@@ -5,7 +5,10 @@ import com.web.MyPetForApp.auth.error.JwtAccessDeniedHandler;
 import com.web.MyPetForApp.auth.error.JwtAuthenticationEntryPoint;
 import com.web.MyPetForApp.auth.filter.JwtAuthenticationFilter;
 import com.web.MyPetForApp.auth.filter.JwtAuthorizationFilter;
+import com.web.MyPetForApp.auth.handler.CustomOAuth2SuccessHandler;
+import com.web.MyPetForApp.auth.handler.JwtAddLogoutHandler;
 import com.web.MyPetForApp.auth.provider.TokenProvider;
+import com.web.MyPetForApp.auth.service.CustomOAuth2UserService;
 import com.web.MyPetForApp.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,17 +28,14 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
 
     private final CorsFilter corsFilter;
-
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-
     private final MemberRepository memberRepository;
-
     private final TokenProvider tokenProvider;
-
     private final ErrorhandlerFilter errorhandlerFilter;
-
     private final JwtAddLogoutHandler jwtAddLogoutHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -57,7 +57,12 @@ public class SecurityConfig {
                 .and()
                 .logout()
                 .addLogoutHandler(jwtAddLogoutHandler)
-                .logoutSuccessUrl("/api/v1/user/test");
+                .logoutSuccessUrl("/api/v1/user/test")
+                .and()
+                .oauth2Login()
+                .successHandler(customOAuth2SuccessHandler)
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService);
         return httpSecurity.build();
     }
 

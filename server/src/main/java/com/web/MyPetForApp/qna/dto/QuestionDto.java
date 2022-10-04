@@ -51,8 +51,8 @@ public class QuestionDto {
         private LocalDateTime modifiedAt;
         @Schema(description = "상품 식별 번호", example = "000001")
         private String itemId;
-        @Schema(description = "회원 이름", example = "홍길동")
-        private String nickName; // 이름? 닉네임?
+        @Schema(description = "회원 별명", example = "홍길동")
+        private String nickName;
     }
 
 }
