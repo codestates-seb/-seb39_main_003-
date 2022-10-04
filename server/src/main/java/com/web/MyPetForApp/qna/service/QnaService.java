@@ -23,7 +23,7 @@ import java.util.Optional;
 @Transactional
 @Service
 @RequiredArgsConstructor
-public class QnAService {
+public class QnaService {
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
     private final MemberService memberService;

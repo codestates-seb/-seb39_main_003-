@@ -8,7 +8,7 @@ import com.web.MyPetForApp.qna.entity.Answer;
 import com.web.MyPetForApp.qna.entity.Question;
 import com.web.MyPetForApp.qna.mapper.AnswerMapper;
 import com.web.MyPetForApp.qna.mapper.QuestionMapper;
-import com.web.MyPetForApp.qna.service.QnAService;
+import com.web.MyPetForApp.qna.service.QnaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,8 +26,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/qna")
-public class QnAController {
-    private final QnAService qnaService;
+public class QnaController {
+    private final QnaService qnaService;
     private final QuestionMapper questionMapper;
     private final AnswerMapper answerMapper;
 
