@@ -33,8 +33,9 @@ jobs:
     - name: Make Directory for deliver
       run: mkdir deploy
       
+
     - name: Jar File Copy
-      run: ./*.jar ./deploy
+      run: cp ./*.jar ./deploy
       
     - name: Make Zip File
       run: zip -r ./mypet-deploy.zip .
