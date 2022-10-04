@@ -46,11 +46,11 @@ public class CommentService {
     }
 
     public Page<Comment> getComments(String where, Long boardId,String memberId, int page, int size){
-        if(where.equals("members")){
+        if(where.equals("boards")){
             return commentRepository.findAllByBoard(
                     boardService.findVerifiedBoard(boardId),
                     PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
-        }else if(where.equals("boards")){
+        }else if(where.equals("members")){
             return commentRepository.findAllByMember(
                     memberService.findVerifiedMember(memberId),
                     PageRequest.of(page, size, Sort.by("modifiedAt").descending()));

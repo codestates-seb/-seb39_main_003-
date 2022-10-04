@@ -15,18 +15,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Tag(name = "장바구니 API")
 @RestController
 @RequiredArgsConstructor
-@Validated
 @RequestMapping("/api/v1/cart")
 public class CartItemController {
     private final CartItemService cartItemService;
@@ -40,7 +35,7 @@ public class CartItemController {
             )
     )
     @PostMapping
-    public ResponseEntity post(@Valid @RequestBody CartItemDto.Post requestBody){
+    public ResponseEntity post(@RequestBody CartItemDto.Post requestBody){
         CartItem cartItem = mapper.cartItemPostDtoToCartItem(requestBody);
         String itemId = requestBody.getItemId();
         String memberId = requestBody.getMemberId();
@@ -57,7 +52,7 @@ public class CartItemController {
             )
     )
     @GetMapping("/{cartItemId}")
-    public ResponseEntity getCartItem(@Positive @PathVariable Long cartItemId){
+    public ResponseEntity getCartItem(@PathVariable Long cartItemId){
         CartItem cartItem = cartItemService.findCartItem(cartItemId);
         CartItemDto.Response response = mapper.cartItemToCartItemResponseDto(cartItem);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -70,9 +65,9 @@ public class CartItemController {
             )
     )
     @GetMapping
-    public ResponseEntity getCartItems(@Parameter(description = "회원 식별번호") @NotBlank @RequestParam String memberId,
-                                       @Parameter(description = "현재 페이지") @Positive @RequestParam(required = false, defaultValue = "1") int page,
-                                       @Parameter(description = "한 페이지에 담길 상품 수") @Positive @RequestParam(required = false, defaultValue = "10") int size){
+    public ResponseEntity getCartItems(@Parameter(description = "회원 식별번호") @RequestParam String memberId,
+                                       @Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
+                                       @Parameter(description = "한 페이지에 담길 상품 수") @RequestParam(required = false, defaultValue = "10") int size){
         Page<CartItem> pageCartItems = cartItemService.findCartItems(memberId, page-1, size);
         List<CartItem> cartItems = pageCartItems.getContent();
         List<CartItemDto.Response> response = mapper.cartItemsToCartItemResponseDto(cartItems);
@@ -86,8 +81,8 @@ public class CartItemController {
             )
     )
     @PatchMapping("/{cartItemId}")
-    public ResponseEntity patchCartItem(@Positive @PathVariable Long cartItemId,
-                                        @Valid @RequestBody CartItemDto.Patch requestBody){
+    public ResponseEntity patchCartItem(@PathVariable Long cartItemId,
+                                        @RequestBody CartItemDto.Patch requestBody){
         int itemCnt = requestBody.getItemCnt();
         String itemId = requestBody.getItemId();
         String memberId = requestBody.getMemberId();
@@ -103,7 +98,7 @@ public class CartItemController {
             )
     )
     @DeleteMapping("/{cartItemId}")
-    public ResponseEntity deleteCartItem(@Positive @PathVariable Long cartItemId){
+    public ResponseEntity deleteCartItem(@PathVariable Long cartItemId){
         cartItemService.deleteCartItem(cartItemId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -1,7 +1,7 @@
 package com.web.MyPetForApp.board.controller;
 
+import com.web.MyPetForApp.board.dto.BoardCategoryDto;
 import com.web.MyPetForApp.board.dto.BoardDto;
-import com.web.MyPetForApp.board.dto.TagDto;
 import com.web.MyPetForApp.board.entity.Board;
 import com.web.MyPetForApp.board.mapper.BoardMapper;
 import com.web.MyPetForApp.board.service.BoardService;
@@ -30,6 +30,7 @@ public class BoardController {
         this.boardMapper = boardMapper;
         this.boardService = boardService;
     }
+
     @Operation(summary = "게시글 등록")
     @ApiResponses(
             @ApiResponse(
@@ -40,7 +41,7 @@ public class BoardController {
     @PostMapping
     public ResponseEntity createBoard(@RequestBody BoardDto.Post post){
         Board board = boardMapper.boardPostToBoard(post);
-        boardService.create(board, post.getTagIds(), post.getMemberId());
+        boardService.create(board, post.getMemberId(), post.getCategoryId());
         return new ResponseEntity<>("create success", HttpStatus.OK);
     }
 
@@ -54,7 +55,8 @@ public class BoardController {
     @PatchMapping({"/{boardId}"})
     public ResponseEntity updateBoard(@PathVariable Long boardId,
                                       @RequestBody BoardDto.Patch patch){
-        boardService.update(boardId, boardMapper.boardPatchToBoard(patch), patch.getTagIds());
+        boardService.update(boardId, boardMapper.boardPatchToBoard(patch));
+
         return new ResponseEntity<>("update success", HttpStatus.OK);
     }
 
@@ -71,23 +73,35 @@ public class BoardController {
         return new ResponseEntity<>("delete success", HttpStatus.OK);
     }
 
-    @Operation(summary = "게시판 리스트 조회")
-    @ApiResponses(
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "OK"
-            )
-    )
     @GetMapping
-    public ResponseEntity getBoardList(@Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
-                                       @Parameter(description = "한 페이지 당 게시글 수") @RequestParam(required = false, defaultValue = "10") int size,
-                                    @RequestBody List<Long> tagIds){
-        Page<Board> pageBoards = boardService.getBoard(tagIds, page-1, size);
+    public ResponseEntity searchBoards(@RequestParam Long categoryId,
+                                       @RequestParam(required = false, defaultValue = "") String q,
+                                       @RequestParam(required = false, defaultValue = "1") int page,
+                                       @RequestParam(required = false, defaultValue = "10") int size){
+        Page<Board> pageBoards = boardService.searchBoards(categoryId, q, page-1, size);
         List<Board> boards = pageBoards.getContent();
         List<BoardDto.Response> responses = boardMapper.boardToBoardResponse(boards);
 
         return new ResponseEntity<>(new MultiResponseDto<>(responses, pageBoards), HttpStatus.OK);
     }
+
+//    @Operation(summary = "게시판 리스트 조회")
+//    @ApiResponses(
+//            @ApiResponse(
+//                    responseCode = "200",
+//                    description = "OK"
+//            )
+//    )
+//    @GetMapping
+//    public ResponseEntity getBoardList(@Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
+//                                       @Parameter(description = "한 페이지 당 게시글 수") @RequestParam(required = false, defaultValue = "10") int size,
+//                                       @Parameter(description = "카테고리 아이디") @RequestParam Long categoryId){
+//        Page<Board> pageBoards = boardService.getBoard(categoryId, page-1, size);
+//        List<Board> boards = pageBoards.getContent();
+//        List<BoardDto.Response> responses = boardMapper.boardToBoardResponse(boards);
+//
+//        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageBoards), HttpStatus.OK);
+//    }
 
     @Operation(summary = "하나의 게시글 정보 조회")
     @ApiResponses(
@@ -110,10 +124,10 @@ public class BoardController {
                     description = "OK"
             )
     )
-    @GetMapping("/boardtags/{pid}")
-    public ResponseEntity getBoardTags(@PathVariable Integer pid){
-        List<TagDto.Response> tags = boardService.getAllTags(pid);
+    @GetMapping("/categories/{pid}")
+    public ResponseEntity getCategories(@PathVariable Integer pid){
+        List<BoardCategoryDto.Response> responses = boardService.getCategories(pid);
 
-        return new ResponseEntity<>(new SingleResponseDto<>(tags), HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(responses), HttpStatus.OK);
     }
 }

@@ -32,13 +32,13 @@ public class OrderService {
     private final ItemService itemService;
     private final MemberService memberService;
 
-    public Order createOrder(OrderDto.Post orderPostDto, String memberId){
+    public Order createOrder(OrderDto.Post requestBody, String memberId){
         Member member = memberService.findVerifiedMember(memberId);
-        List<OrderItemDto.Post> orderItemList = orderPostDto.getOrderItems();
+        List<OrderItemDto.Post> orderItemList = requestBody.getOrderItems();
         Order order = new Order();  // Order 생성
         order.changeMember(member); // Order-Member 연관관계 설정
 
-        orderInformation(orderPostDto, member, order); // 주문 정보 설정
+        orderInformation(requestBody, member, order); // 주문 정보 설정
 
         int orderPrice = 0;
         for (OrderItemDto.Post orderItemPostDto : orderItemList) {   // orderItemPostDto List들의 요소들을 순회하며 반복
@@ -55,8 +55,11 @@ public class OrderService {
             orderItem.changeOrder(order);  // OrderItem-Order 연관관계 설정
             orderItemRepository.save(orderItem);
         }
+        order.updateOrderStatus(Order.OrderStatus.PAY_WAIT);
         return orderRepository.save(order);
+        // PayService 호출해서 결제와 주문을 하나의 트랜잭션으로 처리하기 (멘토님께 이렇게 하는게 맞는지 여쭤보기)
 
+        // 혹시 다른부분도 트랜잭션 처리할 것이 있는지??
     }
 
     public Order findOrder(Long orderId){

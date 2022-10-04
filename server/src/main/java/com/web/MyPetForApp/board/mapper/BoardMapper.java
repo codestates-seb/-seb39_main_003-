@@ -2,6 +2,7 @@ package com.web.MyPetForApp.board.mapper;
 
 import com.web.MyPetForApp.board.dto.BoardDto;
 import com.web.MyPetForApp.board.entity.Board;
+import com.web.MyPetForApp.board.entity.BoardCategory;
 import com.web.MyPetForApp.comment.dto.CommentDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -37,11 +38,6 @@ public class BoardMapper {
                 .createdAt(board.getCreatedAt())
                 .modifiedAt(board.getModifiedAt())
                 .nickName(board.getMember().getNickName())
-                .tagNames(
-                        board.getBoardTags().stream()
-                                .map(boardTag -> boardTag.getTag().getTagName())
-                                .collect(Collectors.toList())
-                )
                 .build();
     }
 

@@ -36,12 +36,16 @@ public class ItemMapper {
     public ItemDto.Response itemToItemResponseDto(Item item){
         return ItemDto.Response.builder()
                 .itemId(item.getItemId())
+//                .itemImages(item.getItemImages()
+//                        .stream()
+//                        .map(itemImage -> itemImage.getItemThumbnail())
+//                        .collect(Collectors.toList()))
                 .itemName(item.getItemName())
                 .price(item.getPrice())
                 .soldCnt(item.getSoldCnt())
                 .stockCnt(item.getStockCnt())
                 .info(item.getInfo())
-                .wishCnt(item.getWishCnt())   // 찜 수
+                .wishCnt(item.getWishes().size())   // 찜 수
                 .itemCategory(item.getItemCategory().getItemCategory()) // 카테고리 명
                 .member(item.getMember().getNickName()) // 닉네임? 실명? 선택 필요
                 .thumbnail(item.getThumbnail())
@@ -55,12 +59,16 @@ public class ItemMapper {
                 .map(item -> ItemDto.Response
                         .builder()
                         .itemId(item.getItemId())
+//                        .itemImages(item.getItemImages()
+//                                .stream()
+//                                .map(itemImage -> itemImage.getItemThumbnail())
+//                                .collect(Collectors.toList()))
                         .itemName(item.getItemName())
                         .price(item.getPrice())
                         .soldCnt(item.getSoldCnt())
                         .stockCnt(item.getStockCnt())
                         .info(item.getInfo())
-                        .wishCnt(item.getWishCnt())
+                        .wishCnt(item.getWishes().size())
                         .itemCategory(item.getItemCategory().getItemCategory())
                         .member(item.getMember().getNickName())
                         .thumbnail(item.getThumbnail())

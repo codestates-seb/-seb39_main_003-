@@ -3,7 +3,6 @@ package com.web.MyPetForApp.order.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,8 +10,9 @@ public class OrderDto {
     @Schema(name = "OrderPost", description = "주문 Post 요청 모델")
     @Getter
     @AllArgsConstructor
-    @Builder
     public static class Post{
+        @Schema(description = "회원 식별 번호", example = "000001")
+        private String memberId;
         @Schema(description = "한 주문에 포함될 상품 리스트 Dto")
         private List<OrderItemDto.Post> orderItems;
         @Schema(description = "새 주소", example = "서울 중곡동 225-10")
@@ -30,7 +30,6 @@ public class OrderDto {
     @AllArgsConstructor
     public static class Patch{
         @Schema(description = "주문 상태", example = "주문 완료")
-        @NotBlank
         private String orderStatus;
     }
 

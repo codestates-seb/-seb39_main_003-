@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class ReviewDto {
@@ -16,18 +14,14 @@ public class ReviewDto {
     @AllArgsConstructor
     public static class Post{
         @Schema(description = "별점 갯수", example = "4")
-        @Range(min = 1, max = 5, message = "별점은 1~5개 까지만 가능합니다")
         private int starCnt;
         @Schema(description = "상품 이미지")
         private String photo;
-        @Schema(description = "리뷰 내용", example = "리뷰 내용입니다.")
-        @NotBlank
+        @Schema(description = "리뷰 내용", example = "리뷰내용 1나")
         private String reviewContent;
         @Schema(description = "회원 식별 번호", example = "000001")
-        @NotBlank
         private String memberId;
         @Schema(description = "상품 식별 번호", example = "000001")
-        @NotBlank
         private String itemId;
     }
     @Schema(name = "ReviewPatch", description = "상품 리뷰 Patch 요청 모델")
@@ -38,10 +32,9 @@ public class ReviewDto {
         private int starCnt;
         @Schema(description = "상품 이미지")
         private String photo;
-        @Schema(description = "리뷰 내용", example = "리뷰 내용입니다.")
+        @Schema(description = "리뷰 내용", example = "리뷰내용 1나")
         private String reviewContent;
         @Schema(description = "회원 식별 번호", example = "000001")
-        @NotBlank
         private String memberId;
     }
    @Schema(name = "ReviewResponse", description = "상품 리뷰 데이터 반환 모델")

@@ -3,14 +3,13 @@ package com.web.MyPetForApp.item.entity;
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
 import com.web.MyPetForApp.member.entity.Member;
-import com.web.MyPetForApp.qna.entity.Qna;
+import com.web.MyPetForApp.qna.entity.Question;
 import com.web.MyPetForApp.review.entity.Review;
 import com.web.MyPetForApp.wish.entity.Wish;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,6 +21,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Item extends BaseTimeEntity {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long itemId;
 
     @Id
     private String itemId;
@@ -61,7 +63,7 @@ public class Item extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
-    private List<Qna> qnas = new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
@@ -70,6 +72,15 @@ public class Item extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
+
+
+//    @Builder.Default
+//    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+//    private List<ItemImage> itemImages = new ArrayList<>();
+
+//    @Transient
+//    private List<String> itemImagess = new ArrayList<>();
+    // Item-Wish 양방향 연관관계 편의 메서드
 
     public void addWish(Wish wish){
         this.wishes.add(wish);
@@ -85,7 +96,12 @@ public class Item extends BaseTimeEntity {
             cartItem.changeItem(this);
         }
     }
-
+    //    public void addItemImage(ItemImage itemImage){
+//        this.itemImages.add(itemImage);
+//        if(itemImage.getItem() != this){
+//            itemImage.changeItem(this);
+//        }
+//    }
     // Board-BoardCategory 양방향 연관관계 편의 메서드
     public void changeItemCategory(ItemCategory itemCategory){
         if(this.itemCategory != null){

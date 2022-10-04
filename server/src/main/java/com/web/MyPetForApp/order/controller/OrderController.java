@@ -17,9 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Tag(name = "주문 API")
@@ -30,6 +27,22 @@ public class OrderController {
     private final OrderMapper mapper;
     private final OrderService orderService;
 
+    @Operation(summary = "주문 요청")
+    @ApiResponses(
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "CREATED"
+            )
+    )
+    @PostMapping
+    public ResponseEntity postOrder(@RequestBody OrderDto.Post requestBody){
+//        List<OrderItemDto.Post> orderItems = requestBody.getOrderItems();
+        String memberId = requestBody.getMemberId();
+        Order savedOrder = orderService.createOrder(requestBody, memberId);
+        OrderDto.Response response = mapper.orderToOrderResponseDto(savedOrder);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+    }
+
     @Operation(summary = "하나의 주문 정보 조회")
     @ApiResponses(
             @ApiResponse(
@@ -38,7 +51,7 @@ public class OrderController {
             )
     )
     @GetMapping("/{orderId}")
-    public ResponseEntity getOrder(@Positive @PathVariable Long orderId){
+    public ResponseEntity getOrder(@PathVariable Long orderId){
         Order order = orderService.findOrder(orderId);
         OrderDto.Response response = mapper.orderToOrderResponseDto(order);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -52,9 +65,9 @@ public class OrderController {
             )
     )
     @GetMapping
-    public ResponseEntity getOrders(@Parameter(description = "회원 식별번호") @NotBlank @RequestParam String memberId,
-                                    @Parameter(description = "현재 페이지") @Positive @RequestParam(required = false, defaultValue = "1") int page,
-                                    @Parameter(description = "한 페이지 당 상품 수") @Positive @RequestParam(required = false, defaultValue = "10") int size){
+    public ResponseEntity getOrders(@Parameter(description = "회원 식별번호") @RequestParam String memberId,
+                                    @Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
+                                    @Parameter(description = "한 페이지 당 상품 수") @RequestParam(required = false, defaultValue = "10") int size){
         Page<Order> pageOrders = orderService.findOrders(memberId, page-1, size);
         List<Order> orders = pageOrders.getContent();
         List<OrderDto.Response> response = mapper.ordersToOrderResponseDto(orders);
@@ -69,8 +82,8 @@ public class OrderController {
             )
     )
     @PatchMapping("/{orderId}")
-    public ResponseEntity patchOrder(@Positive @PathVariable Long orderId,
-                                     @Valid @RequestBody OrderDto.Patch requestBody){
+    public ResponseEntity patchOrder(@PathVariable Long orderId,
+                                     @RequestBody OrderDto.Patch requestBody){
         String orderStatus = requestBody.getOrderStatus();
         Order order = orderService.updateOrder(orderId, orderStatus);
         OrderDto.Response response = mapper.orderToOrderResponseDto(order);
@@ -84,7 +97,7 @@ public class OrderController {
             )
     )
     @DeleteMapping("/{orderId}")
-    public ResponseEntity deleteOrder(@Positive @PathVariable Long orderId){
+    public ResponseEntity deleteOrder(@PathVariable Long orderId){
         orderService.cancelOrder(orderId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

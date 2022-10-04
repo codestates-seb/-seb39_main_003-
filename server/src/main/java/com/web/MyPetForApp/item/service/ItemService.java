@@ -13,13 +13,17 @@ import com.web.MyPetForApp.wish.entity.Wish;
 import com.web.MyPetForApp.wish.repository.WishRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -30,10 +34,16 @@ public class ItemService {
     private final WishRepository wishRepository;
     private final MemberService memberService;
     private final ImageService imageService;
-    private final String baseItemImgUrl = "https://mypet-image.s3.ap-northeast-2.amazonaws.com/items/";
 
     public Item createItem(Item item, String memberId, String itemCategoryId, List<MultipartFile> mainImg, List<MultipartFile> detailImg){
         Member member = memberService.findVerifiedMember(memberId);
+//        for (String image : itemImages) {
+//            ItemImage itemImage = ItemImage.builder()
+//                    .itemThumbnail(image)
+//                    .build();
+//            ItemImage savedItemImage = itemImageRepository.save(itemImage);
+//            item.addItemImage(savedItemImage);
+//        }
         ItemCategory itemCategory = findVerifiedItemCategory(itemCategoryId);
         item.changeMember(member);
         item.changeItemCategory(itemCategory);
@@ -41,7 +51,7 @@ public class ItemService {
 
         String thumbnail = null;
         if (mainImg != null) {
-            thumbnail = baseItemImgUrl + imageService.uploadFile(mainImg, "item", item.getItemId(), "main").get(0);
+            thumbnail = imageService.uploadFile(mainImg, "item", item.getItemId(), "main").get(0);
         }
 
         if (detailImg != null) {
@@ -65,15 +75,27 @@ public class ItemService {
     public Page<Item> findWishItems(String memberId, int page, int size){
         Member member = memberService.findVerifiedMember(memberId);
         List<Wish> findWishes = wishRepository.findAllByMember(member);
-        return itemRepository.findAllByWishesIn(findWishes, PageRequest.of(page, size,
-                Sort.by("wishCnt").descending()));
+        List<Item> wishItems = findWishes
+                .stream()
+                .map(wish -> wish.getItem())
+                .collect(Collectors.toList());
+        return listToPage(page, size, wishItems);
     }
 
-    public Item updateItem(String itemId, Item item, String memberId){
+    public Item updateItem(String itemId, Item item){
         Item findItem = findVerifiedItem(itemId);
-        if(!memberId.equals(findItem.getMember().getMemberId())){
-            throw new BusinessLogicException(ExceptionCode.ITEM_NOT_FOUND);
-        }
+//        if(itemImages != null) {
+            // itemImage
+//            findItem.resetItemImages();
+//            itemImageRepository.deleteByItem(findItem);
+//            for (String image : itemImages) {
+//                ItemImage itemImage = ItemImage.builder()
+//                        .itemThumbnail(image)
+//                        .build();
+//                itemImage.changeItem(findItem);
+//                itemImageRepository.save(itemImage);
+//            }
+//        }
         findItem.updateItem(item);
 
         return findItem;
@@ -90,11 +112,15 @@ public class ItemService {
         itemRepository.delete(item);
     }
 
-    public Page<Item> searchItem(String word, int page, int size, String sortBy){
-        return itemRepository.findAllByWord(word, PageRequest.of(page, size,
-                Sort.by(sortBy).descending()));
+    // List<Item> 에서 Page<Item>으로 변환
+    public PageImpl<Item> listToPage(int page, int size, List<Item> wishItems) {
+        PageRequest pageable = PageRequest.of(page, size, Sort.by("wishId").ascending());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), wishItems.size());
+        if(start> wishItems.size())
+            return new PageImpl<>(new ArrayList<>(), pageable, wishItems.size());
+        return new PageImpl<>(wishItems.subList(start, end), pageable, wishItems.size());
     }
-
     public Item findVerifiedItem(String itemId) {
         return itemRepository.findById(itemId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ITEM_NOT_FOUND));

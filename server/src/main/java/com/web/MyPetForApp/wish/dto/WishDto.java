@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
 public class WishDto {
 
     @Schema(name = "WishPost", description = "좋아요 Post 요청 모델")
@@ -15,10 +13,8 @@ public class WishDto {
     @AllArgsConstructor
     public static class Post{
         @Schema(description = "상품 식별 번호", example = "000001")
-        @NotBlank
         private String itemId;
         @Schema(description = "회원 식별번호", example = "000001")
-        @NotBlank
         private String memberId;
     }
     @Schema(name = "WishResponse", description = "좋아요 데이터 반환 모델")

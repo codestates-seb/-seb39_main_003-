@@ -5,13 +5,10 @@ import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.member.repository.MemberRepository;
 import com.web.MyPetForApp.member.service.MemberService;
-import com.web.MyPetForApp.order.dto.OrderDto;
 import com.web.MyPetForApp.order.entity.Order;
 import com.web.MyPetForApp.order.entity.OrderItem;
 import com.web.MyPetForApp.order.repository.OrderItemRepository;
 import com.web.MyPetForApp.order.repository.OrderRepository;
-import com.web.MyPetForApp.order.service.OrderService;
-import com.web.MyPetForApp.pay.dto.PayDto;
 import com.web.MyPetForApp.pay.entity.Pay;
 import com.web.MyPetForApp.pay.repository.PayRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,17 +21,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class PayService {
     private final PayRepository payRepository;
     private final MemberService memberService;
-    private final OrderService orderService;
+    private final OrderRepository orderRepository;
 
-    public Pay create(Pay pay, String memberId, OrderDto.Post orderPostDto) {
+    public Pay create(Pay pay,String memberId, Long orderId) {
+        Order findOrder = orderRepository.findById(orderId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND)
+        );
         Member findMember = memberService.findVerifiedMember(memberId);
-        Order savedOrder = orderService.createOrder(orderPostDto, findMember.getMemberId());
-        pay.addOrder(savedOrder);
+        pay.addOrder(findOrder);
         pay.changeMember(findMember);
         // 결제 성공되었다 가정 -> 바로 결제 완료로 상태 바꿈
         pay.updatePayStatus(Pay.PayStatus.PAY_COMPLETE);
         // 주문 상태도 주문 완료로 바꾼다.
-        savedOrder.updateOrderStatus(Order.OrderStatus.ORDER_COMPLETE);
+        findOrder.updateOrderStatus(Order.OrderStatus.ORDER_COMPLETE);
 
         return payRepository.save(pay);
     }
