@@ -148,7 +148,7 @@ function Mypage() {
       .then(res => res.json())
       .then(res => {
         setInfo(res)
-        // console.log(res)
+        console.log(res)
       })
     } , [])
     
