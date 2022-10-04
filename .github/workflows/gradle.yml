@@ -34,7 +34,7 @@ jobs:
       run: mkdir deploy
       
     - name: Jar File Copy
-      run: ./server/build/libs/*.jar ./deploy
+      run: ./*.jar ./deploy
       
     - name: Make Zip File
       run: zip -r ./mypet-deploy.zip .
