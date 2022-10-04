@@ -73,9 +73,9 @@ public class BoardController {
         return new ResponseEntity<>("delete success", HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @GetMapping
     public ResponseEntity searchBoards(@RequestParam Long categoryId,
-                                       @RequestParam(defaultValue = "") String q,
+                                       @RequestParam(required = false, defaultValue = "") String q,
                                        @RequestParam(required = false, defaultValue = "1") int page,
                                        @RequestParam(required = false, defaultValue = "10") int size){
         Page<Board> pageBoards = boardService.searchBoards(categoryId, q, page-1, size);
@@ -85,23 +85,23 @@ public class BoardController {
         return new ResponseEntity<>(new MultiResponseDto<>(responses, pageBoards), HttpStatus.OK);
     }
 
-    @Operation(summary = "게시판 리스트 조회")
-    @ApiResponses(
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "OK"
-            )
-    )
-    @GetMapping
-    public ResponseEntity getBoardList(@Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
-                                       @Parameter(description = "한 페이지 당 게시글 수") @RequestParam(required = false, defaultValue = "10") int size,
-                                       @Parameter(description = "카테고리 아이디") @RequestParam Long categoryId){
-        Page<Board> pageBoards = boardService.getBoard(categoryId, page-1, size);
-        List<Board> boards = pageBoards.getContent();
-        List<BoardDto.Response> responses = boardMapper.boardToBoardResponse(boards);
-
-        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageBoards), HttpStatus.OK);
-    }
+//    @Operation(summary = "게시판 리스트 조회")
+//    @ApiResponses(
+//            @ApiResponse(
+//                    responseCode = "200",
+//                    description = "OK"
+//            )
+//    )
+//    @GetMapping
+//    public ResponseEntity getBoardList(@Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
+//                                       @Parameter(description = "한 페이지 당 게시글 수") @RequestParam(required = false, defaultValue = "10") int size,
+//                                       @Parameter(description = "카테고리 아이디") @RequestParam Long categoryId){
+//        Page<Board> pageBoards = boardService.getBoard(categoryId, page-1, size);
+//        List<Board> boards = pageBoards.getContent();
+//        List<BoardDto.Response> responses = boardMapper.boardToBoardResponse(boards);
+//
+//        return new ResponseEntity<>(new MultiResponseDto<>(responses, pageBoards), HttpStatus.OK);
+//    }
 
     @Operation(summary = "하나의 게시글 정보 조회")
     @ApiResponses(

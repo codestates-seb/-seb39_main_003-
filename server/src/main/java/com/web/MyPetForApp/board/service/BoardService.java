@@ -53,14 +53,14 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-    public Page<Board> getBoard(Long boardCategoryId, int page, int size) {
-
-        Page<Board> boards = boardRepository.findAllByBoardCategory(
-                findVerifiedBoardCategory(boardCategoryId),
-                PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
-
-        return boards;
-    }
+//    public Page<Board> getBoard(Long boardCategoryId, int page, int size) {
+//
+//        Page<Board> boards = boardRepository.findAllByBoardCategory(
+//                findVerifiedBoardCategory(boardCategoryId),
+//                PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
+//
+//        return boards;
+//    }
 
     public Board selectBoard(Long boardId) {
         Board board = findVerifiedBoard(boardId);
