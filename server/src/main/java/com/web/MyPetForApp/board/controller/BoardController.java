@@ -72,13 +72,19 @@ public class BoardController {
         boardService.delete(boardId);
         return new ResponseEntity<>("delete success", HttpStatus.OK);
     }
-
+    @Operation(summary = "게시글 리스트 조회", description = "카테고리 별로 게시판/공지사항/FAQ를 조회 가능")
+    @ApiResponses(
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "OK"
+            )
+    )
     @GetMapping
-    public ResponseEntity searchBoards(@RequestParam Long categoryId,
-                                       @RequestParam(required = false, defaultValue = "") String q,
-                                       @RequestParam(required = false, defaultValue = "1") int page,
-                                       @RequestParam(required = false, defaultValue = "10") int size){
-        Page<Board> pageBoards = boardService.searchBoards(categoryId, q, page-1, size);
+    public ResponseEntity searchBoards(@Parameter(description = "카테고리 탭 식별번호", example = "1") @RequestParam Long categoryId,
+                                       @Parameter(description = "검색 키워드(값이 없으면 해당 탭 전체 조회") @RequestParam(required = false, defaultValue = "") String keyword,
+                                       @Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
+                                       @Parameter(description = "해당 페이지 게시글 수") @RequestParam(required = false, defaultValue = "10") int size){
+        Page<Board> pageBoards = boardService.searchBoards(categoryId, keyword, page-1, size);
         List<Board> boards = pageBoards.getContent();
         List<BoardDto.Response> responses = boardMapper.boardToBoardResponse(boards);
 

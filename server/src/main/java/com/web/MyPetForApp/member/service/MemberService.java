@@ -3,14 +3,12 @@ package com.web.MyPetForApp.member.service;
 import com.web.MyPetForApp.exception.BusinessLogicException;
 import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.image.service.ImageService;
-import com.web.MyPetForApp.item.entity.Item;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,22 +21,39 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final ImageService imageService;
 
-    public Member create(Member member) {
+    private final String baseMemberImgUrl = "https://mypet-image.s3.ap-northeast-2.amazonaws.com/members/";
+    public Member create(Member member, List<MultipartFile> multipartFiles) {
     Optional<Member> optionalMember = memberRepository.findByEmail(member.getEmail());
+
+    Member savedMember = null;
 
     if(optionalMember.isPresent()) {
         throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
     } else {
 //        member.updateRole(Member.MemberRole.ROLE_ADMIN);
-        return memberRepository.save(member);
+         savedMember = memberRepository.save(member);
         }
+        String profileImg = null;
+
+        if(multipartFiles != null) {
+            profileImg  = baseMemberImgUrl + imageService.uploadFile(multipartFiles, "member", member.getMemberId(), "profile").get(0);
+        }
+        savedMember.updateProfileImg(profileImg);
+        return savedMember;
     }
 
-    public Member update(Member modifiedMember) {
+    public Member update(Member requestMember, List<MultipartFile> multipartFiles) {
         // 회원이 존재하는지 확인
-        Member findMember = findVerifiedMember(modifiedMember.getMemberId());
-        // 존재한다면 들어온 정보대로 수정
-        findMember.updateMember(modifiedMember);
+        Member findMember = findVerifiedMember(requestMember.getMemberId());
+        // 회원이 존재하고,
+        String profileImg = null;
+        // 바꿀 이미지가 존재한다면 포함하여 회원 정보를 수정한다.
+        if(multipartFiles != null) {
+            profileImg = baseMemberImgUrl + imageService.uploadFile(multipartFiles, "member", findMember.getMemberId(), "Profile").get(0);
+        }
+        requestMember.updateProfileImg(profileImg);
+        findMember.updateMember(requestMember);
+
         return memberRepository.save(findMember);
     }
 

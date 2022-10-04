@@ -1,14 +1,14 @@
 package com.web.MyPetForApp.image.util;
 
+import com.web.MyPetForApp.exception.ExceptionCode;
+import com.web.MyPetForApp.exception.FileLogicException;
+import lombok.Getter;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 @Component
 public class ImageUtils {
@@ -25,9 +25,12 @@ public class ImageUtils {
     public String getFileExtension(String fileName) {
         // 파일 형식이 잘못된 경우 체크
         try {
-            return fileName.substring(fileName.lastIndexOf("."));
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ")입니다.");
+            String extension = fileName.substring(fileName.lastIndexOf("."));
+            // 확장자가 우리가 선언한 확장자인지 체크
+            FileExtension.valueOf(extension);
+            return extension;
+        } catch (StringIndexOutOfBoundsException | IllegalArgumentException e) {
+            throw new FileLogicException(ExceptionCode.EXTENSION_IS_INVALID);
         }
     }
 
@@ -48,5 +51,19 @@ public class ImageUtils {
         return ContentDisposition.builder("attachment")
                 .filename(fileName, StandardCharsets.UTF_8)
                 .build();
+    }
+
+    public enum FileExtension {
+
+        PNG("png"),
+        JPEG("jpeg"),
+        JPG("jpg");
+
+        @Getter
+        private final String extensionName;
+
+        FileExtension(String extensionName) {
+            this.extensionName = extensionName;
+        }
     }
 }

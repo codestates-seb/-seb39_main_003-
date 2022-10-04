@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class MemberMapper {
@@ -37,7 +35,7 @@ public class MemberMapper {
                 .build();
     }
 
-    public MemberDto.Response memberToResponse(Member member, String profileImg) {
+    public MemberDto.Response memberToResponse(Member member) {
         return MemberDto.Response.builder()
                 .memberId(member.getMemberId())
                 .memberName(member.getMemberName())
@@ -47,7 +45,7 @@ public class MemberMapper {
                 .roles(member.getMemberRole().getRole())
                 .password(member.getPassword())
                 .phone(member.getPhone())
-                .profileImg(profileImg)
+                .profileImg(member.getProfileImg())
                 .build();
     }
 }

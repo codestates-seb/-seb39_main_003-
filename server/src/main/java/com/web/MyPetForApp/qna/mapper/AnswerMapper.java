@@ -24,7 +24,7 @@ public class AnswerMapper {
         return AnswerDto.Response.builder()
                 .answerId(answer.getAnswerId())
                 .questionId(answer.getQuestionId())
-                .answerConetent(answer.getAnswerContent())
+                .answerContent(answer.getAnswerContent())
                 .nickName(answer.getMember().getNickName())
                 .modifiedAt(answer.getModifiedAt())
                 .build();

@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 public class MemberDto {
 
@@ -69,5 +68,7 @@ public class MemberDto {
         private String address;
         @Schema(description = "회원 휴대폰번호", example = "010-1111-1111")
         private String phone;
+        @Schema(description = "회원 프로필 이미지", example = "S3베이스Url + 000001/profile_1.jpeg")
+        private String profileImg;
     }
 }

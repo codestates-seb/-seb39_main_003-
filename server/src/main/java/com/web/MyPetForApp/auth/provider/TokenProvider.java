@@ -50,17 +50,15 @@ public class TokenProvider implements InitializingBean {
 //        this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createAccessToken(Authentication authentication) {
+    public String createAccessToken(String memberId, String email) {
 
-        AuthDetails authDetails = (AuthDetails) authentication.getPrincipal();
-
-        return JWT.create()
-                .withSubject("MyPet JWT Access Token")
+            return JWT.create()
+                    .withSubject("MyPet JWT Access Token")
 //                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60)))
-                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000)))
-                .withClaim("id", authDetails.getMember().getMemberId())
-                .withClaim("email", authDetails.getEmail())
-                .sign(Algorithm.HMAC512(accessKey));
+                    .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000)))
+                    .withClaim("memberId", memberId)
+                    .withClaim("email", email)
+                    .sign(Algorithm.HMAC512(accessKey));
 
 //        String authorities = authentication.getAuthorities().stream()
 //                .map(GrantedAuthority::getAuthority)
@@ -77,25 +75,52 @@ public class TokenProvider implements InitializingBean {
 //                .compact();
     }
 
-    private String createRefreshToken(Authentication authentication) {
-        AuthDetails authDetails = (AuthDetails) authentication.getPrincipal();
+    private String createRefreshToken(String memberId, String email) {
 
-        return JWT.create()
-                .withSubject("MyPet JWT Refresh Token")
-                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60 * 24 * 14)))
-                .withClaim("email", authDetails.getEmail())
-                .sign(Algorithm.HMAC512(refreshKey));
+            return JWT.create()
+                    .withSubject("MyPet JWT Refresh Token")
+                    .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60 * 24 * 14)))
+                    .withClaim("memberId", memberId)
+                    .withClaim("email", email)
+                    .sign(Algorithm.HMAC512(refreshKey));
     }
+
+//    public String createOAuthAccessToken(Authentication authentication) {
+//
+//        DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
+//        Member findMember = memberRepository.findByMemberName(oAuth2User.getName()).orElseThrow(
+//                () -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+//        return JWT.create()
+//                .withSubject("MyPet JWT Access Token")
+//                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000)))
+//                .withClaim("id", findMember.getMemberId())
+//                .withClaim("email", findMember.getEmail())
+//                .sign(Algorithm.HMAC512(accessKey));
+//    }
+//
+//    public String createOAuthRefreshToken(Authentication authentication) {
+//
+//        DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
+//        Member findMember = memberRepository.findByMemberName(oAuth2User.getName()).orElseThrow(
+//                () -> new IllegalArgumentException("회원이 존재하지 않습니다."));
+//        return JWT.create()
+//                .withSubject("MyPet JWT Access Token")
+//                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000)))
+//                .withClaim("id", findMember.getMemberId())
+//                .withClaim("email", findMember.getEmail())
+//                .sign(Algorithm.HMAC512(accessKey));
+//    }
+
     @Transactional
-    public String renewalRefreshToken(Authentication authentication) {
-        String newRefreshToken = createRefreshToken(authentication);
+    public String renewalRefreshToken(String memberId, String email) {
+        String newRefreshToken = createRefreshToken(memberId, email);
         // 기존 토큰이 있다면 바꿔주고, 없다면 토큰을 만들어준다.
-        refreshTokenRepository.findByEmail(authentication.getName())
+        refreshTokenRepository.findByEmail(email)
                 .ifPresentOrElse(
                         r -> {r.changeToken(newRefreshToken);
                         logger.info("기존 리프레시 토큰 변환");},
                         () -> {
-                            RefreshToken toSaveToken = RefreshToken.createToken(authentication.getName(), newRefreshToken);
+                            RefreshToken toSaveToken = RefreshToken.createToken(email, newRefreshToken);
                             logger.info("새로운 리프레시 토큰 저장 | member's email : {}, token : {}", toSaveToken.getEmail(), toSaveToken.getToken() );
                             refreshTokenRepository.save(toSaveToken);
                         }
@@ -107,13 +132,14 @@ public class TokenProvider implements InitializingBean {
     public String updateRefreshToken(String refreshToken) throws RuntimeException {
         // refresh Token을 DB에 저장된 토큰과 비교
         Authentication authentication = getAuthentication(refreshToken);
+        AuthDetails authdetails = (AuthDetails) authentication.getPrincipal();
         RefreshToken findRefreshToken = refreshTokenRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new UsernameNotFoundException("email : " + authentication.getName() + " was not found"));
 
         // 토큰이 일치한다면
         if(findRefreshToken.getToken().equals(refreshToken)) {
             // 새로운 토큰 생성
-            String newRefreshToken = createRefreshToken(authentication);
+            String newRefreshToken = createRefreshToken(authdetails.getMember().getMemberId(), authdetails.getEmail());
             findRefreshToken.changeToken(newRefreshToken);
             return newRefreshToken;
         } else {

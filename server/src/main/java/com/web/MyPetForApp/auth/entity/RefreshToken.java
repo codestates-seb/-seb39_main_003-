@@ -19,6 +19,7 @@ public class RefreshToken {
     private Long refreshTokenId;
 
     private String email;
+    @Column(length = 500)
     private String token;
 
     public  static RefreshToken createToken(String email, String token) {

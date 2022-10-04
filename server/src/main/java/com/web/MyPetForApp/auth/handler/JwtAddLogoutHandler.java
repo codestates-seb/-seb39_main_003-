@@ -1,4 +1,4 @@
-package com.web.MyPetForApp.auth.config;
+package com.web.MyPetForApp.auth.handler;
 
 import com.web.MyPetForApp.auth.repository.RefreshTokenRepository;
 import org.slf4j.Logger;

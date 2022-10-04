@@ -1,6 +1,7 @@
 package com.web.MyPetForApp.auth.filter;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.web.MyPetForApp.auth.dto.AuthDetails;
 import com.web.MyPetForApp.auth.provider.TokenProvider;
 import com.web.MyPetForApp.member.repository.MemberRepository;
 import org.slf4j.Logger;
@@ -63,7 +64,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                             response.addHeader("refresh", "Bearer " + newRefreshToken);
                             // Access Token 재발급
                             Authentication authentication = tokenProvider.getAuthentication(refreshToken);
-                            response.addHeader("Authorization", "Bearer " + tokenProvider.createAccessToken(authentication));
+                            AuthDetails authDetails = (AuthDetails) authentication.getPrincipal();
+                            response.addHeader("Authorization", "Bearer " + tokenProvider.createAccessToken(authDetails.getMember().getMemberId(),authDetails.getEmail()));
                             SecurityContextHolder.getContext().setAuthentication(authentication);
                             logger.info("리프레시 토큰 & 액세스 토큰 최신화 완료");
                         }

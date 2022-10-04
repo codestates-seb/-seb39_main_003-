@@ -31,20 +31,19 @@ public class Member {
     @Column(nullable = false)
     private String memberName;
 
-    @Column(nullable = false)
     private String nickName;
 
 //    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
     private String address;
 
 //    @Column(nullable = false, unique = true)
     private String phone;
+
+    private String profileImg;
 
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;
@@ -59,10 +58,6 @@ public class Member {
         MemberRole(String role) {
             this.role = role;
         }
-    }
-
-    public void updateRole(MemberRole memberRole) {
-        this.memberRole = memberRole;
     }
 
     @Builder.Default
@@ -110,11 +105,21 @@ public class Member {
         }
     }
 
+    public void updateRole(MemberRole memberRole) {
+        this.memberRole = memberRole;
+    }
+    public Member addMemberId(String memberId) {
+        this.memberId = memberId;
+        return this;
+    }
+
     public void updatePassword(String password) {
         this.password = password;
     }
 
-    public void updateMember(Member member) {
+    public void updateProfileImg(String profileImg) {this.profileImg = profileImg;}
+
+    public Member updateMember(Member member) {
         Optional.ofNullable(member.getNickName()).ifPresent(
                 name -> this.nickName = name);
         Optional.ofNullable(member.getAddress()).ifPresent(
@@ -123,6 +128,9 @@ public class Member {
                 password -> this.password = password);
         Optional.ofNullable(member.getPhone()).ifPresent(
                 phone -> this.phone = phone);
+        Optional.ofNullable(member.getProfileImg()).ifPresent(
+                profileImg -> this.profileImg = profileImg);
+        return this;
     }
 
 
@@ -142,8 +150,5 @@ public class Member {
 
 //    @OneToMany(mappedBy = "member") // 상품 목록 필요??
 //    private List<Item> items = new ArrayList<>();
-
-
-
 
 }
