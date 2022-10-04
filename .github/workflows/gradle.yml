@@ -36,6 +36,9 @@ jobs:
 
     - name: Jar File Copy
       run: cp ./*.jar ./deploy
+
+    - name: Jar File Delete
+      run: rm -rf ./*.jar
       
     - name: Make Zip File
       run: zip -r ./mypet-deploy.zip .
