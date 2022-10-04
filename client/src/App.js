@@ -80,7 +80,7 @@ function App() {
                 <Route path="/shopping/pad" element={<Pad />} />
                 <Route path="/shopping/toy" element={<Toy />} />
                 <Route path="/shopping/add" element={<AddProduct />} />
-                <Route path="/shopping/item/:itemId" element={<Items 
+                <Route path="/shopping/item/:itemId" element={<Items
                 convertPrice={convertPrice}
                 cart={cart}
                 setCart={setCart}/>} />
