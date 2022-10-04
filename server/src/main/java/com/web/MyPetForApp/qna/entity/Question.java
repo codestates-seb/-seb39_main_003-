@@ -16,19 +16,19 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Qna extends BaseTimeEntity {
+public class Question extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long qnaId;
+    private Long questionId;
 
     @Column(nullable = false)
     private boolean checked;
 
     @Column(nullable = false)
-    private String qnaTitle;
+    private String questionTitle;
 
     @Column(nullable = false)
-    private String qnaContent;
+    private String questionContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_ID")
@@ -46,9 +46,9 @@ public class Qna extends BaseTimeEntity {
         this.item = item;
     }
 
-    public void updateQna(Qna qna){
-        if(qna.getQnaTitle() != null) this.qnaTitle = qna.getQnaTitle();
-        if(qna.getQnaContent() != null) this.qnaContent = qna.getQnaContent();
-        if(qna.isChecked()) this.checked = qna.isChecked();
+    public void updateQna(Question question){
+        if(question.getQuestionTitle() != null) this.questionTitle = question.getQuestionTitle();
+        if(question.getQuestionContent() != null) this.questionContent = question.getQuestionContent();
+        if(question.isChecked()) this.checked = question.isChecked();
     }
 }
