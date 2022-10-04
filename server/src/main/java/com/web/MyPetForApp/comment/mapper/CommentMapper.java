@@ -15,8 +15,9 @@ public class CommentMapper {
         Member member = Member.builder()
                 .memberId(post.getMemberId())
                 .build();
-        Board board = new Board();
-        board.setBoardId(post.getBoardId());
+        Board board = Board.builder()
+                .boardId(post.getBoardId())
+                .build();
 
         return Comment.builder()
                 .commentContent(post.getCommentContent())

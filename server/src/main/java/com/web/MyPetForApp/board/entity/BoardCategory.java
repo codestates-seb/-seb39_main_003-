@@ -1,9 +1,7 @@
 package com.web.MyPetForApp.board.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.web.MyPetForApp.item.entity.Item;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,20 +9,20 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tag {
+public class BoardCategory {
     @Id
-    private Long tagId;
+    private Long categoryId;
     @Column(nullable = false, unique = true)
-    private String tagName;
+    private String categoryName;
     @Column(nullable = false)
     private Integer pid;
-
-    @OneToMany(mappedBy = "tag", cascade = CascadeType.ALL)
     @Builder.Default
-    private List<BoardTag> boardTags = new ArrayList<>();
+    @OneToMany(mappedBy = "boardCategory")
+    private List<Board> boards = new ArrayList<>();
 
 //    // Tag-BoardTag 양방향 연관관계 편의 메서드
 //    public void addBoardTags(BoardTag boardTag){
