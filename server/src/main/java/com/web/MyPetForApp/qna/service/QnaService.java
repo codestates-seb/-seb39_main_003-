@@ -68,7 +68,7 @@ public class QnaService {
     @Transactional
     public Answer createAnswer(Answer answer){
         findVerifiedQuestion(answer.getQuestionId());
-        memberService.findVerifiedMember(answer.getMember().getMemberId());
+        answer.changeMember(memberService.findVerifiedMember(answer.getMember().getMemberId()));
         questionRepository.updateChecked(true, answer.getQuestionId());
 
         return answerRepository.save(answer);
@@ -79,10 +79,10 @@ public class QnaService {
 
         Answer answer = answerRepository.findByQuestionId(patch.getQuestionId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
-        answer.setMember(memberService.findVerifiedMember(patch.getMemberId()));
+        answer.changeMember(memberService.findVerifiedMember(patch.getMemberId()));
 
         Optional.ofNullable(patch.getAnswerContent())
-                .ifPresent(content -> answer.setAnswerContent(content));
+                .ifPresent(content -> answer.updateAnswerContent(content));
 
         return answerRepository.save(answer);
     }

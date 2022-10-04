@@ -35,6 +35,9 @@ public class Order extends BaseTimeEntity {
     private String newName;
 
     @Column
+    private int orderPrice;
+
+    @Column
     private String requirement;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -71,6 +74,10 @@ public class Order extends BaseTimeEntity {
         if (pay.getOrder() != this) {
             pay.addOrder(this);
         }
+    }
+
+    public void updateOrderPrice(int orderPrice) {
+        this.orderPrice = orderPrice;
     }
 
     public void changeNewAddress(String newAddress) {

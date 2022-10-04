@@ -1,6 +1,7 @@
 package com.web.MyPetForApp.qna.entity;
 
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
+import com.web.MyPetForApp.board.entity.Board;
 import com.web.MyPetForApp.member.entity.Member;
 import lombok.*;
 
@@ -11,7 +12,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 public class Answer extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +26,12 @@ public class Answer extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    public void changeMember(Member member) {
+        this.member = member;
+    }
+
+    public void updateAnswerContent(String answerContent) {
+        this.answerContent = answerContent;
+    }
 }

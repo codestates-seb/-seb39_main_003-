@@ -61,7 +61,7 @@ public class OrderController {
         return new ResponseEntity<>(new MultiResponseDto<>(response, pageOrders), HttpStatus.OK);
     }
 
-    @Operation(summary = "주문 정보 수정")
+    @Operation(summary = "주문 정보 수정", description = "orderStatus 값 예시 : 주문 요청,주문 확정,주문 완료,주문 취소")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "200",

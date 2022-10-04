@@ -83,7 +83,7 @@ public class ImageController {
                     description = "OK"
             )
     )
-    @PostMapping("/file/item")
+    @PostMapping(value = "/file/item", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity uploadItemFile(@RequestPart List<MultipartFile> multipartFiles,
                                          @Parameter(description = "식별번호") @RequestParam String  requestId,
                                          @Parameter(description = "이미지 용도", example = "main") @RequestParam String way) {
@@ -105,7 +105,7 @@ public class ImageController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Operation(summary = "회원 이미지 다운로드")
+    @Operation(summary = "상품 이미지 다운로드")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "200",
