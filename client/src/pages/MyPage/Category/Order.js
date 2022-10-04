@@ -1,6 +1,9 @@
-import React from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { useLocation } from 'react-router';
+
 
 const Wrapper = styled.div`
 box-sizing: border-box;
@@ -74,11 +77,28 @@ box-sizing: border-box;
   background-color: #EEF1FF;
 }
 .myorderimg{}
-.myordername{}
-.myorderstate{}
+.myordername{
+  width: 100%;
+  height: 5rem;
+  border: 1px solid red;
+}
+.myorderstate{
+  border: 1px solid red;
+  width: 100%;
+  height: 5rem;
+}
 `
 
 function Order() {
+
+  const [orderList, setOrderList] = useState([]);
+  const location = useLocation();
+
+  // console.log(location)
+  React.useEffect(() => {
+    setOrderList(location.state.list)
+  }, [orderList])
+
   return (
     <Wrapper>
       <div className='orderterritory'>
@@ -94,11 +114,16 @@ function Order() {
               <span className='myordertab'>주문상태</span>
           </div>
           {/* 주문목록 본문 */}
-          <div className='myorderlistBox'>
-              <img className='myorderimg'/>
-              <span className='myordername'>상품이름</span>
-              <span className='myorderstate'>주문상태</span>
-          </div>
+
+          {orderList && orderList.map((el, idx) => {
+            return (
+              <div className='myorderlistBox' key={idx}>
+                  {/* <img className='myorderimg'/> */}
+                  <span className='myordername'>{el.itemName}</span>
+                  <span className='myorderstate'>{el.price * el.itemCnt}</span>
+              </div>
+            )
+          })}
         </div>
       </div>
     </Wrapper>
