@@ -1,0 +1,61 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+  
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+      
+    - name: Make Directory for deliver
+      run: mkdir deploy
+      
+
+    - name: Jar File Copy
+      run: cp ./*.jar ./deploy
+
+    - name: Jar File Delete
+      run: rm -rf ./*.jar
+      
+    - name: Make Zip File
+      run: zip -r ./mypet-deploy.zip .
+      
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_JAEKWAN }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_JAEKWAN }}
+        aws-region: ap-northeast-2
+      
+    - name: Upload To S3
+      run: aws s3 cp --region ap-northeast-2 ./mypet-deploy.zip s3://mypet-cicd/mypet-deploy.zip
+
+    - name: Code Deploy
+      run: >
+        aws deploy create-deployment --application-name mypet-codedeploy
+        --deployment-config-name CodeDeployDefault.AllAtOnce
+        --deployment-group-name mypet-deploy-group
+        --s3-location bucket=mypet-cicd,bundleType=zip,key=mypet-deploy.zip
