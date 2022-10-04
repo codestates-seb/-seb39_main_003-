@@ -25,16 +25,15 @@ public class CommentService {
     private final BoardService boardService;
 
     public Comment create(Comment comment){
-        comment.setMember(memberService.findVerifiedMember(comment.getMember().getMemberId()));
-        comment.setBoard(boardService.findVerifiedBoard(comment.getBoard().getBoardId()));
+        comment.changeMember(memberService.findVerifiedMember(comment.getMember().getMemberId()));
+        comment.changeBoard(boardService.findVerifiedBoard(comment.getBoard().getBoardId()));
 
         return commentRepository.save(comment);
     }
 
     public Comment update(Long commentId, CommentDto.Patch patch){
         Comment comment = findVerifiedComment(commentId);
-        Optional.ofNullable(patch.getCommentContent())
-                .ifPresent(content -> comment.setCommentContent(content));
+        comment.updateCommentContent(patch.getCommentContent());
 
         return commentRepository.save(comment);
     }
@@ -49,11 +48,11 @@ public class CommentService {
         if(where.equals("boards")){
             return commentRepository.findAllByBoard(
                     boardService.findVerifiedBoard(boardId),
-                    PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
+                    PageRequest.of(page, size, Sort.by("createdAt").descending()));
         }else if(where.equals("members")){
             return commentRepository.findAllByMember(
                     memberService.findVerifiedMember(memberId),
-                    PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
+                    PageRequest.of(page, size, Sort.by("createdAt").descending()));
         }
         throw new BusinessLogicException(ExceptionCode.DOMAIN_IS_INVALID);
     }

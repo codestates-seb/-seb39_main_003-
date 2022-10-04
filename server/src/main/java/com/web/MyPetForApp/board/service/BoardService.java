@@ -7,6 +7,7 @@ import com.web.MyPetForApp.board.repository.BoardCategoryRepository;
 import com.web.MyPetForApp.board.repository.BoardRepository;
 import com.web.MyPetForApp.exception.BusinessLogicException;
 import com.web.MyPetForApp.exception.ExceptionCode;
+import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -28,22 +29,17 @@ public class BoardService {
     @Transactional
     public Board create(Board board, String memberId, Long boardCategoryId) {
 
-        Optional.ofNullable(memberService.findVerifiedMember(memberId))
-                .ifPresent(member -> board.setMember(member));
-        Optional.ofNullable(findVerifiedBoardCategory(boardCategoryId))
-                .ifPresent(boardCategory -> board.setBoardCategory(boardCategory));
+        Member findMember = memberService.findVerifiedMember(memberId);
+        board.changeMember(findMember);
+        BoardCategory findBoardCategory = findVerifiedBoardCategory(boardCategoryId);
+        board.changeBoardCategory(findBoardCategory);
 
         return boardRepository.save(board);
     }
 
     public Board update(Long boardId, Board board) {
         Board findBoard = findVerifiedBoard(boardId);
-
-        Optional.ofNullable(board.getTitle())
-                .ifPresent(title -> findBoard.setTitle(title));
-        Optional.ofNullable(board.getBoardContent())
-                .ifPresent(contents -> findBoard.setBoardContent(contents));
-
+        findBoard.updateBoard(board);
         return boardRepository.save(findBoard);
     }
 
@@ -108,7 +104,8 @@ public class BoardService {
     }
 
     private Board increaseViewCnt(Board board) {
-        board.setView(board.getView() + 1);
+        board.addViewCnt();
+        boardRepository.save(board);
         return board;
     }
 }

@@ -35,6 +35,9 @@ public class PayService {
         pay.updatePayStatus(Pay.PayStatus.PAY_COMPLETE);
         // 주문 상태도 주문 완료로 바꾼다.
         savedOrder.updateOrderStatus(Order.OrderStatus.ORDER_COMPLETE);
+        // 결제 요청 금액과 필요한 주문금액이 다르면 에러 던지기
+        if(pay.getAmount() != savedOrder.getOrderPrice())
+            throw new BusinessLogicException(ExceptionCode.PRICE_DIFFERENT);
 
         return payRepository.save(pay);
     }

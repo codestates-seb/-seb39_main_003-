@@ -31,6 +31,7 @@ public class CommentMapper {
                 .map(comment ->
                         CommentDto.Response.builder()
                                 .boardId(comment.getBoard().getBoardId())
+                                .commentId(comment.getCommentId())
                                 .nickName(comment.getMember().getNickName())
                                 .commentContent(comment.getCommentContent())
                                 .modifiedAt(comment.getModifiedAt())

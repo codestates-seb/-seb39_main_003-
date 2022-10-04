@@ -7,10 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,7 +31,7 @@ public class PayDto {
         private String memberId;
 
         @Schema(description = "한 주문에 포함될 상품 리스트 Dto")
-        @NotBlank
+        @NotNull
         private List<OrderItemDto.Post> orderItems;
 
         @Schema(description = "새 주소", example = "서울 중곡동 225-10", nullable = true)

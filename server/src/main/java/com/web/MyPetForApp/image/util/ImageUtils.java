@@ -7,8 +7,11 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 @Component
 public class ImageUtils {
@@ -27,7 +30,11 @@ public class ImageUtils {
         try {
             String extension = fileName.substring(fileName.lastIndexOf("."));
             // 확장자가 우리가 선언한 확장자인지 체크
-            FileExtension.valueOf(extension);
+            System.out.println("extension = " + extension.substring(1));
+            List<String> fileExtentions = FileExtension.EXTENSIONS;
+            System.out.println("fileExtentions = " + fileExtentions.toString());
+            if(!fileExtentions.contains(extension.substring(1).toUpperCase())) throw new FileLogicException(ExceptionCode.EXTENSION_IS_INVALID);
+
             return extension;
         } catch (StringIndexOutOfBoundsException | IllegalArgumentException e) {
             throw new FileLogicException(ExceptionCode.EXTENSION_IS_INVALID);
@@ -61,6 +68,10 @@ public class ImageUtils {
 
         @Getter
         private final String extensionName;
+
+        public static final List<String> EXTENSIONS = Stream.of(FileExtension.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
 
         FileExtension(String extensionName) {
             this.extensionName = extensionName;

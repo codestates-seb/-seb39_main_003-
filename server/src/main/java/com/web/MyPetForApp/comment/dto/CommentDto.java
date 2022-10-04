@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class CommentDto {
@@ -23,6 +24,7 @@ public class CommentDto {
     @Getter
     public static class Patch{
         @Schema(description = "댓글 내용", example = "댓글1")
+        @NotBlank
         private String commentContent;
     }
     @Schema(name = "CommentResponse", description = "댓글 Response 요청 모델")
@@ -32,6 +34,8 @@ public class CommentDto {
     public static class Response{
         @Schema(description = "게시글 식별번호", example = "1")
         private Long boardId;
+        @Schema(description = "댓글 식별번호", example = "1")
+        private Long commentId;
         @Schema(description = "회원 별명", example = "별명1")
         private String nickName;
         @Schema(description = "댓글 내용", example = "댓글1")

@@ -52,11 +52,13 @@ public class OrderService {
                     .snapshotPrice(item.getPrice())
                     .snapshotImage(item.getThumbnail())
                     .build();
+            orderItem.updateTotalPrice(orderItem.getSnapshotPrice(), orderItem.getOrderItemCnt());
             orderItem.changeOrder(order);  // OrderItem-Order 연관관계 설정
             orderItemRepository.save(orderItem);
+            orderPrice += orderItem.getTotalPrice();
         }
+        order.updateOrderPrice(orderPrice);
         return orderRepository.save(order);
-
     }
 
     public Order findOrder(Long orderId){

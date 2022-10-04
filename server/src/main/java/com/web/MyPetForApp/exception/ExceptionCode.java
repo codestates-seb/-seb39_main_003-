@@ -28,6 +28,8 @@ public enum ExceptionCode {
     FILE_UPLOAD_LIMIT_ONE(409, "The number of files is limited to one"),
     FILE_UPLOAD_LIMIT_FIVE(409, "The number of files is limited to five"),
     DOMAIN_IS_INVALID(400, "Domain is invalid"),
+    EXTENSION_IS_INVALID(400, "File's extension is invalid"),
+    PRICE_DIFFERENT(400, "Request price is different from orderPrice");
     EXTENSION_IS_INVALID(400, "File's extension is invalid");
 
     @Getter

@@ -31,11 +31,18 @@ public class OrderItem {
     private int snapshotPrice;
 
     @Column
+    private int totalPrice;
+
+    @Column
     private String snapshotImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_ID")
     private Order order;
+
+    public void updateTotalPrice(int snapshotPrice ,int orderItemCnt) {
+        this.totalPrice = snapshotPrice * orderItemCnt;
+    }
 
     // Order-OrderItem 양방향 연관관계 편의 메서드
     public void changeOrder(Order order){

@@ -126,7 +126,7 @@ public class ItemController {
         ItemDto.Response response = mapper.itemToItemResponseDto(item);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
-    @Operation(summary = "회원탈퇴")
+    @Operation(summary = "상품 삭제")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "204",

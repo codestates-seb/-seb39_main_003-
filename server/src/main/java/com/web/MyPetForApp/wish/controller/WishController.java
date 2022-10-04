@@ -5,6 +5,7 @@ import com.web.MyPetForApp.wish.dto.WishDto;
 import com.web.MyPetForApp.wish.mapper.WishMapper;
 import com.web.MyPetForApp.wish.service.WishService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 @Tag(name = "좋아요 API")
 @RestController
@@ -25,7 +27,7 @@ public class WishController {
     private final WishService wishService;
     private final WishMapper mapper;
 
-    @Operation(summary = "좋아요 조회(좋아요 수, 좋야요 여부)")
+    @Operation(summary = "좋아요 조회(좋아요 수, 좋아요 여부)")
     @ApiResponses(
             @ApiResponse(
                     responseCode = "200",
@@ -33,9 +35,9 @@ public class WishController {
             )
     )
     @GetMapping
-    public ResponseEntity getWish(@Valid @RequestBody WishDto.Post requestBody){
-        String memberId = requestBody.getMemberId();
-        String itemId = requestBody.getItemId();
+    public ResponseEntity getWish(@Parameter(description = "상품 식별번호", example = "000001") @Valid @NotBlank @RequestParam String itemId,
+                                  @Parameter(description = "회원 식별번호", example = "000001") @Valid @NotBlank @RequestParam String memberId){
+
         WishDto.Response response = wishService.findWish(memberId, itemId);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
