@@ -4,10 +4,8 @@ import styled from 'styled-components';
 import { FaUserAlt } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.png'
-import axios from 'axios';
 import ShoppingCart from '../pages/Shopping/images/icon-shopping-cart.svg';
 
 
@@ -205,29 +203,27 @@ const MyPage = styled(Link)`
 
 const Nav = () => {
 
-  // const handleButtonLogout = () => {
-  //   axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
-  //     sessionStorage.removeItem('refreshToken'),
-  //     sessionStorage.removeItem('accessToken'),
-  //     navigate('/'),
-  //     window.location.reload()
-  //   )
-  // };
+  const token = sessionStorage.getItem('accessToken');
+  const realToken = token.slice(7)
+  // console.log(realToken)
+  
+  window.Buffer = window.Buffer || require("buffer").Buffer; 
+  
+  const base64Payload = realToken.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
+  const payload = Buffer.from(base64Payload, 'base64'); 
+  const result = JSON.parse(payload.toString())
+  // console.log(result);
 
-  // const handleButtonLogout2 = () => {
-  //   axios.post(`http://211.58.40.128:8080/logout?test@naver.com`)
-      
-  //   .then( () => {
-  //     sessionStorage.removeItem('refreshToken')
-  //     sessionStorage.removeItem('accessToken')
-  //   })
+    const [info, setInfo] = useState([]);
     
-  //   navigate('/')
-  //   window.location.reload()
-    
-  // };
-
-
+    useEffect(() => {
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.id}`)
+      .then(res => res.json())
+      .then(res => {
+        setInfo(res)
+        // console.log(res)
+      })
+    } , [])
 
   const navigate = useNavigate();
 
@@ -251,7 +247,7 @@ const Nav = () => {
               <div className='memberBox'>
 
                 <span className='welcome'>
-                  어서오라개!
+                  어서오라개! {info.nickName}
                 </span>
 
                 <span className='shoppingCart profile'>
