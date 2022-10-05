@@ -15,12 +15,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Tag(name = "게시판 API(커뮤니티, 공지사항, FAQ 통합)")
 @RestController
+@Validated
 @RequestMapping("/api/v1/board")
 public class BoardController {
     private final BoardMapper boardMapper;
@@ -39,7 +43,7 @@ public class BoardController {
             )
     )
     @PostMapping
-    public ResponseEntity createBoard(@RequestBody BoardDto.Post post){
+    public ResponseEntity createBoard(@Valid @RequestBody BoardDto.Post post){
         Board board = boardMapper.boardPostToBoard(post);
         boardService.create(board, post.getMemberId(), post.getCategoryId());
         return new ResponseEntity<>("create success", HttpStatus.OK);
@@ -53,8 +57,8 @@ public class BoardController {
             )
     )
     @PatchMapping({"/{boardId}"})
-    public ResponseEntity updateBoard(@PathVariable Long boardId,
-                                      @RequestBody BoardDto.Patch patch){
+    public ResponseEntity updateBoard(@Positive @PathVariable Long boardId,
+                                      @Valid @RequestBody BoardDto.Patch patch){
         boardService.update(boardId, boardMapper.boardPatchToBoard(patch));
 
         return new ResponseEntity<>("update success", HttpStatus.OK);
@@ -68,7 +72,7 @@ public class BoardController {
             )
     )
     @DeleteMapping("/{boardId}")
-    public ResponseEntity deleteBoard(@PathVariable Long boardId){
+    public ResponseEntity deleteBoard(@Positive @PathVariable Long boardId){
         boardService.delete(boardId);
         return new ResponseEntity<>("delete success", HttpStatus.OK);
     }
@@ -80,10 +84,10 @@ public class BoardController {
             )
     )
     @GetMapping
-    public ResponseEntity searchBoards(@Parameter(description = "카테고리 탭 식별번호", example = "1") @RequestParam Long categoryId,
+    public ResponseEntity searchBoards(@Parameter(description = "카테고리 탭 식별번호", example = "1") @Positive @RequestParam Long categoryId,
                                        @Parameter(description = "검색 키워드(값이 없으면 해당 탭 전체 조회") @RequestParam(required = false, defaultValue = "") String keyword,
-                                       @Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
-                                       @Parameter(description = "해당 페이지 게시글 수") @RequestParam(required = false, defaultValue = "10") int size){
+                                       @Parameter(description = "현재 페이지") @Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                       @Parameter(description = "해당 페이지 게시글 수") @Positive @RequestParam(required = false, defaultValue = "10") int size){
         Page<Board> pageBoards = boardService.searchBoards(categoryId, keyword, page-1, size);
         List<Board> boards = pageBoards.getContent();
         List<BoardDto.Response> responses = boardMapper.boardToBoardResponse(boards);
@@ -117,7 +121,7 @@ public class BoardController {
             )
     )
     @GetMapping("/{boardId}")
-    public ResponseEntity getBoard(@PathVariable Long boardId){
+    public ResponseEntity getBoard(@Positive @PathVariable Long boardId){
 
         BoardDto.Detail detail = boardMapper.boardToBoardDetail(boardService.selectBoard(boardId));
 
@@ -131,7 +135,7 @@ public class BoardController {
             )
     )
     @GetMapping("/categories/{pid}")
-    public ResponseEntity getCategories(@PathVariable Integer pid){
+    public ResponseEntity getCategories(@Positive @PathVariable Integer pid){
         List<BoardCategoryDto.Response> responses = boardService.getCategories(pid);
 
         return new ResponseEntity<>(new SingleResponseDto<>(responses), HttpStatus.OK);

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class ReviewDto {
@@ -18,10 +19,11 @@ public class ReviewDto {
         @Schema(description = "별점 갯수", example = "4")
         @Range(min = 1, max = 5, message = "별점은 1~5개 까지만 가능합니다")
         private int starCnt;
-        @Schema(description = "상품 이미지")
-        private String photo;
+//        @Schema(description = "상품 이미지")
+//        private String photo;
         @Schema(description = "리뷰 내용", example = "리뷰 내용입니다.")
         @NotBlank
+        @Size(min = 5, max = 500)
         private String reviewContent;
         @Schema(description = "회원 식별 번호", example = "000001")
         @NotBlank
@@ -35,10 +37,12 @@ public class ReviewDto {
     @AllArgsConstructor
     public static class Patch{
         @Schema(description = "별점 갯수", example = "4")
+        @Range(min = 0, max = 5, message = "별점은 1~5개 까지만 가능합니다")
         private int starCnt;
-        @Schema(description = "상품 이미지")
-        private String photo;
+//        @Schema(description = "상품 이미지")
+//        private String photo;
         @Schema(description = "리뷰 내용", example = "리뷰 내용입니다.")
+        @Size(min = 5, max = 500)
         private String reviewContent;
         @Schema(description = "회원 식별 번호", example = "000001")
         @NotBlank

@@ -4,10 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 
 public class ItemDto {
     @Schema(name = "ItemPost", description = "상품 Post 요청 모델")
@@ -20,17 +19,22 @@ public class ItemDto {
 
         @Schema(description = "상품 이름", example = "다이슨 청소기")
         @NotBlank(message = "상품명은 공백이 아니어야 합니다.")
+        @Size(min = 5, max = 50)
         private String itemName;
 
         @Schema(description = "상품 가격", example = "80000")
-        @Min(value = 100, message = "가격은 100원 이상이어야 합니다.")
-        private int price;
+        @NotNull
+        @Min(value = 100, message = "가격은 100원 이상이여야 합니다.")
+        @Positive
+        private Integer price;
 
         @Schema(description = "상품 재고량", example = "100")
+        @NotNull
         @PositiveOrZero
-        private int stockCnt;
+        private Integer stockCnt;
 
         @Schema(description = "상품 상세정보", example = "안녕하세요....")
+        @Size(min = 5, max = 500)
         private String info;
 
         @Schema(description = "상품 카테고리 식별번호", example = "1")
@@ -47,17 +51,19 @@ public class ItemDto {
         private String memberId;
 
         @Schema(description = "상품 이름", example = "다이슨 청소기")
+        @Size(min = 5, max = 50)
         private String itemName;
 
         @Schema(description = "상품 가격", example = "80000")
-        @Min(value = 100, message = "가격은 100원 이상이어야 합니다.")
-        private int price;
+        @Min(value = 100, message = "가격은 100원 이상이여야 합니다.")
+        private Integer price;
 
         @Schema(description = "상품 재고량", example = "100")
         @PositiveOrZero
-        private int stockCnt;
+        private Integer stockCnt;
 
         @Schema(description = "상품 상세정보", example = "안녕하세요....")
+        @Size(min = 5, max = 500)
         private String info;
     }
 
