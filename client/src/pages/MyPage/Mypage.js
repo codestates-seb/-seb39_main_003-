@@ -144,7 +144,7 @@ function Mypage() {
     const [info, setInfo] = useState([]);
     
     useEffect(() => {
-      fetch(`http://211.58.40.128:8080/api/v1/member/${result.id}`)
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
       .then(res => res.json())
       .then(res => {
         setInfo(res)
