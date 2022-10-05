@@ -4,7 +4,8 @@ import { ImCancelCircle } from "react-icons/im";
 import { FiMinusCircle } from "react-icons/fi";
 import { FiPlusCircle } from "react-icons/fi";
 import Cat from '../../../Shopping/images/cat.png';
-
+import { Link } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -101,9 +102,9 @@ function CartBody( {convertPrice} ) {
 
   const [cartList, setCartList ] = useState([])
   const [checkLists, setCheckLists] = useState([]);
-  const [checkedArr, setCheckedArr] = useState(false)
-  const [test, setTest] = useState([])
   const [testPrice, setTestsPrice] = useState(0)
+
+  // const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://211.58.40.128:8080/api/v1/cart?memberId=000001&page=1&size=10`)
@@ -115,9 +116,10 @@ function CartBody( {convertPrice} ) {
   }, [])
 
     let totalPrice = 0
-    for(let i = 0; i < cartList.length; i++) {
-      totalPrice += cartList[i].price * cartList[i].itemCnt
-    }
+    // for(let i = 0; i < cartList.length; i++) {
+    //   totalPrice += cartList[i].price * cartList[i].itemCnt
+    // }
+
   
   return (
     
@@ -177,22 +179,41 @@ function CartBody( {convertPrice} ) {
         .then(() => window.location.reload());
       }
 
-      const handleCheckList = (checked, id) => {
-        if (checked) {
-          setCheckLists([...checkLists, id]);
-        } else {
-          setCheckLists(checkLists.filter((check) => check !== id));
-        }
-      };
+      // const handleCheckList = (checked, id) => {
+      //   if (checked) {
+      //     setCheckLists([...checkLists, id]);
+      //   } else {
+      //     setCheckLists(checkLists.filter((check) => check !== id));
+      //   }
+      // };
+      const handleChecked = (e) => {
+        const targetItem = cartList.filter((el) => {
+          return el.itemName === e.currentTarget.name})
+
+        if(e.currentTarget.checked) {
+          setCheckLists((prev) => [...prev, el]);
+          console.log(el)
+          setTestsPrice((totalPrice) => totalPrice + ((targetItem[0].price) * targetItem[0].itemCnt)
+          )}
+        else {
+          setCheckLists(cartList.filter((item) => item.cartItemId !== el.cartItemId));
+          setTestsPrice((totalPrice) => totalPrice - ((targetItem[0].price) * targetItem[0].itemCnt)
+          )}
+          console.log('targetItem:', targetItem)
+      }
+      
+      // console.log(testPrice)
 
         return (
             <div key={idx}>    
               <div className='listBox'>
 
                 <div className='checkLine'>
-                  <input className="check" type="checkBox"
-                  onChange={(e) => handleCheckList(e.currentTarget.checked, `${el.cartItemId}`)}
-                  defaultChecked={true} />
+                  <input className="check" type="checkBox" onChange={handleChecked}
+                  name={el.itemName}
+                  // onChange={(e) => handleCheckList(e.currentTarget.checked, `${el.cartItemId}`)}
+                  // defaultChecked={true}
+                  />
                 </div>
 
                 <span>
@@ -226,14 +247,19 @@ function CartBody( {convertPrice} ) {
 
               </div>
 
+                    
                 
             </div>
       )
     })}
 
       <div className='totalBox'>
-        <span className='totalPrice'>총 금액 : {totalPrice} 원</span>
+        <span className='totalPrice'>총 금액 : {testPrice} 원</span>
       </div>
+      
+    <Link to={`/mypage/order`} state={ {list: checkLists} }>
+      <button className='orderbutton'>주문하기</button>
+    </Link>
 
     </Wrapper>
   

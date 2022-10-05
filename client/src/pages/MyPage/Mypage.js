@@ -128,21 +128,30 @@ const StyledLink = styled(Link)`
         color: #f9f9f9;
 }
 `
-
 function Mypage() {
 
+  const token = sessionStorage.getItem('accessToken');
+  const realToken = token.slice(7)
+  // console.log(realToken)
+  
+  window.Buffer = window.Buffer || require("buffer").Buffer; 
+  
+  const base64Payload = realToken.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
+  const payload = Buffer.from(base64Payload, 'base64'); 
+  const result = JSON.parse(payload.toString())
+  console.log(result);
+
     const [info, setInfo] = useState([]);
-
-  useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/member/000001`)
-    .then(res => res.json())
-    .then(res => {
-      setInfo(res)
-      console.log(res)
-    })
-  } , [])
-
-
+    
+    useEffect(() => {
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.id}`)
+      .then(res => res.json())
+      .then(res => {
+        setInfo(res)
+        // console.log(res)
+      })
+    } , [])
+    
     const navigate = useNavigate();
 
 
@@ -219,7 +228,7 @@ function Mypage() {
                     {/* 이메일 수정 */}
                     <div className='micontent'>
                       <span className='misort'>이메일</span>
-                      <span className='minow'>dd</span>
+                      <span className='minow'>{info.email}</span>
                       <button className='miedit'>수정</button>
                     </div>
 
