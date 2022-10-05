@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 // import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
+import DaumPostcode from 'react-daum-postcode';
 
 
 const Wrapper = styled.div`
@@ -126,7 +127,6 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-
   return (
     <Wrapper>
       {/* 회원가입 페이지 */}
@@ -187,6 +187,7 @@ function SignUp() {
                     }
                   })}></input>
                 </div>
+
                 {/* 이름: 2자 이상 + 8자 이하 */}
                 {errors.memberName && <span>{errors.memberName.message}</span>}
                 
@@ -216,10 +217,12 @@ function SignUp() {
                   <input className="sutext" type='text' {...register("address", {
                     required: "주소를 입력해주세요.",
                     pattern:{
-                      value: /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/,
-                      message: "주소를 입력해주세요."
+                      value: /(([가-힣A-Za-z·\d~\-\.]{2,}(로|길).[\d]+)|([가-힣A-Za-z·\d~\-\.]+(읍|동)\s)[\d]+)/,
+                      message: "도로명 주소를 입력해주세요."
                     }
-                  })}></input>
+                  })}>
+                  </input>
+
                 </div>
                 {/* 주소: 한글/영어/숫자로 조합 */}
                 {errors.address && <span>{errors.address.message}</span>}
