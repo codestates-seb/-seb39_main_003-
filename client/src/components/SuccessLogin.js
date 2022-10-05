@@ -180,26 +180,7 @@ const StyledLink = styled(Link)`
   }
 `
 
-const MyPage = styled(Link)`
-  text-decoration: none;
-  color: black;
-
-  &:hover {
-    color: black;
-  }
-`
 ;
-
-// sessionStorage.removeItem('accessToken');
-// sessionStorage.removeItem('refreshToken');
-
-// sessionStorage.setItem('accessToken', null);
-// sessionStorage.setItem('refreshToken', null);
-
-// window.sessionStorage.clear();
-
-// navigate('/')
-// window.location.reload()
 
 const Nav = () => {
 
@@ -213,11 +194,12 @@ const Nav = () => {
   const payload = Buffer.from(base64Payload, 'base64'); 
   const result = JSON.parse(payload.toString())
   // console.log(result);
+  // console.log(result.memberid)
 
     const [info, setInfo] = useState([]);
     
     useEffect(() => {
-      fetch(`http://211.58.40.128:8080/api/v1/member/${result.id}`)
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
       .then(res => res.json())
       .then(res => {
         setInfo(res)
