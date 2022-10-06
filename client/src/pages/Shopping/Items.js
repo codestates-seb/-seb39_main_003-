@@ -325,6 +325,7 @@ function Items( { convertPrice, cart, setCart } ) {
   const [clickHeart, setClickHeart] = useState(false)
 
   const location = useLocation();
+  console.log(location)
 
   const [itemInfo, setItemInfo] = useState([])
 

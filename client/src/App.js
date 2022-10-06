@@ -78,7 +78,7 @@ function App() {
                 <Route path="/mypage/cart" element={<CartBody cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />
                 <Route path="/mypage/wish" element={<Wish convertPrice={convertPrice} />} />
                 <Route path="/mypage/order" element={<Order convertPrice={convertPrice} />} />
-                <Route path="/mypage/buy" element={<Buy/>} />
+                <Route path="/mypage/buy" element={<Buy convertPrice={convertPrice} />} />
 
                 <Route path="/community/walk" element={<Community />} />
                 <Route path="/community/info" element={<Info />} />

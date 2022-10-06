@@ -1,21 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import FootLogo from '../../assets/carousel3.jpg';
+// import SocialLogin from '../../components/SocialLogin'
+import { useLocation } from 'react-router';
+import Dog from '../../assets/강아지 장난감.jpg';
 
-import SocialLogin from '../../components/SocialLogin'
 
 const Wrapper = styled.div`
 box-sizing: border-box;
 
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'InfinitySans-RegularA1';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/InfinitySans-RegularA1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .buyBackground{
   width: 100vw;
-  padding: 20px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  background-color: #f9f9f9;
 }
 // 주문 완료 되었습니다.
 .buyCompleteText{
@@ -26,32 +39,61 @@ box-sizing: border-box;
   font-weight: 700;
   font-size: xx-large;
   text-align: center;
+  font-family: InfinitySans-RegularA1;
 }
 // 배송지
 .buyAddress{
   width: 90vw;
-  border-top: 1px solid #B1B2FF;
-  border-bottom: 1px solid #B1B2FF;
-  padding: 0px 200px;
+  padding: 0px 100px;
   margin-bottom: 50px;
+  border: 2px solid #B1B2FF;
+  background-color: #F6E6E4;
+  border-radius: 40px;
   
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 }
 .bAd1{
   padding: 100px 0px;
   margin-right: 50px;
 
-  font-size: large;
+  font-size: 2rem;
   font-weight: 500;
+  font-family: Cafe24Ssurround;
 }
 .bAd2{
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  /* border: 1px solid blue; */
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: InfinitySans-RegularA1;
+}
+
+.bAd3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  /* border: 1px solid blue; */
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: InfinitySans-RegularA1;
+}
+
+.bAd4 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  /* border: 1px solid blue; */
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: InfinitySans-RegularA1;
 }
 // 주문 번호
 .buyNumber{
@@ -107,32 +149,82 @@ box-sizing: border-box;
 .bAm2{
   margin-left: 20px;
 }
+
+.img {
+  /* border: 1px solid red; */
+  width: 17.5rem;
+  height: 13rem;
+  background-size: cover;
+}
 `
 
-function Buy() {
+function Buy( {convertPrice} ) {
+
+  const location = useLocation();
+  const [checkOrder, setCheckOrder] = useState([])
+
+  useEffect(() => {
+    setCheckOrder(location.state.orderInfo)
+  }, [checkOrder] )
+  // console.log(checkOrder)
+
+  const token = sessionStorage.getItem('accessToken');
+  const realToken = token.slice(7)
+  // console.log(realToken)
+  
+  window.Buffer = window.Buffer || require("buffer").Buffer; 
+  
+  const base64Payload = realToken.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
+  const payload = Buffer.from(base64Payload, 'base64'); 
+  const result = JSON.parse(payload.toString())
+  // console.log(result);
+
+    const [info, setInfo] = useState([]);
+    
+    React.useEffect(() => {
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
+      .then(res => res.json())
+      .then(res => {
+        setInfo(res)
+        // console.log(res)
+      })
+    } , [])
+
   return (
     <Wrapper>
-      <div className='buyBackground'>
-        <div className='buyCompleteText'>주문 완료 되었습니다.</div>
-        <div className='buyAddress'>
-          <div className='bAd1'>배송지</div>
-          <div className='bAd2'>배송 정보 담기는 칸</div>
+      <div className='buyCompleteText'>주문이 완료 되었습니다</div>
+      {checkOrder && checkOrder.map((el, idx) => {
+        return (
+        <div key={idx}>
+            <div className='buyBackground'>
+
+
+                <div className='buyAddress'>
+                    <div className='bAd1'>주문 완료 상품</div>
+                      {/* <div className='bAd2'>{el.thumbnail}</div> */}
+                    <div className='bAd2'>
+                      <img className="img" src={Dog} alt="사진" />
+                    </div>
+                    <div className='bAd2'>{el.itemName}</div>
+                    <div className='bAd2'>{convertPrice(el.totalPrice)} 원</div>
+                    <div className='bAd3'>
+                      배송 준비중
+                    <div className='bAd4'>{info.address} xx동 xx호</div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div className='buyNumber'>
-          <div className='bNum1'>주문 번호</div>
-          <div className='bNum2'>주문 번호 담기는 칸</div>
-        </div>
-        <div className='picbox'>
-          <img className='pic1' src="https://cdn.discordapp.com/attachments/1020944788419248179/1027607347897573476/carousel1.jpg"/>
-        </div>
-        <div className='buyAmount'>
-          <div className='bAm1'>주문 금액</div>
-          <div className='bAm2'>주문 금액 담기는 칸</div>
-        </div>
-      </div>
+        )
+
+          
+      })}
+          <div className='picbox'>
+            <img className='pic1' src={FootLogo} alt='사진' />
+          </div>
+
 
       <div>
-        <SocialLogin></SocialLogin>
       </div>
     </Wrapper>
   )

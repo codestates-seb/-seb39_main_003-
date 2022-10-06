@@ -22,8 +22,6 @@ box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  background-color: #f9f9f9;
 }
 // 주문 내역 텍스트
 .orderBackground{
@@ -262,7 +260,7 @@ function Order( {convertPrice} ) {
       .then(res => res.json())
       .then(res => {
         setInfo(res)
-        // console.log(res)
+        console.log(res)
       })
     } , [])
 
@@ -275,7 +273,7 @@ function Order( {convertPrice} ) {
         orderItemCnt: orderList[i].itemCnt
       }
       final.push(first)
-      console.log(final)
+      // console.log(final)
     }
 
     let totalPrice = 0;
@@ -299,14 +297,14 @@ function Order( {convertPrice} ) {
         })
       })
       .then(() => {
-        alert('결제창으로 이동합니다')
-        // navigate(`/`)
+        alert('결제가 완료되었습니다 !')
+        // navigate(`/mypage/buy`)
       })
       .then((err) => console.log(err))
     }
-    console.log(totalPrice)
-    console.log(info.memberId)
-    console.log(final)
+    // console.log(totalPrice)
+    // console.log(info.memberId)
+    // console.log(final)
     
 //     let totalPrice = 0;
 //             for(let i = 0; i < orderList.length; i++) {
@@ -388,7 +386,9 @@ function Order( {convertPrice} ) {
           </div>
 
           <div className='orderBox'>
-            <StyledLink to={`/mypage/order`}>
+            <StyledLink to={`/mypage/buy`} state={
+              {orderInfo: orderList}
+              }>
               <span className='orderbutton' onClick={orderItem}>
                 {convertPrice(totalPrice)}원 결제하기
               </span>
