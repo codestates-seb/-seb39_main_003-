@@ -1,10 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from 'react'
+
 import styled from 'styled-components'
 import { useLocation } from 'react-router';
 import Cat from '../../Shopping/images/cat.png';
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+
 
 
 const Wrapper = styled.div`
@@ -209,6 +212,7 @@ box-sizing: border-box;
   border: 1px solid red;
   margin-bottom: 2.5rem;
 }
+
 `
 
 const StyledLink = styled(Link)`
@@ -313,6 +317,7 @@ function Order( {convertPrice} ) {
 // console.log(totalPrice)
 
 
+
   return (
     <Wrapper>
       <div className='orderterritory'>
@@ -348,6 +353,7 @@ function Order( {convertPrice} ) {
           <div className='addressBox'>
             { selectValue === "내 배송지" ? <span>{info.address}</span> : <span>새로 들어갈 주소</span> }
           </div>
+
 
           {/* 내 주문 목록 */}
           <div className='myorderlistBackground'>
@@ -395,6 +401,7 @@ function Order( {convertPrice} ) {
             </StyledLink>
           </div>
           
+
       </div>
     </Wrapper>
   )

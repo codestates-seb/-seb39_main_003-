@@ -9,9 +9,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "develope" ]
+    branches: [ "dev" ]
   pull_request:
-    branches: [ "develope" ]
+    branches: [ "dev" ]
   
 
 permissions:
@@ -33,8 +33,12 @@ jobs:
     - name: Make Directory for deliver
       run: mkdir deploy
       
+
     - name: Jar File Copy
-      run: ./server/build/libs/*.jar ./deploy
+      run: cp ./*.jar ./deploy
+
+    - name: Jar File Delete
+      run: rm -rf ./*.jar
       
     - name: Make Zip File
       run: zip -r ./mypet-deploy.zip .
@@ -48,3 +52,10 @@ jobs:
       
     - name: Upload To S3
       run: aws s3 cp --region ap-northeast-2 ./mypet-deploy.zip s3://mypet-cicd/mypet-deploy.zip
+
+    - name: Code Deploy
+      run: >
+        aws deploy create-deployment --application-name mypet-codedeploy
+        --deployment-config-name CodeDeployDefault.AllAtOnce
+        --deployment-group-name mypet-deploy-group
+        --s3-location bucket=mypet-cicd,bundleType=zip,key=mypet-deploy.zip

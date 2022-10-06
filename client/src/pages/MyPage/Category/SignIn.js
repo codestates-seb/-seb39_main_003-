@@ -131,6 +131,7 @@ function SignIn() {
     })
   }
 
+
 // 1번째 방법
 //   useEffect(() => {
 //     fetch(`http://ec2-15-165-63-80.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google`)
@@ -167,6 +168,7 @@ function SignIn() {
 //       console.log(err)
 //     })
 // }
+
 
   return (
     <Wrapper>

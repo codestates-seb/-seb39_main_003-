@@ -161,7 +161,7 @@ function CartBody( {convertPrice} ) {
     })
   }, [])
 
-    // let totalPrice = 0
+
     // for(let i = 0; i < cartList.length; i++) {
     //   totalPrice += cartList[i].price * cartList[i].itemCnt
     // }
@@ -255,7 +255,9 @@ function CartBody( {convertPrice} ) {
               <div className='listBox'>
 
                 <div className='checkLine'>
+
                   <input className="check" type="checkbox" onChange={handleChecked}
+
                   name={el.itemName}
                   // onChange={(e) => handleCheckList(e.currentTarget.checked, `${el.cartItemId}`)}
                   // defaultChecked={true}
@@ -300,6 +302,7 @@ function CartBody( {convertPrice} ) {
     })}
 
       <div className='totalBox'>
+
         <span className='totalPrice'>총 금액 : {convertPrice(testPrice)} 원</span>
       </div>
 
@@ -307,7 +310,12 @@ function CartBody( {convertPrice} ) {
         <StyledLink to={`/mypage/order`} state={ {list: checkLists} }>
           <span className='orderbutton'>주문하기</span>
         </StyledLink>
+
       </div>
+      
+    {/* <Link to={`/mypage/order`} state={ {list: checkLists} }>
+      <button className='orderbutton'>주문하기</button>
+    </Link> */}
 
     </Wrapper>
   
