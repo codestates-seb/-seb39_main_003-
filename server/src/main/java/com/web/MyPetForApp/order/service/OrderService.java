@@ -43,7 +43,7 @@ public class OrderService {
         int orderPrice = 0;
         for (OrderItemDto.Post orderItemPostDto : orderItemList) {   // orderItemPostDto List들의 요소들을 순회하며 반복
             Item item = itemService.findVerifiedItem(orderItemPostDto.getItemId()); // 상품 검증
-            itemService.checkStockCnt(orderItemPostDto.getOrderItemCnt(), item);
+            item.updateStockAndSoldCnt(orderItemPostDto.getOrderItemCnt());
             OrderItem orderItem = OrderItem // OrderItem 생성
                     .builder()
                     .orderItemCnt(orderItemPostDto.getOrderItemCnt())

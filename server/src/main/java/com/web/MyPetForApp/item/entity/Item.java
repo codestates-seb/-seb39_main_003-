@@ -2,6 +2,8 @@ package com.web.MyPetForApp.item.entity;
 
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.qna.entity.Question;
 import com.web.MyPetForApp.review.entity.Review;
@@ -111,6 +113,13 @@ public class Item extends BaseTimeEntity {
     }
     public void updateWishCnt(){
         this.wishCnt = this.wishes.size();
+    }
+    public void updateStockAndSoldCnt(int orderItemCnt){
+        if(this.stockCnt>=orderItemCnt)
+            this.stockCnt -= orderItemCnt;
+        else
+            throw new BusinessLogicException(ExceptionCode.OUT_OF_STOCK);
+        this.soldCnt += orderItemCnt;
     }
 //    public void resetItemImages(){
 //        this.itemImages = new ArrayList<>();
