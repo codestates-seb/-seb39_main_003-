@@ -273,7 +273,9 @@ const Nav = () => {
           <StyledLink to="/">Home</StyledLink>
         </span>
 
-        <span className="navlist">동물병원</span>
+        <span className="navlist">
+          <StyledLink to="/vet">동물병원</StyledLink>
+        </span>
 
         <span className="navlist">
           <StyledLink to="/shopping">쇼핑</StyledLink>

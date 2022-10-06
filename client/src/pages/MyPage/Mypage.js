@@ -197,7 +197,7 @@ function Mypage() {
                             </div>
                         </StyledLink>
 
-                        <StyledLink to='/mypage/order'>
+                        <StyledLink to='/mypage/buy'>
                             <div className='mpcBox'>
                                 <div className='mpCategory'>내 주문 내역</div>
                             </div>

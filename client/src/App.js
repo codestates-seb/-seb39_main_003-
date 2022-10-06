@@ -40,7 +40,8 @@ import InfoPosting from "./pages/Community/detail/InfoPosting";
 import LostPosting from "./pages/Community/detail/LostPosting";
 import ProtectPosting from "./pages/Community/detail/ProtectPosting";
 import HospitalPost from "./pages/Community/detail/HospitalPost"
-
+import Buy from "./pages/MyPage/Buy";
+import Vet from "./pages/Vet/Vet";
 
 function App() {
 
@@ -61,6 +62,8 @@ function App() {
                 <Route path="/community" element={<Community />} />
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/FAQ" element={<FAQ />} />
+                <Route path="/vet" element={<Vet />} />
+                
                 <Route path="/FAQ/FAQPOST" element={<FAQPost />} />
                 <Route path="/FAQ/FAQPage/:boardId" element={<FAQPage />} />
                 
@@ -75,6 +78,7 @@ function App() {
                 <Route path="/mypage/cart" element={<CartBody cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />
                 <Route path="/mypage/wish" element={<Wish convertPrice={convertPrice} />} />
                 <Route path="/mypage/order" element={<Order convertPrice={convertPrice} />} />
+                <Route path="/mypage/buy" element={<Buy/>} />
 
                 <Route path="/community/walk" element={<Community />} />
                 <Route path="/community/info" element={<Info />} />
