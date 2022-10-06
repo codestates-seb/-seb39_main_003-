@@ -54,7 +54,7 @@ public class MemberController {
     )
     @PostMapping(value = "/member", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity join(@Valid @ParameterObject @ModelAttribute MemberDto.Post post,
-                                @RequestPart(required = false) List<MultipartFile> multipartFiles) {
+                                @RequestPart(required = false) List<MultipartFile> multipartFiles) throws Exception {
 
 
         String memberId = stringIdGenerator.createMemberId();
@@ -73,7 +73,7 @@ public class MemberController {
     )
     @PatchMapping(value = "/member", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity memberModify(@Valid @ParameterObject @ModelAttribute MemberDto.Patch patch,
-                                       @RequestPart(required = false) List<MultipartFile> multipartFiles) {
+                                       @RequestPart(required = false) List<MultipartFile> multipartFiles) throws Exception {
 
         Member modifiedMember = memberService.update(mapper.memberPatchToMember(patch), multipartFiles);
         return new ResponseEntity<>(mapper.memberToResponse(modifiedMember), HttpStatus.OK);
@@ -87,7 +87,7 @@ public class MemberController {
             )
     )
     @GetMapping("/member/{memberId}")
-    public ResponseEntity memberFind(@NotBlank @PathVariable String memberId) {
+    public ResponseEntity memberFind(@NotBlank @PathVariable String memberId) throws Exception {
         Member findMember = memberService.read(memberId);
 
         return new ResponseEntity<>(mapper.memberToResponse(findMember) ,HttpStatus.OK);

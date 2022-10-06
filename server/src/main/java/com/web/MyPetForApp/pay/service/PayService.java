@@ -26,7 +26,7 @@ public class PayService {
     private final MemberService memberService;
     private final OrderService orderService;
 
-    public Pay create(Pay pay, String memberId, OrderDto.Post orderPostDto) {
+    public Pay create(Pay pay, String memberId, OrderDto.Post orderPostDto) throws Exception {
         Member findMember = memberService.findVerifiedMember(memberId);
         Order savedOrder = orderService.createOrder(orderPostDto, findMember.getMemberId());
         pay.addOrder(savedOrder);

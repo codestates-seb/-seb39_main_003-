@@ -1,6 +1,6 @@
 package com.web.MyPetForApp.exception;
 
-import com.web.MyPetForApp.mail.service.MailService;
+//import com.web.MyPetForApp.mail.service.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionAdvice {
-    private final MailService mailService;
+//    private final MailService mailService;
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -86,7 +86,7 @@ public class GlobalExceptionAdvice {
         log.error("# handle Exception", e);
         final ErrorResponse response = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
 
-        mailService.unknownErrorMail(e);
+//        mailService.unknownErrorMail(e);
 
         return response;
     }

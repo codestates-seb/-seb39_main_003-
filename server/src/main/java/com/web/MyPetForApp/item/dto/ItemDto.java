@@ -89,7 +89,7 @@ public class ItemDto {
         @Schema(description = "상품 카테고리", example = "사료")
         private String itemCategory;
         @Schema(description = "회원")
-        private String member;
+        private String nickName;
         @Schema(description = "상품 썸네일 이미지 파일 이름")
         private String thumbnail;
     }

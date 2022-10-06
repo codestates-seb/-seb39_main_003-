@@ -55,7 +55,7 @@ public class TokenProvider implements InitializingBean {
             return JWT.create()
                     .withSubject("MyPet JWT Access Token")
 //                .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60)))
-                    .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000)))
+                    .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 30)))
                     .withClaim("memberId", memberId)
                     .withClaim("email", email)
                     .sign(Algorithm.HMAC512(accessKey));
@@ -79,7 +79,8 @@ public class TokenProvider implements InitializingBean {
 
             return JWT.create()
                     .withSubject("MyPet JWT Refresh Token")
-                    .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60 * 24 * 14)))
+//                    .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 60 * 24 * 14)))
+                    .withExpiresAt(new Date(System.currentTimeMillis() + (60 * 1000 * 30)))
                     .withClaim("memberId", memberId)
                     .withClaim("email", email)
                     .sign(Algorithm.HMAC512(refreshKey));

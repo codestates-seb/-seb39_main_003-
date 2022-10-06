@@ -13,8 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**") // 모든 경로
 //                .allowedOrigins("http://localhost:3000") // 해당 origin 허용
                 .allowCredentials(true)
-                .allowedOrigins("http://localhost:3000", "http://localhost:8080", "https://seb39-main-003-izr1fgrp2-nomga.vercel.app",
-                        "https://seb39-main-003-kslsp3cga-nomga.vercel.app")
+                .allowedOrigins("http://localhost:3000", "http://localhost:8080", "https://seb39-main-003-jh2mgoy3l-nomga.vercel.app" )
                 .allowedHeaders("*")
                 .exposedHeaders("Authorization")
                 .exposedHeaders("refresh")

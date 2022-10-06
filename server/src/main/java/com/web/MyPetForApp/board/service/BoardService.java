@@ -84,7 +84,7 @@ public class BoardService {
         Page<Board> boards = boardRepository.findByBoardCategoryAndTitleContaining(
                 findVerifiedBoardCategory(categoryId),
                 keyword,
-                PageRequest.of(page, size, Sort.by("modifiedAt").descending()));
+                PageRequest.of(page, size, Sort.by("createdAt").descending()));
 
         return boards;
     }

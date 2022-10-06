@@ -37,7 +37,7 @@ public class PayController {
             )
     )
     @PostMapping
-    public ResponseEntity postPay(@Valid @RequestBody PayDto.Post post ) {
+    public ResponseEntity postPay(@Valid @RequestBody PayDto.Post post ) throws Exception {
         String memberId = post.getMemberId();
         Pay pay = mapper.payPostToPay(post);
         OrderDto.Post orderPostDto = mapper.payPostToOrderPost(post);
