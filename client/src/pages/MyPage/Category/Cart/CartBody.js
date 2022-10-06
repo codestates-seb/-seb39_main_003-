@@ -121,25 +121,24 @@ const Wrapper = styled.div`
     border-radius: 7px;
     margin-bottom: 2rem;
     font-family: Cafe24Ssurround;
+
   }
 
+  .orderbutton {
+    padding: 15px 40px;
+    border: 1px solid purple;
+    border-radius: 20px;
+  
+    &:hover {
+      background-color: #EEF1FF;
+    }
+  }
   `;
 
 const StyledLink = styled(Link)`
   font-size: 1.5rem;
   text-decoration: none;
   color: black;
-  /* border: 2px solid red; */
-  
-  .orderbutton {
-    padding: 15px 40px;
-    border: 1px solid purple;
-    border-radius: 20px;
-
-    &:hover {
-      background-color: #EEF1FF;
-    }
-  }
   `
 
 // useState로 cartList setCartList 설정해서 초기값 배열로 담아주고

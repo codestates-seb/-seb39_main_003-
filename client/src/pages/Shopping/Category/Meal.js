@@ -131,7 +131,6 @@ const Wrapper = styled.div`
     height: 10rem;
     position: relative;
     bottom: 5%;
-    /* border: 1px solid lightgray; */
     display: flex;
     justify-content: center;
     align-items: center;

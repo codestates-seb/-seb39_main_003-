@@ -66,19 +66,20 @@ const Wrapper = styled.div`
 
 function Review( {itemId, memberId} ) {
 
+  // const [title, setTitle] = useState("")
   const [write, setWrite] = useState("")
   const [comment, setComment] = useState([])
 
   const handleButtonReview = () => {
-    fetch(`http://211.58.40.128:8080/api/v1/qna`, {
+    fetch(`http://211.58.40.128:8080/api/v1/qna/question`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          qnaTitle: "질문이야",
-          qnaContent: write,
+          questionTitle: "질문제목",
+          questionContent: write,
           memberId: "000001",
           itemId: itemId
         }),
@@ -89,7 +90,7 @@ function Review( {itemId, memberId} ) {
         setWrite("")
       })
       .then(() => {
-        window.location.reload();
+        // window.location.reload();
       })
       .catch(err => console.log(err))
   }
@@ -99,7 +100,7 @@ function Review( {itemId, memberId} ) {
   };
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/qna?itemId=${itemId}&page=1&size=8`)
+    fetch(`http://211.58.40.128:8080/api/v1/qna/question?itemId=${itemId}&page=1&size=8`)
     .then(res => res.json())
     .then(res => {
       setComment(res.data)
@@ -121,7 +122,7 @@ function Review( {itemId, memberId} ) {
           return (
             <div className='reviewBox' key={idx}>
               <span className='reviews'>{el.nickName}</span>
-              <span className='reviews'>{el.qnaContent}</span>
+              <span className='reviews'>{el.questionContent}</span>
               <span className='reviews'>{el.createAt}</span>
             </div>
           )

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 // import FAQPost from './FAQ/FAQPost';
+import FAQPage from "./FAQ/FAQPage";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -112,8 +113,9 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 
   &:hover {
-    background-color: #9263ff;
-    color: #f9f9f9;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    color: black;
+    font-weight: 600;
   }
 `;
 
@@ -124,13 +126,7 @@ function FAQ() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/board?tagIds=3`, {
-      method: "GET",
-      headers: {
-        "content-Type": "application/json",
-      },
-      // body: JSON.stringify({"tagIds":[3]}),
-    })
+    fetch(`http://211.58.40.128:8080/api/v1/board?categoryId=31&page=1&size=10`)
       .then((res) => res.json())
       .then((res) => {
         setList(res.data);
@@ -138,14 +134,6 @@ function FAQ() {
       })
       .catch((err) => console.log(err));
   }, []);
-  // useEffect(() => {
-  //   fetch(`http://localhost:3000/FAQ`)
-  //   .then(res => res.json())
-  //   .then((res) => {
-  //     setList(res)
-  //   })
-  //   .catch(() => console.log("실패"))
-  // }, [])
 
   return (
     <Wrapper>
@@ -166,22 +154,21 @@ function FAQ() {
 
           {list && list.map((el, index) => {
               return (
-                <div
+                <StyledLink
+                  to={`/FAQ/FAQPage/${el.boardId}`}
                   className="questions"
                   key={index}
-                  onClick={() => {
-                    navigate(`/FAQ/${el.boardId}`);
-                  }}
-                >
+                  state={{
+                    id: el.boardId
+                  }}>
                   <span className="article">{el.nickName}</span>
                   <span className="article">{el.title}</span>
-                  <span className="article">{el.boardContents}</span>
-                </div>
+                </StyledLink>
               );
             })}
           {/* </div> */}
 
-          <div className="faqbottom">
+          {/* <div className="faqbottom">
             <a href="/" className="faqpage">
               1
             </a>
@@ -194,7 +181,7 @@ function FAQ() {
             <a href="/" className="faqpage">
               4
             </a>
-          </div>
+          </div> */}
 
           {/* 게시글 등록 버튼 */}
           <StyledLink to="/FAQ/FAQPost" className="postingbutton">

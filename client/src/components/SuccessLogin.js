@@ -188,13 +188,13 @@ const Nav = () => {
   const realToken = token.slice(7)
   // console.log(realToken)
   
-  window.Buffer = window.Buffer || require("buffer").Buffer; 
+  window.Buffer = window.Buffer || require("buffer").Buffer;
   
   const base64Payload = realToken.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
   const payload = Buffer.from(base64Payload, 'base64'); 
   const result = JSON.parse(payload.toString())
   // console.log(result);
-  // console.log(result.memberid)
+  // console.log(result.memberId)
 
     const [info, setInfo] = useState([]);
     
@@ -254,27 +254,27 @@ const Nav = () => {
           </div>
       
       <div className="navbar">
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/">Home</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/">Home</StyledLink>
+        </span>
 
         <span className="navlist">동물병원</span>
 
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/shopping">쇼핑</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/shopping">쇼핑</StyledLink>
+        </span>
 
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/community">커뮤니티</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/community">커뮤니티</StyledLink>
+        </span>
 
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/notice">공지사항</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/notice">공지사항</StyledLink>
+        </span>
         
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/FAQ">FAQ</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/FAQ">FAQ</StyledLink>
+        </span>
       </div>
     </Wrapper>
   )

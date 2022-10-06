@@ -1,11 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useLocation } from 'react-router';
 import Cat from '../../Shopping/images/cat.png';
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 
 const Wrapper = styled.div`
+
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
 box-sizing: border-box;
 .orderterritory{
   display: flex;
@@ -58,6 +68,8 @@ box-sizing: border-box;
 .myordertabBackground{
   width: 90vw;
   padding: 5px;
+  display: flex;
+  justify-content: space-between;
   border-top: 1px solid #B1B2FF;
   border-bottom: 1px solid #B1B2FF;
 
@@ -66,8 +78,41 @@ box-sizing: border-box;
   justify-content: space-around;
   align-items: center;
 }
-.myordertab{
+.myordertab {
   padding: 10px;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+
+  font-weight: bold;
+  font-size: large;
+  color: #9263FF;
+}
+.myordertab2 {
+  padding: 10px;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+
+  font-weight: bold;
+  font-size: large;
+  color: #9263FF;
+}
+.myordertab3 {
+  padding: 10px;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+
+  font-weight: bold;
+  font-size: large;
+  color: #9263FF;
+}
+.myordertab4 {
+  padding: 10px;
+  width: 20%;
+  display: flex;
+  justify-content: center;
 
   font-weight: bold;
   font-size: large;
@@ -85,26 +130,22 @@ box-sizing: border-box;
 }
 
 .orderList1{
-  width: 45%;
+  width: 40%;
   padding: 20px;
   /* margin-bottom: 30px; */
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
-
-  /* border: 2px solid green; */
 }
 
 .orderList2 {
-  width: 45%;
+  width: 20%;
   padding: 20px;
-
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  /* border: 2px solid red; */
 }
 
 .deliver {
@@ -128,44 +169,79 @@ box-sizing: border-box;
   /* border: 1px solid red; */
 }
 
-.myordername{
+.myOrderName{
   /* border: 1px solid red; */
   font-size: 1.3rem;
   font-weight: 600;
   margin: 0px 20px;
 }
-.myorderstate{
-  /* border: 1px solid red; */
+
+.myOrderCount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0px 20px;
+}
+
+.myOrderPrice{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
   font-size: 1.2rem;
   font-weight: 500;
 }
+
+.orderbutton {
+    padding: 15px 40px;
+    border: 1px solid purple;
+    border-radius: 20px;
+    font-family: Cafe24Ssurround;
+  
+    &:hover {
+      background-color: #EEF1FF;
+    }
+  }
+
+.addressBox {
+  border: 1px solid red;
+  margin-bottom: 2.5rem;
+}
 `
+
+const StyledLink = styled(Link)`
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: black;
+  /* border: 2px solid red; */
+  `
 
 function Order( {convertPrice} ) {
 
+  const location = useLocation();
   const [orderList, setOrderList] = useState([]);
   const [selectValue, setSelectValue] = useState("내 배송지");
 
-  const handleChangeMy = (e) => {
-    // console.log(`*****handleChange*****`);
-    // console.log(`선택한 값 : ${e.target.value}`);
-
+  const navigate = useNavigate();
+  
+  // console.log(location)
+  useEffect(() => {
+    setOrderList(location.state.list)
+  }, [orderList])
+  // console.log(orderList)
+  
+  const handleChangeMy = () => {
     setSelectValue("내 배송지");
   };
 
-  const handleChangeNew = (e) => {
-    // console.log(`*****handleChange*****`);
-    // console.log(`선택한 값 : ${e.target.value}`);
-
+  const handleChangeNew = () => {
     setSelectValue("신규 배송지");
   };
 
-  const location = useLocation();
 
-  // console.log(location)
-  React.useEffect(() => {
-    setOrderList(location.state.list)
-  }, [orderList])
 
   const token = sessionStorage.getItem('accessToken');
   const realToken = token.slice(7)
@@ -181,75 +257,110 @@ function Order( {convertPrice} ) {
     const [info, setInfo] = useState([]);
     
     React.useEffect(() => {
-      fetch(`http://211.58.40.128:8080/api/v1/member/${result.id}`)
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
       .then(res => res.json())
       .then(res => {
         setInfo(res)
-        // console.log(res)
+        // console.log(res)s
       })
     } , [])
+
+    const orderItem = () => {
+
+    fetch(`http://211.58.40.128:8080/api/v1/pay`,{
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        newAddress: '서울 중곡동 225-10',
+        newPhone: '010-2060-1122',
+        newName: '홍길동',
+        requirement: '안전하게 와주세요'
+      })
+    })
+    .then(() => {
+      alert('결제창으로 이동합니다')
+      navigate(`/`)
+    })
+    .then((err) => console.log(err))
+    }
+
 
   return (
     <Wrapper>
       <div className='orderterritory'>
-        {/* 주문내역 텍스트 */}
-        <div className='orderBackground'>
-          <div className='ordertext'>주문서</div>
-        </div>
 
-        <div className="adressBox">
-            <input
-              name="platform"
-              type="radio"
-              className='firstRadio'
-              // checked={setSelectValue("내 배송지")}
-              onChange={handleChangeMy}
-              />
-            내 배송지
-            <input
-              name="platform"
-              type="radio"
-              className='secondRadio'
-              // checked={setSelectValue("신규 배송지")}
-              onChange={handleChangeNew}
-            />
-            신규 배송지
-         </div>
-
-         <div>
-           { selectValue === "내 배송지" ? <span>{info.address}</span> : <span>새로 들어갈 주소</span> }
-         </div>
-
-        {/* 내 주문 목록 */}
-        <div className='myorderlistBackground'>
-          {/* 주문 목록 탭 */}
-          <div className='myordertabBackground'>
-              <span className='myordertab'>상품정보</span>
-              <span className='myordertab'>배송비 / 배송 형태</span>
+          {/* 주문내역 텍스트 */}
+          <div className='orderBackground'>
+            <div className='ordertext'>주문서</div>
           </div>
-          {/* 주문목록 본문 */}
 
-          {orderList && orderList.map((el, idx) => {
-            return (
-              <div className='orderAll' key={idx}>
-                <div className='orderList1'>
-                    <span>
-                      <img src={Cat} alt='상품 사진' className='myorderimg'/>
+          <div className="adressBox">
+              <input
+                name="platform"
+                type="radio"
+                className='firstRadio'
+                checked={true}
+                // checked={setSelectValue("내 배송지")}
+                onClick={handleChangeMy}
+                onChange={handleChangeMy}
+                />
+              내 배송지
+
+              <input
+                name="platform"
+                type="radio"
+                className='secondRadio'
+                // checked={setSelectValue("신규 배송지")}
+                onClick={handleChangeNew}
+                onChange={handleChangeNew}
+              />
+              신규 배송지
+          </div>
+
+          <div className='addressBox'>
+            { selectValue === "내 배송지" ? <span>{info.address}</span> : <span>새로 들어갈 주소</span> }
+          </div>
+
+          {/* 내 주문 목록 */}
+          <div className='myorderlistBackground'>
+            {/* 주문 목록 탭 */}
+            <div className='myordertabBackground'>
+                <span className='myordertab'>상품이미지</span>
+                <span className='myordertab2'>수량</span>
+                <span className='myordertab3'>가격</span>
+                <span className='myordertab4'>배송비 / 배송 형태</span>
+            </div>
+
+            {/* 주문목록 본문 */}
+            {orderList && orderList.map((el, idx) => {
+              return (
+                <div className='orderAll' key={idx}>
+                  <div className='orderList1'>
+                      <span>
+                        <img src={Cat} alt='상품 사진' className='myorderimg'/>
+                      </span>
+                      <span className='myOrderName'>{el.itemName}</span>
+                  </div>
+                      <span className='myOrderCount'>{el.itemCnt} 개</span>
+                      <span className='myOrderPrice'>{convertPrice(el.price * el.itemCnt)} 원</span>
+
+                  <div className='orderList2'>
+                    <span className='deliver'>
+                      <span className='charge'>택배배송</span>
+                      <span className='charge2'>배송비 무료</span>
                     </span>
-                    <span className='myordername'>{el.itemName}</span>
-                    <span className='myorderstate'>{convertPrice(el.price * el.itemCnt)} 원</span>
+                  </div>  
                 </div>
+              )
+            })}
+          </div>
 
-                <div className='orderList2'>
-                  <span className='deliver'>
-                    <span className='charge'>택배배송</span>
-                    <span className='charge2'>배송비 무료</span>
-                  </span>
-                </div>  
-              </div>
-            )
-          })}
-        </div>
+          <div className='orderBox'>
+            <StyledLink to={`/mypage/order`}>
+              <span className='orderbutton' onClick={orderItem}>결제하기</span>
+            </StyledLink>
+          </div>
+          
       </div>
     </Wrapper>
   )

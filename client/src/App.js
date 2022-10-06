@@ -18,6 +18,7 @@ import Toy from "./pages/Shopping/Category/Toy";
 import Posting from "./pages/Community/detail/Posting";
 import Post from "./pages/Community/detail/Post";
 import Mypage from "./pages/MyPage/Mypage";
+import ChangeMypage from "./pages/MyPage/ChangeMypage";
 import SignUp from "./pages/MyPage/Category/SignUp";
 import SignIn from "./pages/MyPage/Category/SignIn";
 import Items from "./pages/Shopping/Items";
@@ -31,6 +32,7 @@ import Addproduct from "./pages/Shopping/AddProduct";
 import { useState } from 'react';
 // import FAQPost from "./pages/FAQPost";
 import FAQPost from "./pages/FAQ/FAQPost";
+import FAQPage from "./pages/FAQ/FAQPage";
 
 
 function App() {
@@ -48,14 +50,15 @@ function App() {
           {sessionStorage.getItem('accessToken') ? <SuccessLogin /> : <Nav />}
             <Routes>
                 <Route path="/" element={<Main />} />
-                <Route path="/shopping" element={<Shopping />} />
+                <Route path="/shopping" element={<Shopping convertPrice={convertPrice} />} />
                 <Route path="/community" element={<Community />} />
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/FAQ" element={<FAQ />} />
                 <Route path="/FAQ/FAQPOST" element={<FAQPost />} />
-                {/* <Route path="/FAQPOST" element={<FAQPost />} /> */}
+                <Route path="/FAQ/FAQPage/:boardId" element={<FAQPage />} />
                 
                 <Route path="/mypage" element={sessionStorage.getItem('accessToken') ? <Mypage /> : <SignIn />} />
+                <Route path="/mypage/change" element={<ChangeMypage />} />
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp/>} />
                 <Route path="/mypage/cart" element={<Cart cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />

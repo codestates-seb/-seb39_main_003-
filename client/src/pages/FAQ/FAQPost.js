@@ -115,31 +115,12 @@ function FAQPost() {
   const [list, setList] = useState([]);
   const navigate = useNavigate();
 
-  // useEffect(()=>{
-  //   fetch(`http://localhost:3001/FAQ`)
-  //   .then((res)=>{
-  //     setList(res)
-  //   })
-  // }, [])
-
   const titleInput = (e) => {
     setTitle(e.target.value);
   };
   const contentInput = (e) => {
     setContent(e.target.value);
   };
-
-  // setList((prev) => {
-  //   const data = [...prev]
-  //   data.unshift(
-  //     {
-  //       title: title,
-  //       boardContents: content
-  //     }
-  //   )
-  //   console.log(data)
-  //   return data
-  // })
 
   const postContent = () => {
     fetch(`http://211.58.40.128:8080/api/v1/board`, {
@@ -148,12 +129,10 @@ function FAQPost() {
         "content-Type": "application/json",
       },
       body: JSON.stringify({
-        "title" : title,
-        "boardContents" : content,
-        "memberId" : "000001",
-        "tagIds" : [
-            3
-        ]
+        title: title,
+        boardContents: content,
+        memberId: "000001",
+        categoryId: 31
       }),
     })
       .then(() => {

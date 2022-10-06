@@ -11,7 +11,6 @@ import FAQ from '../assets/faq.png';
 import Carousel from "nuka-carousel";
 import { Link } from "react-router-dom";
 
-
 const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
@@ -173,9 +172,9 @@ function Main() {
         {/* 메뉴 탭 컴포넌트 */}
       <div className="tabBox">
 
-          <div className="hospital tabs">
-            동물병원
-          </div>
+            <div className="hospital tabs">
+              동물병원
+            </div>
 
             <StyledLink to="/shopping">
               <div className="shopping tabs">
@@ -201,7 +200,7 @@ function Main() {
               </div>
             </StyledLink>
 
-    </div>
+      </div>
         {/* 메뉴 탭 컴포넌트 */}
 
     </Wrapper>
