@@ -30,7 +30,8 @@ public enum ExceptionCode {
     FILE_UPLOAD_LIMIT_FIVE(409, "The number of files is limited to five"),
     DOMAIN_IS_INVALID(400, "Domain is invalid"),
     EXTENSION_IS_INVALID(400, "File's extension is invalid"),
-    PRICE_DIFFERENT(400, "Request price is different from orderPrice");
+    PRICE_DIFFERENT(400, "Request price is different from orderPrice"),
+    CANNOT_SEND_EMAIL(409, "Sorry, Can not send E-mail");
 
     @Getter
     private int status;
