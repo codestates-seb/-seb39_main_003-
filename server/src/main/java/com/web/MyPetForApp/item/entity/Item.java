@@ -2,6 +2,8 @@ package com.web.MyPetForApp.item.entity;
 
 import com.web.MyPetForApp.basetime.BaseTimeEntity;
 import com.web.MyPetForApp.cartitem.entity.CartItem;
+import com.web.MyPetForApp.exception.BusinessLogicException;
+import com.web.MyPetForApp.exception.ExceptionCode;
 import com.web.MyPetForApp.member.entity.Member;
 import com.web.MyPetForApp.qna.entity.Question;
 import com.web.MyPetForApp.review.entity.Review;
@@ -29,13 +31,13 @@ public class Item extends BaseTimeEntity {
     private String itemName;
 
     @Column(nullable = false)
-    private int price;
+    private Integer price;
 
     @Column(nullable = false)
     private int soldCnt;
 
     @Column(nullable = false)
-    private int stockCnt;
+    private Integer stockCnt;
 
     @Column(nullable = false)
     private String info;
@@ -106,11 +108,18 @@ public class Item extends BaseTimeEntity {
     public void updateItem(Item item){
         if(item.getItemName() != null) this.itemName = item.getItemName();
         if(item.getInfo() != null) this.info = item.getInfo();
-        if(item.price != 0) this.price = item.getPrice();
-        if(item.stockCnt != 0) this.stockCnt = item.getStockCnt();
+        if(item.price != null) this.price = item.getPrice();
+        if(item.stockCnt != null) this.stockCnt = item.getStockCnt();
     }
     public void updateWishCnt(){
         this.wishCnt = this.wishes.size();
+    }
+    public void updateStockAndSoldCnt(int orderItemCnt){
+        if(this.stockCnt>=orderItemCnt)
+            this.stockCnt -= orderItemCnt;
+        else
+            throw new BusinessLogicException(ExceptionCode.OUT_OF_STOCK);
+        this.soldCnt += orderItemCnt;
     }
 //    public void resetItemImages(){
 //        this.itemImages = new ArrayList<>();

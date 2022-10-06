@@ -36,6 +36,7 @@ public class PayDto {
 
         @Schema(description = "새 주소", example = "서울 중곡동 225-10", nullable = true)
         @Pattern(regexp = "^[가-힣\\d\\s-]+$")
+        @Size(max = 50)
         private String newAddress;
 
         @Schema(description = "새 휴대폰번호", example = "010-2060-1122", nullable = true)
@@ -48,6 +49,7 @@ public class PayDto {
         private String newName;
 
         @Schema(description = "주문 시 요청사항", example = "안전하게 와주세요", nullable = true)
+        @Size(max = 50)
         private String requirement;
     }
 

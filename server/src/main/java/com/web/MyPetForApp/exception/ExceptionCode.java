@@ -8,6 +8,7 @@ public enum ExceptionCode {
     CANNOT_CHANGE_PASSWORD(409, "Password must not be the same as before"),
     ITEM_NOT_FOUND(404, "Item not found"),
     ITEM_CATEGORY_NOT_FOUND(404, "Item Category not found"),
+    CANNOT_CHANGE_ITEM(409, "Item can not change"),
     OUT_OF_STOCK(400, "Out of stock"),
     CANNOT_CHANGE_ORDER(409, "Order can not change"),
     ORDER_NOT_FOUND(404, "Order not found"),
@@ -29,7 +30,8 @@ public enum ExceptionCode {
     FILE_UPLOAD_LIMIT_FIVE(409, "The number of files is limited to five"),
     DOMAIN_IS_INVALID(400, "Domain is invalid"),
     EXTENSION_IS_INVALID(400, "File's extension is invalid"),
-    PRICE_DIFFERENT(400, "Request price is different from orderPrice");
+    PRICE_DIFFERENT(400, "Request price is different from orderPrice"),
+    CANNOT_SEND_EMAIL(409, "Sorry, Can not send E-mail");
 
     @Getter
     private int status;

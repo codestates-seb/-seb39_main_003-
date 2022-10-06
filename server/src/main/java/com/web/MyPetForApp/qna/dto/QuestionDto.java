@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class QuestionDto {
@@ -13,12 +15,18 @@ public class QuestionDto {
     @AllArgsConstructor
     public static class Post{
         @Schema(description = "QnA 제목", example = "질문 1나")
+        @NotBlank
+        @Size(min = 5, max = 50)
         private String questionTitle;
         @Schema(description = "QnA 내용", example = "내용 1나")
+        @NotBlank
+        @Size(min = 5, max = 500)
         private String questionContent;
         @Schema(description = "회원 식별 번호", example = "000001")
+        @NotBlank
         private String memberId;
         @Schema(description = "상품 식별 번호", example = "000001")
+        @NotBlank
         private String itemId;
     }
     @Schema(name = "QnAPatch", description = "QnA Patch 요청 모델")
@@ -26,8 +34,10 @@ public class QuestionDto {
     @AllArgsConstructor
     public static class Patch{
         @Schema(description = "QnA 제목", example = "질문 1나")
+        @Size(min = 5, max = 50)
         private String questionTitle;
         @Schema(description = "QnA 내용", example = "내용 1나")
+        @Size(min = 5, max = 500)
         private String questionContent;
         @Schema(description = "회원 식별 번호", example = "000001")
         private String memberId;

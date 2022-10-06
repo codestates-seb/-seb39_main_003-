@@ -43,7 +43,7 @@ public class ItemMapper {
                 .info(item.getInfo())
                 .wishCnt(item.getWishCnt())   // 찜 수
                 .itemCategory(item.getItemCategory().getItemCategory()) // 카테고리 명
-                .member(item.getMember().getNickName()) // 닉네임? 실명? 선택 필요
+                .nickName(item.getMember().getNickName()) // 닉네임? 실명? 선택 필요
                 .thumbnail(item.getThumbnail())
                 .build();
 
@@ -62,7 +62,7 @@ public class ItemMapper {
                         .info(item.getInfo())
                         .wishCnt(item.getWishCnt())
                         .itemCategory(item.getItemCategory().getItemCategory())
-                        .member(item.getMember().getNickName())
+                        .nickName(item.getMember().getNickName())
                         .thumbnail(item.getThumbnail())
                         .build())
                 .collect(Collectors.toList());

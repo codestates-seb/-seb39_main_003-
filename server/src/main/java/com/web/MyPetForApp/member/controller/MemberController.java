@@ -15,14 +15,18 @@ import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Tag(name = "회원 API")
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1")
 public class MemberController {
 
@@ -49,8 +53,8 @@ public class MemberController {
             )
     )
     @PostMapping(value = "/member", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity join( @ParameterObject @ModelAttribute MemberDto.Post post,
-                                @RequestPart(required = false) List<MultipartFile> multipartFiles) {
+    public ResponseEntity join(@Valid @ParameterObject @ModelAttribute MemberDto.Post post,
+                                @RequestPart(required = false) List<MultipartFile> multipartFiles) throws Exception {
 
 
         String memberId = stringIdGenerator.createMemberId();
@@ -68,8 +72,8 @@ public class MemberController {
             )
     )
     @PatchMapping(value = "/member", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity memberModify(@ParameterObject @ModelAttribute MemberDto.Patch patch,
-                                       @RequestPart(required = false) List<MultipartFile> multipartFiles) {
+    public ResponseEntity memberModify(@Valid @ParameterObject @ModelAttribute MemberDto.Patch patch,
+                                       @RequestPart(required = false) List<MultipartFile> multipartFiles) throws Exception {
 
         Member modifiedMember = memberService.update(mapper.memberPatchToMember(patch), multipartFiles);
         return new ResponseEntity<>(mapper.memberToResponse(modifiedMember), HttpStatus.OK);
@@ -83,7 +87,7 @@ public class MemberController {
             )
     )
     @GetMapping("/member/{memberId}")
-    public ResponseEntity memberFind(@PathVariable String memberId) {
+    public ResponseEntity memberFind(@NotBlank @PathVariable String memberId) throws Exception {
         Member findMember = memberService.read(memberId);
 
         return new ResponseEntity<>(mapper.memberToResponse(findMember) ,HttpStatus.OK);
@@ -97,7 +101,7 @@ public class MemberController {
             )
     )
     @DeleteMapping("/member/{memberId}")
-    public ResponseEntity memberDelete(@PathVariable String memberId) {
+    public ResponseEntity memberDelete(@NotBlank @PathVariable String memberId) {
         memberService.delete(memberId);
         return new ResponseEntity<>("delete Ok" ,HttpStatus.NO_CONTENT);
     }
