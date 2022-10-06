@@ -4,10 +4,8 @@ import styled from 'styled-components';
 import { FaUserAlt } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.png'
-import axios from 'axios';
 import ShoppingCart from '../pages/Shopping/images/icon-shopping-cart.svg';
 
 
@@ -182,52 +180,32 @@ const StyledLink = styled(Link)`
   }
 `
 
-const MyPage = styled(Link)`
-  text-decoration: none;
-  color: black;
-
-  &:hover {
-    color: black;
-  }
-`
 ;
-
-// sessionStorage.removeItem('accessToken');
-// sessionStorage.removeItem('refreshToken');
-
-// sessionStorage.setItem('accessToken', null);
-// sessionStorage.setItem('refreshToken', null);
-
-// window.sessionStorage.clear();
-
-// navigate('/')
-// window.location.reload()
 
 const Nav = () => {
 
-  // const handleButtonLogout = () => {
-  //   axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
-  //     sessionStorage.removeItem('refreshToken'),
-  //     sessionStorage.removeItem('accessToken'),
-  //     navigate('/'),
-  //     window.location.reload()
-  //   )
-  // };
+  const token = sessionStorage.getItem('accessToken');
+  const realToken = token.slice(7)
+  // console.log(realToken)
+  
+  window.Buffer = window.Buffer || require("buffer").Buffer;
+  
+  const base64Payload = realToken.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
+  const payload = Buffer.from(base64Payload, 'base64'); 
+  const result = JSON.parse(payload.toString())
+  // console.log(result);
+  // console.log(result.memberId)
 
-  // const handleButtonLogout2 = () => {
-  //   axios.post(`http://211.58.40.128:8080/logout?test@naver.com`)
-      
-  //   .then( () => {
-  //     sessionStorage.removeItem('refreshToken')
-  //     sessionStorage.removeItem('accessToken')
-  //   })
+    const [info, setInfo] = useState([]);
     
-  //   navigate('/')
-  //   window.location.reload()
-    
-  // };
-
-
+    useEffect(() => {
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
+      .then(res => res.json())
+      .then(res => {
+        setInfo(res)
+        // console.log(res)
+      })
+    } , [])
 
   const navigate = useNavigate();
 
@@ -238,7 +216,7 @@ const Nav = () => {
           <div className="headerBox">
               <span className="logo headerList">
                 {/* 로고 */}
-                <img className="logoImage" alt="logo" src="https://cdn.discordapp.com/attachments/1020944788419248179/1026519523848880189/logoForSubmit.jpg"
+                <img className="logoImage" alt="logo" src="https://cdn.discordapp.com/attachments/1020944788419248179/1026869818810437683/logo.png"
                 onClick={() => {
                   navigate('/');
                 }}/>
@@ -251,7 +229,7 @@ const Nav = () => {
               <div className='memberBox'>
 
                 <span className='welcome'>
-                  어서오라개!
+                  어서오라개! {info.nickName}
                 </span>
 
                 <span className='shoppingCart profile'>
@@ -276,27 +254,29 @@ const Nav = () => {
           </div>
       
       <div className="navbar">
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/">Home</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/">Home</StyledLink>
+        </span>
 
-        <span className="navlist">동물병원</span>
+        <span className="navlist">
+          <StyledLink to="/vet">동물병원</StyledLink>
+        </span>
 
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/shopping">쇼핑</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/shopping">쇼핑</StyledLink>
+        </span>
 
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/community">커뮤니티</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/community">커뮤니티</StyledLink>
+        </span>
 
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/notice">공지사항</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/notice">공지사항</StyledLink>
+        </span>
         
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/FAQ">FAQ</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/FAQ">FAQ</StyledLink>
+        </span>
       </div>
     </Wrapper>
   )

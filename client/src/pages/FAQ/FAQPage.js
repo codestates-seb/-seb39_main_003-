@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import React from "react";
-import Reply from "./Reply";
+import Reply from "../Community/detail/Reply";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
@@ -93,19 +93,19 @@ const Wrapper = styled.div`
   }
 `;
 
-function Post() {
+function FAQPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
   console.log(location);
 
-  const [communityList, setCommunityList] = useState([]);
+  const [faqList, setFaqList] = useState([]);
 
   useEffect(() => {
     fetch(`http://211.58.40.128:8080/api/v1/board/${location.state.id}`)
     .then((res) => res.json())
     .then((res) => {
-      setCommunityList(res.data);
+      setFaqList(res.data);
       // console.log(res.data);
     })
     .catch((err) => console.log(err));
@@ -114,35 +114,18 @@ function Post() {
   return (
     <Wrapper>
       {/* 게시글 확인 화면 */}
-      <div className="replytettitory">
-        <div className="rbackground">
-          {/* 게시글 제목 */}
-          {/* <div className="cposttop">
-                    <span className="cposttext">글 제목</span>
-                    <span className="cposttext">내용</span>
-                    <span className="cposttext">작성자</span>
-                </div> */}
+      <div className="pagetettitory">
 
-          {/* 게시글 내용 */}
-          {/* <div className='cpcontent'>
-                  <span className='cpostcontent'>FAQPage 개별 포스트 확인</span>
-                </div> */}
+        <div className="pagebackground">
 
-          {/* {faqList &&faqList.map((el, index) => { */}
-
-          {/* return ( */}
-          <div
-            className="questions"
-            //   key={index} // 고유번호
-          >
+          <div className="questions">
             <div className="tquestions">
-              <span className="tarticle">{communityList.nickName}</span>
-              <span className="tarticle">{communityList.title}</span>
+              <span className="tarticle">{faqList.nickName}</span>
+              <span className="tarticle">{faqList.title}</span>
             </div>
-            <span className="article">{communityList.boardContents}</span>
+
+              <span className="article">{faqList.boardContents}</span>
           </div>
-          {/* ); */}
-          {/* })} */}
 
           {/* 댓글 작성란 및 작성된 댓글 목록 */}
           <Reply boardId={location.state.id}/>
@@ -152,4 +135,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default FAQPage;

@@ -95,7 +95,9 @@ function Cart( {cart, setCart, convertPrice} ) {
                     <span className='carttab'>장바구니</span>
                 </div>
 
-                <Body />
+
+                <Body convertPrice={convertPrice} />
+
                 
             </div>
         </div>

@@ -325,6 +325,7 @@ function Items( { convertPrice, cart, setCart } ) {
   const [clickHeart, setClickHeart] = useState(false)
 
   const location = useLocation();
+  console.log(location)
 
   const [itemInfo, setItemInfo] = useState([])
 
@@ -333,7 +334,7 @@ function Items( { convertPrice, cart, setCart } ) {
     .then((res) => res.json())
     .then(res => {
       setItemInfo(res.data)
-      // console.log(res.data)
+      console.log(res.data)
     })
     .catch((err) => {
       console.log(err)
@@ -483,7 +484,6 @@ function Items( { convertPrice, cart, setCart } ) {
       <Review itemId={itemInfo.itemId} memberId={itemInfo.memberId} />}
 
     </div>
-
     
     </Wrapper>
   )

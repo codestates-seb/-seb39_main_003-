@@ -141,9 +141,7 @@ function Posting() {
         "title" : title,
         "boardContents" : content,
         "memberId" : "000001",
-        "tagIds" : [
-            1
-        ]
+        "categoryId" : 11
       }),
     })
     .then(() => {

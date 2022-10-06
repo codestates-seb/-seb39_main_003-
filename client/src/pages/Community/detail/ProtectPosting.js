@@ -2,7 +2,6 @@ import styled from "styled-components";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-// import faqData from "../../dummytest/faqData";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
@@ -109,7 +108,8 @@ const StyledLink = styled(Link)`
   text-align: center;
 `;
 
-function FAQPost() {
+function ProtectPosting() {
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [list, setList] = useState([]);
@@ -132,11 +132,11 @@ function FAQPost() {
         "title" : title,
         "boardContents" : content,
         "memberId" : "000001",
-        "categoryId" : 31
+        "categoryId" : 14
       }),
     })
       .then(() => {
-        navigate(`/FAQ`);
+        navigate(`/community/protect`);
       })
       .catch(() => {
         console.log("실패");
@@ -169,14 +169,12 @@ function FAQPost() {
           </div>
         </div>
         {/* 게시글 등록 버튼 */}
-        {/* <StyledLink to={"/FAQ"} className='postbutton'> */}
         <button className="postbuttontext" onClick={postContent}>
           등록
         </button>
-        {/* </StyledLink> */}
       </div>
     </Wrapper>
-  );
+  )
 }
 
-export default FAQPost;
+export default ProtectPosting

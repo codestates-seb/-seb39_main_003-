@@ -18,6 +18,7 @@ import Toy from "./pages/Shopping/Category/Toy";
 import Posting from "./pages/Community/detail/Posting";
 import Post from "./pages/Community/detail/Post";
 import Mypage from "./pages/MyPage/Mypage";
+import ChangeMypage from "./pages/MyPage/ChangeMypage";
 import SignUp from "./pages/MyPage/Category/SignUp";
 import SignIn from "./pages/MyPage/Category/SignIn";
 import Items from "./pages/Shopping/Items";
@@ -31,11 +32,19 @@ import Addproduct from "./pages/Shopping/AddProduct";
 import { useState } from 'react';
 // import FAQPost from "./pages/FAQPost";
 import FAQPost from "./pages/FAQ/FAQPost";
-
+import FAQPage from "./pages/FAQ/FAQPage";
+import NoticePost from "./pages/Notice/NoticePost";
+import NoticePage from "./pages/Notice/NoticePage";
+import HospitalPosting from "./pages/Community/detail/HospitalPosting";
+import InfoPosting from "./pages/Community/detail/InfoPosting";
+import LostPosting from "./pages/Community/detail/LostPosting";
+import ProtectPosting from "./pages/Community/detail/ProtectPosting";
+import HospitalPost from "./pages/Community/detail/HospitalPost"
+import Buy from "./pages/MyPage/Buy";
+import Vet from "./pages/Vet/Vet";
 
 function App() {
 
-    const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
   
     const convertPrice = (price) => {
@@ -49,28 +58,45 @@ function App() {
           {sessionStorage.getItem('accessToken') ? <SuccessLogin /> : <Nav />}
             <Routes>
                 <Route path="/" element={<Main />} />
-                <Route path="/shopping" element={<Shopping />} />
+                <Route path="/shopping" element={<Shopping convertPrice={convertPrice} />} />
                 <Route path="/community" element={<Community />} />
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/FAQ" element={<FAQ />} />
-                <Route path="/FAQ/FAQPOST" element={<FAQPost />} />
-                {/* <Route path="/FAQPOST" element={<FAQPost />} /> */}
+                <Route path="/vet" element={<Vet />} />
                 
+                <Route path="/FAQ/FAQPOST" element={<FAQPost />} />
+                <Route path="/FAQ/FAQPage/:boardId" element={<FAQPage />} />
+                
+                <Route path="/notice/noticePost" element={<NoticePost/>} />
+                <Route path="/notice/noticePage/:boardId" element={<NoticePage/>} />
+
                 <Route path="/mypage" element={sessionStorage.getItem('accessToken') ? <Mypage /> : <SignIn />} />
+                <Route path="/mypage/change" element={<ChangeMypage />} />
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp/>} />
                 <Route path="/mypage/cart" element={<Cart cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />
                 <Route path="/mypage/cart" element={<CartBody cart={cart} setCart={setCart} convertPrice={convertPrice}/>} />
                 <Route path="/mypage/wish" element={<Wish convertPrice={convertPrice} />} />
-                <Route path="/mypage/order" element={<Order/>} />
+                <Route path="/mypage/order" element={<Order convertPrice={convertPrice} />} />
+                <Route path="/mypage/buy" element={<Buy convertPrice={convertPrice} />} />
 
                 <Route path="/community/walk" element={<Community />} />
                 <Route path="/community/info" element={<Info />} />
                 <Route path="/community/hospital" element={<Hospital />} />
                 <Route path="/community/protect" element={<Protect />} />
                 <Route path="/community/lost" element={<Lost />} />
+
                 <Route path="/community/posting" element={<Posting />}/>
+                <Route path="/community/hospitalposting" element={<HospitalPosting/>} />
+                <Route path="/community/infoposting" element={<InfoPosting/>} />
+                <Route path="/community/lostposting" element={<LostPosting/>} />
+                <Route path="/community/protectposting" element={<ProtectPosting/>} />
+
                 <Route path="/community/post/:communityId" element={<Post/>}/>
+                <Route path="/community/hospitalpost/:boardId" element={<HospitalPost/>}/>
+                {/* <Route path="/community/infopost/:boardId" element={<InoPost/>}/>
+                <Route path="/community/lostpost/:boardId" element={<LostPost/>}/>
+                <Route path="/community/protectpost/:boardId" element={<Protectpost/>}/> */}
 
                 <Route path="/shopping/add" element={<Addproduct />} />
                 <Route path="/shopping/meal" element={<Meal convertPrice={convertPrice} />} />

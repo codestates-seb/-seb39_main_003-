@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ItemData from '../../dummytest/ItemData';
 import Cat from './images/cat.png';
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
 
@@ -30,7 +31,7 @@ const Wrapper = styled.div`
 }
 
   .img {
-    width: 20rem;
+    width: 17.5rem;
     height: 13rem;
     background-size: cover;
     margin-bottom: 50px;
@@ -161,20 +162,56 @@ const Wrapper = styled.div`
     height: 10rem;
     position: relative;
     bottom: 5%;
-    border: 1px solid lightgray;
-    font-size: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
+  .itemName {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-bottom: 1px solid lightgray;
+  }
+
+  .itemPrice {
+    width: 100%;
+    /* border: 1px solid black; */
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+  }
+
+  .item_list {
+    margin: 0px 10px 0px 10px;
+  }
+
+  .item_name {
+    color: blue;
+    font-weight: 600;
+  }
 `;
 
-function Shopping() {
+const ListLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+
+  .item_name {
+    color: blue;
+    font-weight: 600;
+  }
+`;
+
+function Shopping( {convertPrice} ) {
 
   const [itemList, setItemList] = useState(undefined);
   
   useEffect(() => {
-  fetch(`http://211.58.40.128:8080/api/v1/item?itemCategoryId=11`)
+  fetch(`http://211.58.40.128:8080/api/v1/item/wish?memberId=000001&page=1&size=8`)
   .then((res) => res.json())
   .then(res => {
     setItemList(res.data)
@@ -258,30 +295,37 @@ function Shopping() {
       </div>
 
 
-          <div className="item_list_box">
+      <div className="item_list_box">
             {itemList && itemList.map((el, idx) => {
+                // const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
               return (
-
-                <div key={idx} className='item_box'>
+                
+                <ListLink to={`/shopping/item/${el.itemId}`} key={idx} className='item_box' state={
+                  {id: el.itemId,
+                  thumbnail: el.thumbnail}
+                  // {thumbnail:el.thumbnail}
+                  }>
+                    {/* <div key={idx} className='item_box' onClick={handleClick} state> */}
 
                     <div className='image'>
                         <div>
-                           <img className='img' src={Cat} alt='사진' />
+                          <img className='img' src={Cat} alt='사진' />
                         </div>
                     </div>
 
-                    <div className='test1'>
-                        <div className="item_list">{el.itemName}</div>
+                    <div className='itemName'>
+                        <div className="item_list item_name">{el.itemName}</div>
                     </div>
 
-                    <div className='test2'>
-                        <div className="item_list">{el.price}원</div>
+                    <div className='itemPrice'>
+                        <div className="item_list">{convertPrice(el.price)}원</div>
                     </div>
-
-                </div>
+                  
+                    {/* </div> */}
+                </ListLink>
               )
             })}
-          </div>
+      </div>
 
       {/* 인기상품 */}
 

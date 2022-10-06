@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react'
+import Cat from '../images/cat.png';
 
 
 
@@ -172,6 +173,16 @@ const Wrapper = styled.div`
   }
 `;
 
+const ListLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+
+  .item_name {
+    color: blue;
+    font-weight: 600;
+  }
+`;
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: black;
@@ -230,26 +241,32 @@ function Cookie( { convertPrice } ) {
 
       <div className="item_list_box">
             {itemList && itemList.map((el, idx) => {
-                const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
+                // const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${el.thumbnail}`
               return (
-                <div key={idx} className='item_box' onClick={() => {
-                  navigate(`/shopping/item/${el.itemId}`)}}>
+                
+                <ListLink to={`/shopping/item/${el.itemId}`} key={idx} className='item_box' state={
+                  {id: el.itemId,
+                  thumbnail: el.thumbnail}
+                  // {thumbnail:el.thumbnail}
+                  }>
+                    {/* <div key={idx} className='item_box' onClick={handleClick} state> */}
 
                     <div className='image'>
                         <div>
-                          <img className='img' src={final} alt='사진' />
+                          <img className='img' src={Cat} alt='사진' />
                         </div>
                     </div>
 
                     <div className='itemName'>
-                        <div className="item_list">{el.itemName}</div>
+                        <div className="item_list item_name">{el.itemName}</div>
                     </div>
 
                     <div className='itemPrice'>
                         <div className="item_list">{convertPrice(el.price)}원</div>
                     </div>
-
-                </div>
+                  
+                    {/* </div> */}
+                </ListLink>
               )
             })}
       </div>
@@ -263,7 +280,6 @@ function Cookie( { convertPrice } ) {
        :
         undefined
       }
-
 
     </Wrapper>
   

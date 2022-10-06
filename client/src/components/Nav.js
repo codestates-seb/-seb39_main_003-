@@ -217,7 +217,7 @@ const Nav = () => {
 
   const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
+  const [display, setDisplay] = useState(false);
 
   return (
     <Wrapper>
@@ -226,7 +226,7 @@ const Nav = () => {
                 {/* 로고 */}
 
                 <StyledLink to='/'>
-                  <img className="logoImage" alt="logo" src="https://cdn.discordapp.com/attachments/1020944788419248179/1026519523848880189/logoForSubmit.jpg" />
+                  <img className="logoImage" alt="logo" src="https://cdn.discordapp.com/attachments/1020944788419248179/1026869818810437683/logo.png" />
                 </StyledLink>
 
               </span>
@@ -251,7 +251,6 @@ const Nav = () => {
                   }}/>
                 </span>
 
-                {/* <span className="profile" onClick={ () => { setOpen(!open) } }> */}
                 <span className="profile" onClick={ () => {
                   sessionStorage.getItem('accessToken') ? navigate(`/mypage`) : navigate(`/login`) }}>
                   <FaUserAlt />
@@ -270,27 +269,29 @@ const Nav = () => {
           </div>
       
       <div className="navbar">
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/">Home</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/">Home</StyledLink>
+        </span>
 
-        <span className="navlist">동물병원</span>
+        <span className="navlist">
+          <StyledLink to="/vet">동물병원</StyledLink>
+        </span>
 
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/shopping">쇼핑</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/shopping">쇼핑</StyledLink>
+        </span>
 
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/community">커뮤니티</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/community">커뮤니티</StyledLink>
+        </span>
 
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/notice">공지사항</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/notice">공지사항</StyledLink>
+        </span>
         
-        <span className="navlist" onClick={() => {
-          setOpen(false)
-        }}><StyledLink to="/FAQ">FAQ</StyledLink></span>
+        <span className="navlist">
+          <StyledLink to="/FAQ">FAQ</StyledLink>
+        </span>
       </div>
     </Wrapper>
   )

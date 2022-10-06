@@ -1,8 +1,12 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from 'styled-components';
-import Image1 from '../assets/dog1.png';
-import Image2 from '../assets/dog2.png';
-import Image3 from '../assets/dog3.png';
+// import Main1 from '../assets/위풍댕댕 메인1.png';
+// import Image1 from '../assets/dog1.png';
+// import Image2 from '../assets/dog2.png';
+// import Image3 from '../assets/dog3.png';
+import Carousel1 from '../assets/carousel1.png';
+import Carousel2 from '../assets/carousel2.png';
+import Carousel3 from '../assets/carousel3.jpg';
 import Hospital from '../assets/hospital.png';
 import Shopping from '../assets/shopping.png';
 import Community from '../assets/community.png';
@@ -10,7 +14,6 @@ import Notice from '../assets/notice.png';
 import FAQ from '../assets/faq.png';
 import Carousel from "nuka-carousel";
 import { Link } from "react-router-dom";
-
 
 const Wrapper = styled.div`
   width: 100%;
@@ -150,6 +153,34 @@ const StyledLink = styled(Link)`
 
 function Main() {
 
+  // let test = window.location.search;
+  // console.log(test);
+
+  // let param = new URLSearchParams(test);
+  // let access = param.get("access_token");
+
+  // console.log(access);
+
+  // sessionStorage.setItem("accessToken", `${access}`)
+
+  // window.Buffer = window.Buffer || require("buffer").Buffer;
+
+  // const base64Payload = access.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
+  // const payload = Buffer.from(base64Payload, "base64");
+  // const result = JSON.parse(payload.toString());
+  // console.log(result);
+
+  // const [info, setInfo] = useState([]);
+
+  // useEffect(() => {
+  //   fetch(`http://211.58.40.128:8080/api/v1/member/$%7Bresult.memberId%7D%60`)
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       setInfo(res);
+  //       console.log(res)
+  //     });
+  // }, []);
+
   return (
     <Wrapper>
 
@@ -158,9 +189,9 @@ function Main() {
     <div className="windowBox">
       <div className="window">
           <Carousel>
-              <img className="flexboxImage" alt="image1" src={Image1} />
-              <img className="flexboxImage" alt="image2" src={Image2} />
-              <img className="flexboxImage" alt="image3"src={Image3} />
+            <img className="flexboxImage" alt="image1" src={Carousel1} />
+            <img className="flexboxImage" alt="image2" src={Carousel2} />
+            <img className="flexboxImage" alt="image3"src={Carousel3} />
           </Carousel>
       </div>
     </div>
@@ -173,9 +204,9 @@ function Main() {
         {/* 메뉴 탭 컴포넌트 */}
       <div className="tabBox">
 
-          <div className="hospital tabs">
-            동물병원
-          </div>
+            <div className="hospital tabs">
+              동물병원
+            </div>
 
             <StyledLink to="/shopping">
               <div className="shopping tabs">
@@ -201,7 +232,7 @@ function Main() {
               </div>
             </StyledLink>
 
-    </div>
+      </div>
         {/* 메뉴 탭 컴포넌트 */}
 
     </Wrapper>

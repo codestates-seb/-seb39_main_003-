@@ -113,12 +113,13 @@ function SignUp() {
     formData.append("multipartFiles", data.multipartFiles[0]);
 
     fetch(`http://211.58.40.128:8080/api/v1/member`, {
-    method: "POST",
+    method: "PATCH",
     body: formData
   })
 
     .then(() => {
       navigate('/')
+      window.location.reload();
     })
     .catch(() => {
       console.log("오류")
@@ -127,6 +128,28 @@ function SignUp() {
 
   const navigate = useNavigate();
 
+  const token = sessionStorage.getItem('accessToken');
+  const realToken = token.slice(7)
+  // console.log(realToken)
+  
+  window.Buffer = window.Buffer || require("buffer").Buffer; 
+  
+  const base64Payload = realToken.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
+  const payload = Buffer.from(base64Payload, 'base64'); 
+  const result = JSON.parse(payload.toString())
+  console.log(result);
+
+    const [info, setInfo] = useState([]);
+    
+    React.useEffect(() => {
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
+      .then(res => res.json())
+      .then(res => {
+        setInfo(res)
+        console.log(res)
+      })
+    } , [])
+
   return (
     <Wrapper>
       {/* 회원가입 페이지 */}
@@ -134,10 +157,17 @@ function SignUp() {
         <div className='signUpBackground'>
           
           {/* 회원가입 본문 */}
-          <h2 className='text'>Sign Up</h2>
+          <h2 className='text'>회원 정보 수정</h2>
           <div className='suBackground'>
             <form className='suBackground' onSubmit={handleSubmit(onSubmit)}>
               <div className='subox'>
+
+                <div className='suback'>
+                  <label>회원 ID</label>
+                  <input className="sutext" type='text' value={info.memberId} {...register("memberId", {
+                    required: "회원번호를 입력해주세요"
+                  })}></input>
+                </div>
 
                 <div className='suback'>
                   <label>아이디 (Email)</label>
@@ -205,7 +235,7 @@ function SignUp() {
                     },
                     pattern:{
                       value: /^[가-힣]+$/,
-                      message: "한글 별명을 입력해주세요."
+                      message: "한글 별명 필수, 띄어쓰기 X"
                     }
                   })}></input>
                 </div>

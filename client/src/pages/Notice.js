@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import NoticePost from "./Notice/NoticePost";
+import NoticePage from "./Notice/NoticePage";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -111,8 +111,9 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 
   &:hover {
-    background-color: #9263ff;
-    color: #f9f9f9;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    color: black;
+    font-weight: 600;
   }
 `;
 
@@ -122,13 +123,7 @@ function Notice() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/board&tagIds=2`, {
-      method: "GET",
-      headers: {
-        "content-Type": "application/json",
-      },
-      // body: JSON.stringify([2]),
-    })
+    fetch(`http://211.58.40.128:8080/api/v1/board?page=1&size=10&categoryId=21`)
       .then((res) => res.json())
       .then((res) => {
         setList(res.data);
@@ -156,22 +151,25 @@ function Notice() {
           {list &&
             list.map((el, index) => {
               return (
-                <div
+                <StyledLink
+                  to={`/notice/noticePage/${el.boardId}`}
                   className="questions"
                   key={index}
-                  onClick={() => {
-                    navigate(`/notice/${el.boardId}`);
+                  state={{
+                    id: el.boardId,
                   }}
+                  // onClick={() => {
+                  //   navigate(`/notice/noticePost/${el.boardId}`);
+                  // }}
                 >
                   <span className="article">{el.nickName}</span>
                   <span className="article">{el.title}</span>
-                  <span className="article">{el.boardContents}</span>
-                </div>
+                </StyledLink>
               );
             })}
           {/* </div> */}
 
-          <div className="nbottom">
+          {/* <div className="nbottom">
             <a href="/" className="npage">
               1
             </a>
@@ -184,7 +182,7 @@ function Notice() {
             <a href="/" className="npage">
               4
             </a>
-          </div>
+          </div> */}
 
           {/* 게시글 등록 버튼 */}
           <StyledLink to="/notice/noticepost" className="postingbutton">

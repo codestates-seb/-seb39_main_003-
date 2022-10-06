@@ -139,12 +139,16 @@ function Mypage() {
   const base64Payload = realToken.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
   const payload = Buffer.from(base64Payload, 'base64'); 
   const result = JSON.parse(payload.toString())
-  console.log(result);
+
+  // console.log(result);
+
 
     const [info, setInfo] = useState([]);
     
     useEffect(() => {
-      fetch(`http://211.58.40.128:8080/api/v1/member/${result.id}`)
+
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
+
       .then(res => res.json())
       .then(res => {
         setInfo(res)
@@ -156,13 +160,13 @@ function Mypage() {
 
 
     const handleButtonLogout = () => {
-        axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
-          sessionStorage.removeItem('refreshToken'),
-          sessionStorage.removeItem('accessToken'),
-          navigate('/'),
-          window.location.reload()
-        )
-      };
+      axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
+        sessionStorage.removeItem('refreshToken'),
+        sessionStorage.removeItem('accessToken'),
+        navigate('/'),
+        window.location.reload()
+      )
+    };
 
   return (
     <Wrapper>
@@ -197,7 +201,7 @@ function Mypage() {
                             </div>
                         </StyledLink>
 
-                        <StyledLink to='/mypage/order'>
+                        <StyledLink to='/mypage/buy'>
                             <div className='mpcBox'>
                                 <div className='mpCategory'>내 주문 내역</div>
                             </div>
@@ -222,43 +226,49 @@ function Mypage() {
                     <div className='micontent'>
                       <span className='misort'>사진</span>
                       <span className='minow'>dd</span>
-                      <button className='miedit'>수정</button>
+                      {/* <button className='miedit'>수정</button> */}
                     </div>
                     
                     {/* 이메일 수정 */}
                     <div className='micontent'>
                       <span className='misort'>이메일</span>
                       <span className='minow'>{info.email}</span>
-                      <button className='miedit'>수정</button>
+
+                      {/* <button className='miedit'>수정</button> */}
+
                     </div>
 
                     {/* 비밀번호 수정 */}
                     <div className='micontent'>
                       <span className='misort'>비밀번호</span>
                       <span className='minow'>dd</span>
-                      <button className='miedit'>수정</button>
+                      {/* <button className='miedit'>수정</button> */}
                     </div>
 
                     {/* 닉네임 수정 */}
                     <div className='micontent'>
                       <span className='misort'>닉네임</span>
-                      <span className='minow'>dd</span>
-                      <button className='miedit'>수정</button>
+                      <span className='minow'>{info.nickName}</span>
+                      {/* <button className='miedit'>수정</button> */}
                     </div>
 
                     {/* 실명 수정 */}
                     <div className='micontent'>
                       <span className='misort'>실명</span>
                       <span className='minow'>dd</span>
-                      <button className='miedit'>수정</button>
+                      {/* <button className='miedit'>수정</button> */}
                     </div>
 
                     {/* 전화번호 수정 */}
                     <div className='micontent'>
                       <span className='misort'>전화번호</span>
                       <span className='minow'>dd</span>
-                      <button className='miedit'>수정</button>
+                      {/* <button className='miedit'>수정</button> */}
                     </div>
+
+                    <button onClick={() => {
+                      navigate(`/mypage/change`)
+                    }}>회원 정보 수정</button>
                   </div>
                 </div>
             </div>
