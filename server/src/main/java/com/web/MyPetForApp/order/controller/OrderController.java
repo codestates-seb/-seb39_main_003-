@@ -38,7 +38,7 @@ public class OrderController {
             )
     )
     @GetMapping("/{orderId}")
-    public ResponseEntity getOrder(@Positive @PathVariable Long orderId){
+    public ResponseEntity getOrder(@Positive @PathVariable Long orderId) throws Exception{
         Order order = orderService.findOrder(orderId);
         OrderDto.Response response = mapper.orderToOrderResponseDto(order);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -54,7 +54,7 @@ public class OrderController {
     @GetMapping
     public ResponseEntity getOrders(@Parameter(description = "회원 식별번호") @NotBlank @RequestParam String memberId,
                                     @Parameter(description = "현재 페이지") @Positive @RequestParam(required = false, defaultValue = "1") int page,
-                                    @Parameter(description = "한 페이지 당 상품 수") @Positive @RequestParam(required = false, defaultValue = "10") int size){
+                                    @Parameter(description = "한 페이지 당 상품 수") @Positive @RequestParam(required = false, defaultValue = "10") int size) throws Exception {
         Page<Order> pageOrders = orderService.findOrders(memberId, page-1, size);
         List<Order> orders = pageOrders.getContent();
         List<OrderDto.Response> response = mapper.ordersToOrderResponseDto(orders);
@@ -70,7 +70,7 @@ public class OrderController {
     )
     @PatchMapping("/{orderId}")
     public ResponseEntity patchOrder(@Positive @PathVariable Long orderId,
-                                     @Valid @RequestBody OrderDto.Patch requestBody){
+                                     @Valid @RequestBody OrderDto.Patch requestBody) throws Exception {
         String orderStatus = requestBody.getOrderStatus();
         Order order = orderService.updateOrder(orderId, orderStatus);
         OrderDto.Response response = mapper.orderToOrderResponseDto(order);

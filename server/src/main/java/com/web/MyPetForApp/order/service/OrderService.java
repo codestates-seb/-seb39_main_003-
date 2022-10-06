@@ -14,6 +14,7 @@ import com.web.MyPetForApp.order.entity.Order;
 import com.web.MyPetForApp.order.entity.OrderItem;
 import com.web.MyPetForApp.order.repository.OrderItemRepository;
 import com.web.MyPetForApp.order.repository.OrderRepository;
+import com.web.MyPetForApp.util.AesEncryption;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,8 +32,9 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final ItemService itemService;
     private final MemberService memberService;
+    private final AesEncryption aesEncryption;
 
-    public Order createOrder(OrderDto.Post orderPostDto, String memberId){
+    public Order createOrder(OrderDto.Post orderPostDto, String memberId) throws Exception{
         Member member = memberService.findVerifiedMember(memberId);
         List<OrderItemDto.Post> orderItemList = orderPostDto.getOrderItems();
         Order order = new Order();  // Order 생성
@@ -91,7 +93,7 @@ public class OrderService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND));
     }
 
-    public void orderInformation(OrderDto.Post requestBody, Member member, Order order) {
+    public void orderInformation(OrderDto.Post requestBody, Member member, Order order) throws Exception {
         String newName = requestBody.getNewName();
         String newAddress = requestBody.getNewAddress();
         String newPhone = requestBody.getNewPhone();
@@ -104,8 +106,8 @@ public class OrderService {
 
         if(newName != null && newAddress != null && newPhone != null){
             order.changeNewName(newName);
-            order.changeNewAddress(newAddress);
-            order.changeNewPhone(newPhone);
+            order.changeNewAddress(aesEncryption.doEncrypt(newAddress));
+            order.changeNewPhone(aesEncryption.doEncrypt(newPhone));
         } else {
             order.resetInfo(member);    // Order의 주문 정보(주소, 전화번호 등)들을 Member의 정보로 초기화
         }

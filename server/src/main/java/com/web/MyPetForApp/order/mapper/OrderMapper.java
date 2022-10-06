@@ -4,20 +4,25 @@ import com.web.MyPetForApp.order.dto.OrderDto;
 import com.web.MyPetForApp.order.dto.OrderItemDto;
 import com.web.MyPetForApp.order.entity.Order;
 import com.web.MyPetForApp.order.entity.OrderItem;
+import com.web.MyPetForApp.util.AesEncryption;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class OrderMapper {
-    public OrderDto.Response orderToOrderResponseDto(Order order){
+    private final AesEncryption aesEncryption;
+
+    public OrderDto.Response orderToOrderResponseDto(Order order) throws Exception {
         return  OrderDto.Response.builder()
                 .orderId(order.getOrderId())
                 .memberId(order.getMember().getMemberId())
-                .newAddress(order.getNewAddress())
+                .newAddress(aesEncryption.doDecrypt(order.getNewAddress()))
                 .newName(order.getNewName())
-                .newPhone(order.getNewPhone())
+                .newPhone(aesEncryption.doDecrypt(order.getNewPhone()))
                 .requirement(order.getRequirement())
                 .orderStatus(order.getOrderStatus().getStepDescription())
                 .createdAt(order.getCreatedAt())
@@ -44,23 +49,29 @@ public class OrderMapper {
                 .collect(Collectors.toList());
     }
 
-    public List<OrderDto.Response> ordersToOrderResponseDto(List<Order> orders){
+    public List<OrderDto.Response> ordersToOrderResponseDto(List<Order> orders) throws Exception {
 
         List<OrderDto.Response> responses = orders
-                                .stream()
-                                .map(order -> OrderDto.Response.builder()
+                .stream()
+                .map(order -> {
+                    try {
+                        return OrderDto.Response.builder()
                                 .orderId(order.getOrderId())
                                 .memberId(order.getMember().getMemberId())
-                                .newAddress(order.getNewAddress())
+                                .newAddress(aesEncryption.doDecrypt(order.getNewAddress()))
                                 .newName(order.getNewName())
-                                .newPhone(order.getNewPhone())
+                                .newPhone(aesEncryption.doDecrypt(order.getNewPhone()))
                                 .requirement(order.getRequirement())
                                 .orderStatus(order.getOrderStatus().getStepDescription())
                                 .createdAt(order.getCreatedAt())
                                 .modifiedAt(order.getModifiedAt())
                                 .orderItems(orderItemsToOrderItemResponseDto(order.getOrderItems()))
                                 .orderPrice(order.getOrderPrice())
-                                .build()).collect(Collectors.toList());
+                                .build();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }).collect(Collectors.toList());
         return responses;
     }
 }
