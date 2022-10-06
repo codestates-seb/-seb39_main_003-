@@ -312,10 +312,6 @@ function CartBody( {convertPrice} ) {
         </StyledLink>
 
       </div>
-      
-    {/* <Link to={`/mypage/order`} state={ {list: checkLists} }>
-      <button className='orderbutton'>주문하기</button>
-    </Link> */}
 
     </Wrapper>
   
