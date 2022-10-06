@@ -33,6 +33,13 @@ import { useState } from 'react';
 // import FAQPost from "./pages/FAQPost";
 import FAQPost from "./pages/FAQ/FAQPost";
 import FAQPage from "./pages/FAQ/FAQPage";
+import NoticePost from "./pages/Notice/NoticePost";
+import NoticePage from "./pages/Notice/NoticePage";
+import HospitalPosting from "./pages/Community/detail/HospitalPosting";
+import InfoPosting from "./pages/Community/detail/InfoPosting";
+import LostPosting from "./pages/Community/detail/LostPosting";
+import ProtectPosting from "./pages/Community/detail/ProtectPosting";
+import HospitalPost from "./pages/Community/detail/HospitalPost"
 
 
 function App() {
@@ -57,6 +64,9 @@ function App() {
                 <Route path="/FAQ/FAQPOST" element={<FAQPost />} />
                 <Route path="/FAQ/FAQPage/:boardId" element={<FAQPage />} />
                 
+                <Route path="/notice/noticePost" element={<NoticePost/>} />
+                <Route path="/notice/noticePage/:boardId" element={<NoticePage/>} />
+
                 <Route path="/mypage" element={sessionStorage.getItem('accessToken') ? <Mypage /> : <SignIn />} />
                 <Route path="/mypage/change" element={<ChangeMypage />} />
                 <Route path="/login" element={<SignIn />} />
@@ -71,8 +81,18 @@ function App() {
                 <Route path="/community/hospital" element={<Hospital />} />
                 <Route path="/community/protect" element={<Protect />} />
                 <Route path="/community/lost" element={<Lost />} />
+
                 <Route path="/community/posting" element={<Posting />}/>
+                <Route path="/community/hospitalposting" element={<HospitalPosting/>} />
+                <Route path="/community/infoposting" element={<InfoPosting/>} />
+                <Route path="/community/lostposting" element={<LostPosting/>} />
+                <Route path="/community/protectposting" element={<ProtectPosting/>} />
+
                 <Route path="/community/post/:communityId" element={<Post/>}/>
+                <Route path="/community/hospitalpost/:boardId" element={<HospitalPost/>}/>
+                {/* <Route path="/community/infopost/:boardId" element={<InoPost/>}/>
+                <Route path="/community/lostpost/:boardId" element={<LostPost/>}/>
+                <Route path="/community/protectpost/:boardId" element={<Protectpost/>}/> */}
 
                 <Route path="/shopping/add" element={<Addproduct />} />
                 <Route path="/shopping/meal" element={<Meal convertPrice={convertPrice} />} />

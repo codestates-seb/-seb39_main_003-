@@ -226,7 +226,7 @@ const Nav = () => {
                 {/* 로고 */}
 
                 <StyledLink to='/'>
-                  <img className="logoImage" alt="logo" src="https://cdn.discordapp.com/attachments/1020944788419248179/1026519523848880189/logoForSubmit.jpg" />
+                  <img className="logoImage" alt="logo" src="https://cdn.discordapp.com/attachments/1020944788419248179/1026869818810437683/logo.png" />
                 </StyledLink>
 
               </span>

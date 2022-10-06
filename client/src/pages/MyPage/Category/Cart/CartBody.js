@@ -268,7 +268,7 @@ function CartBody( {convertPrice} ) {
 
                 <span className='listName itemAll'>{el.itemName}</span>
 
-                <span className='listPrice itemAll'>{convertPrice(el.price)} 원</span>
+                <span className='listPrice itemAll'>{convertPrice(el.price * el.itemCnt)} 원</span>
                 
                 <span className='listCount itemAll'>
 

@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import React from "react";
-import Reply from "../Community/detail/Reply";
+import Reply from "./Reply";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
 
 const Wrapper = styled.div`
   //게시글 확인 화면
-  .pagetettitory {
+  .replytettitory {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -15,46 +14,10 @@ const Wrapper = styled.div`
 
     background-color: #f9f9f9;
   }
-  .pagebackground {
+  .rbackground {
     flex: auto;
   }
-  /* //게시글 제목
-  .cposttop {
-    width: 95vw;
-    margin-top: 30px;
-    padding: 10px 10px;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-
-    background-color: rgb(146 99 255);
-  }
-  .cposttext {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-
-    color: #f9f9f9;
-    font-weight: bold;
-  }
   //게시글 내용
-  .cpcontent {
-    padding: 30px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  .cpostcontent {
-    text-align: start;
-    font-weight: 500;
-  }
-  */
-  //
   .questions {
     width: 95vw;
     margin: 20px;
@@ -93,20 +56,19 @@ const Wrapper = styled.div`
   }
 `;
 
-function FAQPage() {
-  const navigate = useNavigate();
+function ProtectPost() {
+
   const location = useLocation();
 
   console.log(location);
 
-  const [faqList, setFaqList] = useState([]);
+  const [protectList, setProtectList] = useState([]);
 
   useEffect(() => {
     fetch(`http://211.58.40.128:8080/api/v1/board/${location.state.id}`)
     .then((res) => res.json())
     .then((res) => {
-      setFaqList(res.data);
-      // console.log(res.data);
+      setProtectList(res.data);
     })
     .catch((err) => console.log(err));
   }, []);
@@ -120,11 +82,10 @@ function FAQPage() {
 
           <div className="questions">
             <div className="tquestions">
-              <span className="tarticle">{faqList.nickName}</span>
-              <span className="tarticle">{faqList.title}</span>
+              <span className="tarticle">{protectList.nickName}</span>
+              <span className="tarticle">{protectList.title}</span>
             </div>
-
-              <span className="article">{faqList.boardContents}</span>
+              <span className="article">{protectList.boardContents}</span>
           </div>
 
           {/* 댓글 작성란 및 작성된 댓글 목록 */}
@@ -132,7 +93,7 @@ function FAQPage() {
         </div>
       </div>
     </Wrapper>
-  );
+  )
 }
 
-export default FAQPage;
+export default ProtectPost

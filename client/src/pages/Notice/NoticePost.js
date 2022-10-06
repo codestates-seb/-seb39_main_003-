@@ -132,9 +132,7 @@ function NoticePost() {
         "title" : title,
         "boardContents" : content,
         "memberId" : "000001",
-        "tagIds" : [
-            2
-        ]
+        "categoryId" : 21
     }),
     })
       .then(() => {

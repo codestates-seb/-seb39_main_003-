@@ -2,7 +2,6 @@ import styled from "styled-components";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-// import faqData from "../../dummytest/faqData";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
@@ -109,8 +108,9 @@ const StyledLink = styled(Link)`
   text-align: center;
 `;
 
-function FAQPost() {
-  const [title, setTitle] = useState("");
+function InfoPosting() {
+
+    const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [list, setList] = useState([]);
   const navigate = useNavigate();
@@ -132,11 +132,11 @@ function FAQPost() {
         "title" : title,
         "boardContents" : content,
         "memberId" : "000001",
-        "categoryId" : 31
+        "categoryId" : 12
       }),
     })
       .then(() => {
-        navigate(`/FAQ`);
+        navigate(`/community/info`);
       })
       .catch(() => {
         console.log("실패");
@@ -145,38 +145,36 @@ function FAQPost() {
 
   return (
     <Wrapper>
-      {/* 게시글 포스팅 등록 화면 */}
-      <div className="postingterritory">
-        <div className="pbackground">
-          {/* 게시글 제목 */}
-          <div className="posttitle">
-            <span className="title">글 제목</span>
-            <input
-              className="titletext"
-              type="text"
-              onChange={titleInput}
-              placeholder="내용을 입력해주세요."
-            ></input>
-          </div>
-          {/* 게시글 내용 */}
-          <div className="postcontent">
-            <input
-              className="contenttext"
-              type="text"
-              onChange={contentInput}
-              placeholder="내용을 입력해주세요."
-            ></input>
-          </div>
+    {/* 게시글 포스팅 등록 화면 */}
+    <div className="postingterritory">
+      <div className="pbackground">
+        {/* 게시글 제목 */}
+        <div className="posttitle">
+          <span className="title">글 제목</span>
+          <input
+            className="titletext"
+            type="text"
+            onChange={titleInput}
+            placeholder="내용을 입력해주세요."
+          ></input>
         </div>
-        {/* 게시글 등록 버튼 */}
-        {/* <StyledLink to={"/FAQ"} className='postbutton'> */}
-        <button className="postbuttontext" onClick={postContent}>
-          등록
-        </button>
-        {/* </StyledLink> */}
+        {/* 게시글 내용 */}
+        <div className="postcontent">
+          <input
+            className="contenttext"
+            type="text"
+            onChange={contentInput}
+            placeholder="내용을 입력해주세요."
+          ></input>
+        </div>
       </div>
-    </Wrapper>
-  );
+      {/* 게시글 등록 버튼 */}
+      <button className="postbuttontext" onClick={postContent}>
+        등록
+      </button>
+    </div>
+  </Wrapper>
+  )
 }
 
-export default FAQPost;
+export default InfoPosting

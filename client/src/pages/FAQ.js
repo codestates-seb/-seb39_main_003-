@@ -126,7 +126,7 @@ function FAQ() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/board?categoryId=31&page=1&size=10`)
+    fetch(`http://211.58.40.128:8080/api/v1/board?categoryId=31`)
       .then((res) => res.json())
       .then((res) => {
         setList(res.data);
@@ -152,14 +152,15 @@ function FAQ() {
 
           {/* <div> */}
 
-          {list && list.map((el, index) => {
+          {list &&
+            list.map((el, index) => {
               return (
                 <StyledLink
                   to={`/FAQ/FAQPage/${el.boardId}`}
                   className="questions"
                   key={index}
                   state={{
-                    id: el.boardId
+                    id: el.boardId,
                   }}>
                   <span className="article">{el.nickName}</span>
                   <span className="article">{el.title}</span>
