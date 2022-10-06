@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import styled from 'styled-components'
 // import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
@@ -109,7 +109,7 @@ function SignIn() {
   
   const onSubmit = (data) => {
 
-    axios.post(`http://211.58.40.128:8080/login`, data)
+    axios.post(`https://seb39-main-003-jh2mgoy3l-nomga.vercel.app/login`, data)
     .then(response => {
       const accessToken = response.headers.authorization;
       const refreshToken = response.headers.refresh;
@@ -130,44 +130,6 @@ function SignIn() {
       alert("이메일 혹은 비밀번호를 확인하세요") ;
     })
   }
-
-
-// 1번째 방법
-//   useEffect(() => {
-//     fetch(`http://ec2-15-165-63-80.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google`)
-//     .then((res) => {
-//       const googleAccessToken = res.headers.Authorization;
-
-//       sessionStorage.setItem('googleAccessToken', `${googleAccessToken}`)
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//     })
-//   } , [])
-// // 2번째 방법
-//   const googleLogin = () => {
-//   axios.post(`http://ec2-15-165-63-80.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google`)
-//     .then((res) => {
-//       const googleAccessToken = res.headers.authorization;
-
-//       sessionStorage.setItem('googleAccessToken', `${googleAccessToken}`)
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//     })
-// }
-// // 3번째 방법
-// const googleLogin2 = () => {
-//   axios.get(`http://ec2-15-165-63-80.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google`)
-//     .then((res) => {
-//       const googleAccessToken = res.headers.authorization;
-
-//       sessionStorage.setItem('googleAccessToken', `${googleAccessToken}`)
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//     })
-// }
 
 
   return (
@@ -192,10 +154,10 @@ function SignIn() {
                 </div>
             </div>
 
-            {/* <div>
-              <a href='http://211.58.40.128:8080/oauth2/authorization/google'>구글 로그인</a>
-            </div>
             <div>
+              <a href='https://seb39-main-003-jh2mgoy3l-nomga.vercel.app/login'>구글 로그인</a>
+            </div>
+            {/* <div>
               <a href='http://localhost:8080/oauth2/authorization/kakao'>카카오 로그인</a>
             </div>
             <div>

@@ -156,6 +156,8 @@ function Main() {
   // let test = window.location.search;
   // console.log(test);
 
+  // const Host = `https://shopforourpets.shop:8080`
+
   // let param = new URLSearchParams(test);
   // let access = param.get("access_token");
 
@@ -173,7 +175,7 @@ function Main() {
   // const [info, setInfo] = useState([]);
 
   // useEffect(() => {
-  //   fetch(`http://211.58.40.128:8080/api/v1/member/$%7Bresult.memberId%7D%60`)
+  //   fetch(`${Host}/api/v1/member/$%7Bresult.memberId%7D%60`)
   //     .then((res) => res.json())
   //     .then((res) => {
   //       setInfo(res);

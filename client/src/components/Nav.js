@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FaUserAlt } from "react-icons/fa";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png'
 import ShoppingCart from '../pages/Shopping/images/icon-shopping-cart.svg';
@@ -203,21 +203,10 @@ const StyledLink = styled(Link)`
   }
 `
 
-const MyPage = styled(Link)`
-  text-decoration: none;
-  color: black;
-
-  &:hover {
-    color: black;
-  }
-`
-;
 
 const Nav = () => {
 
   const navigate = useNavigate();
-
-  const [display, setDisplay] = useState(false);
 
   return (
     <Wrapper>

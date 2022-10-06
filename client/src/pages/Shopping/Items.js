@@ -419,7 +419,7 @@ function Items( { convertPrice, cart, setCart } ) {
     <div className="item_top">
           <>
             <div className="item_imagebox">
-              <img src={Cat}
+              <img src={Cat} // {final} 로 바꿔야함
                className="itemImage" alt="cat"></img>
             </div>
             
