@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,21 +15,28 @@ public class BoardDto {
     @Schema(name = "BoardPost", description = "게시판 Post 요청 모델")
     @Getter
     public static class Post{
-        @Schema(description = "게시글 제목", example = "제목1")
+        @Schema(description = "게시글 제목", example = "게시글제목")
+        @NotBlank
+        @Size(min = 5, max = 50)
         private String title;
-        @Schema(description = "게시글 내용", example = "내용1")
+        @Schema(description = "게시글 내용", example = "게시글 내용 입니다...")
+        @NotBlank
+        @Size(min = 10, max = 2000)
         private String boardContents;
         @Schema(description = "작성 회원 식별번호", example = "000001")
         private String memberId;
         @Schema(description = "작성할 게시판의 카테고리(종류)", example = "11")
+        @Positive
         private Long categoryId;
     }
     @Schema(name = "BoardPatch", description = "게시판 Patch 요청 모델")
     @Getter
     public static class Patch{
-        @Schema(description = "게시글 제목", example = "제목1")
+        @Schema(description = "게시글 제목", example = "게시글제목")
+        @Size(min = 5, max = 50)
         private String title;
-        @Schema(description = "게시글 내용", example = "내용1")
+        @Schema(description = "게시글 내용", example = "게시글 내용 입니다...")
+        @Size(min = 10, max = 2000)
         private String boardContents;
     }
 

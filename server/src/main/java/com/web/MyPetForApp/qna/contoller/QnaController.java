@@ -18,13 +18,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Tag(name = "QnA API")
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/api/v1/qna")
 public class QnaController {
     private final QnaService qnaService;
@@ -39,7 +44,7 @@ public class QnaController {
             )
     )
     @PostMapping("/question")
-    public ResponseEntity postQuestion(@RequestBody QuestionDto.Post requestBody){
+    public ResponseEntity postQuestion(@Valid @RequestBody QuestionDto.Post requestBody){
         Question question = questionMapper.questionPostDtoToQuestion(requestBody);
         String memberId = requestBody.getMemberId();
         String itemId = requestBody.getItemId();
@@ -55,7 +60,7 @@ public class QnaController {
             )
     )
     @GetMapping("/question/{questionId}")
-    public ResponseEntity getQuestion(@PathVariable Long questionId){
+    public ResponseEntity getQuestion(@Positive @PathVariable Long questionId){
         Question question = qnaService.findQuestion(questionId);
         QuestionDto.Response response = questionMapper.questionToQuestionResponseDto(question);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -68,9 +73,9 @@ public class QnaController {
             )
     )
     @GetMapping("/question")
-    public ResponseEntity getQuestions(@Parameter(description = "상품 식별번호") @RequestParam String itemId,
-                                  @Parameter(description = "현재 페이지") @RequestParam(required = false, defaultValue = "1") int page,
-                                  @Parameter(description = "한 페이지 당 QnA 수") @RequestParam(required = false, defaultValue = "8") int size){
+    public ResponseEntity getQuestions(@Parameter(description = "상품 식별번호") @NotBlank @RequestParam String itemId,
+                                  @Parameter(description = "현재 페이지") @Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                  @Parameter(description = "한 페이지 당 QnA 수") @Positive @RequestParam(required = false, defaultValue = "8") int size){
         Page<Question> pageQnas = qnaService.findQuestions(itemId, page-1, size);
         List<Question> questions = pageQnas.getContent();
         List<QuestionDto.Response> response = questionMapper.questionsToQuestionResponseDto(questions);
@@ -84,8 +89,8 @@ public class QnaController {
             )
     )
     @PatchMapping("/question/{questionId}")
-    public ResponseEntity patchQuestion(@PathVariable Long questionId,
-                                   @RequestBody QuestionDto.Patch requestBody){
+    public ResponseEntity patchQuestion(@Positive @PathVariable Long questionId,
+                                   @Valid @RequestBody QuestionDto.Patch requestBody){
         String memberId = requestBody.getMemberId();
         Question question = qnaService.updateQuestion(questionId, questionMapper.questionPatchDtoToQuestion(requestBody), memberId);
         QuestionDto.Response response = questionMapper.questionToQuestionResponseDto(question);
@@ -99,7 +104,7 @@ public class QnaController {
             )
     )
     @DeleteMapping("/question/{qnaId}")
-    public ResponseEntity deleteQuestion(@PathVariable Long qnaId){
+    public ResponseEntity deleteQuestion(@Positive @PathVariable Long qnaId){
         qnaService.deleteQuestion(qnaId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -114,7 +119,7 @@ public class QnaController {
             )
     )
     @PostMapping("/answer")
-    public ResponseEntity postAnswer(@RequestBody AnswerDto.Post post){
+    public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post post){
         Answer answer = answerMapper.answerPostToAnswer(post);
         qnaService.createAnswer(answer);
         AnswerDto.Response response = answerMapper.answerToAnswerResponse(answer);
@@ -130,7 +135,7 @@ public class QnaController {
             )
     )
     @PatchMapping("/answer")
-    public ResponseEntity patchAnswer(@RequestBody AnswerDto.Post patch){
+    public ResponseEntity patchAnswer(@Valid @RequestBody AnswerDto.Post patch){
         Answer answer = qnaService.updateAnswer(patch);
         AnswerDto.Response response = answerMapper.answerToAnswerResponse(answer);
 
@@ -145,7 +150,7 @@ public class QnaController {
             )
     )
     @GetMapping("/answer/{questionId}")
-    public ResponseEntity getAnswer(@PathVariable Long questionId){
+    public ResponseEntity getAnswer(@Positive @PathVariable Long questionId){
         Answer answer = qnaService.findAnswer(questionId);
         AnswerDto.Response response = answerMapper.answerToAnswerResponse(answer);
 
@@ -159,7 +164,7 @@ public class QnaController {
             )
     )
     @DeleteMapping("/answer/{answerId}")
-    public ResponseEntity deleteAnswer(@PathVariable Long answerId){
+    public ResponseEntity deleteAnswer(@Positive @PathVariable Long answerId){
         qnaService.deleteAnswer(answerId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

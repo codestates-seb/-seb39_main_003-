@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class AnswerDto {
@@ -14,10 +18,15 @@ public class AnswerDto {
     @Getter
     public static class Post{
         @Schema(description = "QnA 식별 번호", example = "1")
+        @NotNull
+        @Positive
         private Long questionId;
         @Schema(description = "QnA 답변 내용", example = "내용 1나")
+        @NotBlank
+        @Size(min = 5, max = 500)
         private String answerContent;
         @Schema(description = "회원 식별 번호", example = "000001")
+        @NotBlank
         private String memberId;
     }
     @Schema(name = "AnswerResponse", description = "Answer 데이터 반환 모델")

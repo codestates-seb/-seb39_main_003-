@@ -72,7 +72,7 @@ public class ItemService {
     public Item updateItem(String itemId, Item item, String memberId){
         Item findItem = findVerifiedItem(itemId);
         if(!memberId.equals(findItem.getMember().getMemberId())){
-            throw new BusinessLogicException(ExceptionCode.ITEM_NOT_FOUND);
+            throw new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_ITEM);
         }
         findItem.updateItem(item);
 

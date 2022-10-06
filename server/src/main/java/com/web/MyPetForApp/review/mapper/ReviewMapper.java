@@ -13,7 +13,7 @@ public class ReviewMapper {
     public Review reviewPostDtoToReview(ReviewDto.Post requestBody){
         return Review.builder()
                 .startCnt(requestBody.getStarCnt())
-                .photo(requestBody.getPhoto())
+//                .photo(requestBody.getPhoto())
                 .reviewContent(requestBody.getReviewContent())
                 .build();
     }
@@ -21,7 +21,7 @@ public class ReviewMapper {
     public Review reviewPatchDtoToReview(ReviewDto.Patch requestBody){
         return Review.builder()
                 .startCnt(requestBody.getStarCnt())
-                .photo(requestBody.getPhoto())
+//                .photo(requestBody.getPhoto())
                 .reviewContent(requestBody.getReviewContent())
                 .build();
     }
