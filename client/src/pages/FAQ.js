@@ -130,10 +130,11 @@ function FAQ() {
       .then((res) => res.json())
       .then((res) => {
         setList(res.data);
-        console.log(res.data);
+        // console.log(res.data.reverse());
       })
       .catch((err) => console.log(err));
   }, []);
+console.log(list)
 
   return (
     <Wrapper>

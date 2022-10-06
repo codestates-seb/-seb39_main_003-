@@ -72,6 +72,7 @@ box-sizing: border-box;
   justify-content: space-between;
   border-top: 1px solid #B1B2FF;
   border-bottom: 1px solid #B1B2FF;
+  margin-bottom: 20px;
 
   display: flex;
   flex-direction: row;
@@ -226,13 +227,13 @@ function Order( {convertPrice} ) {
   const [selectValue, setSelectValue] = useState("내 배송지");
 
   const navigate = useNavigate();
-  
   // console.log(location)
+
   useEffect(() => {
     setOrderList(location.state.list)
   }, [orderList])
   // console.log(orderList)
-  
+
   const handleChangeMy = () => {
     setSelectValue("내 배송지");
   };
@@ -261,28 +262,57 @@ function Order( {convertPrice} ) {
       .then(res => res.json())
       .then(res => {
         setInfo(res)
-        // console.log(res)s
+        // console.log(res)
       })
     } , [])
 
-    const orderItem = () => {
+    const [inOrder, setInOrder] = useState([]);
 
-    fetch(`http://211.58.40.128:8080/api/v1/pay`,{
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        newAddress: '서울 중곡동 225-10',
-        newPhone: '010-2060-1122',
-        newName: '홍길동',
-        requirement: '안전하게 와주세요'
-      })
-    })
-    .then(() => {
-      alert('결제창으로 이동합니다')
-      navigate(`/`)
-    })
-    .then((err) => console.log(err))
+    const final = []
+    for(let i = 0; i < orderList.length; i++) {
+      const first = {
+        itemId: orderList[i].itemId,
+        orderItemCnt: orderList[i].itemCnt
+      }
+      final.push(first)
+      console.log(final)
     }
+
+    let totalPrice = 0;
+    for(let i = 0; i < orderList.length; i++) {
+      totalPrice += orderList[i].price * orderList[i].itemCnt;
+    }
+
+    const orderItem = () => {
+      fetch(`http://211.58.40.128:8080/api/v1/pay`,{
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: totalPrice,
+          payBy: "카카오 페이",
+          memberId: info.memberId,
+          orderItems: final,
+          newAddress: '서울 중곡동 225-10',
+          newPhone: '010-2060-1122',
+          newName: '홍길동',
+          requirement: '안전하게 와주세요'
+        })
+      })
+      .then(() => {
+        alert('결제창으로 이동합니다')
+        // navigate(`/`)
+      })
+      .then((err) => console.log(err))
+    }
+    console.log(totalPrice)
+    console.log(info.memberId)
+    console.log(final)
+    
+//     let totalPrice = 0;
+//             for(let i = 0; i < orderList.length; i++) {
+//               totalPrice += orderList[i].price * orderList[i].itemCnt;
+//             }
+// console.log(totalPrice)
 
 
   return (
@@ -349,7 +379,9 @@ function Order( {convertPrice} ) {
                       <span className='charge'>택배배송</span>
                       <span className='charge2'>배송비 무료</span>
                     </span>
-                  </div>  
+                  </div>
+
+
                 </div>
               )
             })}
@@ -357,7 +389,9 @@ function Order( {convertPrice} ) {
 
           <div className='orderBox'>
             <StyledLink to={`/mypage/order`}>
-              <span className='orderbutton' onClick={orderItem}>결제하기</span>
+              <span className='orderbutton' onClick={orderItem}>
+                {convertPrice(totalPrice)}원 결제하기
+              </span>
             </StyledLink>
           </div>
           
