@@ -13,13 +13,14 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-//        config.setAllowCredentials(true);
+        config.setAllowCredentials(true);
 //        config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedOrigin("https://seb39-main-003-jv5wjh03r-nomga.vercel.app");
 //        config.addAllowedOrigin("https://seb39-main-003-rjwfp0sdz-main003.vercel.app:3000");
         config.addAllowedHeader("*");
-//        config.addAllowedMethod("*");
-//        config.addExposedHeader("Authorization");
-//        config.addExposedHeader("refresh");
+        config.addAllowedMethod("*");
+        config.addExposedHeader("Authorization");
+        config.addExposedHeader("refresh");
         source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);
