@@ -40,10 +40,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
-        httpSecurity.headers()
-                        .xssProtection()
-                                .and()
-                                        .contentSecurityPolicy("script-src 'self'");
+//        httpSecurity.headers()
+//                        .xssProtection()
+//                                .and()
+//                                        .contentSecurityPolicy("script-src 'self'");
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 디폴트인 세션, 쿠키 생성 허용 -> 불허
                 .and()
                 .httpBasic().disable()
