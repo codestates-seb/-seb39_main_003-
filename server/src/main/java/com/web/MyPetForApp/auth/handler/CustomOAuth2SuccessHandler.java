@@ -44,11 +44,11 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         MultiValueMap<String, String> queryParmas = new LinkedMultiValueMap<>();
         queryParmas.add("access_token", "Bearer " + accessToken);
         queryParmas.add("refresh_token","Bearer " + refreshToken);
-// https://seb39-main-003-p149t4e5n-nomga.vercel.app/
+// https://seb39-main-003-8d0kgy3xy-nomga.vercel.app/
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("https")
-                .host("seb39-main-003-jyfj4e6ff-nomga.vercel.app")
+                .host("seb39-main-003-8d0kgy3xy-nomga.vercel.app")
 //                .port("8080")
                 .path("/")
                 .queryParams(queryParmas)
