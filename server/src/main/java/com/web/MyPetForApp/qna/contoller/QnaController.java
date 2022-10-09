@@ -103,9 +103,9 @@ public class QnaController {
                     description = "No Content"
             )
     )
-    @DeleteMapping("/question/{qnaId}")
-    public ResponseEntity deleteQuestion(@Positive @PathVariable Long qnaId){
-        qnaService.deleteQuestion(qnaId);
+    @DeleteMapping("/question/{questionId}")
+    public ResponseEntity deleteQuestion(@Positive @PathVariable Long questionId){
+        qnaService.deleteQuestion(questionId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
