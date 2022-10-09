@@ -47,9 +47,10 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 // https://seb39-main-003-8d0kgy3xy-nomga.vercel.app/
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("https")
-                .host("seb39-main-003-8d0kgy3xy-nomga.vercel.app")
-//                .port("8080")
+                .scheme("http")
+                .host("localhost")
+//                .host("seb39-main-003-8d0kgy3xy-nomga.vercel.app")
+                .port("3000")
                 .path("/")
                 .queryParams(queryParmas)
                 .build()
