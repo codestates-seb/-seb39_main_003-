@@ -1,6 +1,7 @@
 package com.web.MyPetForApp.auth.handler;
 
 import com.web.MyPetForApp.auth.provider.TokenProvider;
+import com.web.MyPetForApp.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
@@ -20,6 +21,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final TokenProvider tokenProvider;
+    private final MemberRepository memberRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -28,8 +30,8 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
 
-        String memberId = (String) oAuth2User.getAttributes().get("memberName");
         String email = (String) oAuth2User.getAttributes().get("email");
+        String memberId = memberRepository.findMemberIdByEmail(email);
 
         String accessToken = tokenProvider.createAccessToken(memberId, email);
         String refreshToken = tokenProvider.renewalRefreshToken(memberId, email);
