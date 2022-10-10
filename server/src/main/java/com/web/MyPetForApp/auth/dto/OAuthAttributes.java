@@ -102,6 +102,7 @@ public class OAuthAttributes {
     public Member toEntity() {
         return Member.builder()
                 .memberName(memberName)
+                .nickName(memberName)
                 .email(email)
                 .memberRole(Member.MemberRole.ROLE_USER)
                 .profileImg(picture)
