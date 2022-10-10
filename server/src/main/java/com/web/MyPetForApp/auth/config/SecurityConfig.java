@@ -27,7 +27,7 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CorsFilter corsFilter;
+//    private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final MemberRepository memberRepository;
@@ -75,7 +75,7 @@ public class SecurityConfig {
         public void configure(HttpSecurity httpSecurity) throws Exception {
             AuthenticationManager authenticationManager = httpSecurity.getSharedObject(AuthenticationManager.class);
             httpSecurity
-                    .addFilter(corsFilter)
+//                    .addFilter(corsFilter)
                     .addFilter(new JwtAuthenticationFilter(authenticationManager, tokenProvider))
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, tokenProvider));
         }

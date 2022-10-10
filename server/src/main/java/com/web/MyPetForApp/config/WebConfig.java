@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 모든 경로
 ////                .allowedOrigins("http://localhost:3000") // 해당 origin 허용
-////                .allowCredentials(true)
+                .allowCredentials(true)
                 .allowedOrigins("http://localhost:3000", "https://seb39-main-003-bsihsudrk-nomga.vercel.app" )
                 .allowedHeaders("*")
                 .exposedHeaders("Authorization")
