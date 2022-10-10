@@ -51,6 +51,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                         entity.updateMember(
                         Member.builder()
                                 .memberName(attributes.getMemberName())
+                                .nickName(attributes.getMemberName())
                                 .profileImg(attributes.getPicture())
                                 .build()))
                 .orElse(attributes.toEntity()
