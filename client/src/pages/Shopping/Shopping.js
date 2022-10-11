@@ -5,6 +5,9 @@ import Carousel from "nuka-carousel";
 import Image1 from '../../assets/dog1.png';
 import Image2 from '../../assets/dog2.png';
 import Image3 from '../../assets/dog3.png';
+import Image4 from '../../assets/carousel1.png';
+import Image5 from '../../assets/carousel2.png';
+import Image6 from '../../assets/carousel3.jpg';
 import EatDropdown from './EatDropdown';
 import HealthDropdown from './HealthDropdown';
 import OtherDropdown from './OtherDropdown';
@@ -133,7 +136,7 @@ const Wrapper = styled.div`
   .item_list_box {
     width: 100%;
     height: 100%;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -211,7 +214,7 @@ function Shopping( {convertPrice} ) {
   const [itemList, setItemList] = useState(undefined);
   
   useEffect(() => {
-  fetch(`http://211.58.40.128:8080/api/v1/item/wish?memberId=000001&page=1&size=8`)
+  fetch(`https://shopforourpets.shop:8080/api/v1/item/wish?memberId=000001&page=1&size=8`)
   .then((res) => res.json())
   .then(res => {
     setItemList(res.data)
@@ -219,6 +222,8 @@ function Shopping( {convertPrice} ) {
   })
   .catch(() => console.log('실패'))
 } , [])
+
+
 
   const navigate = useNavigate();
 
@@ -238,7 +243,7 @@ function Shopping( {convertPrice} ) {
   // const [info, setInfo] = useState(undefined);
 
   // useEffect(() => {
-  //   fetch(`http://211.58.40.128:8080/api/v1/member/000001`)
+  //   fetch(`https://shopforourpets.shop:8080/api/v1/member/000001`)
   //   .then(res => res.json())
   //   .then(res => {
   //     setInfo(res)
@@ -252,9 +257,9 @@ function Shopping( {convertPrice} ) {
       <div className="windowBox">
         <div className="window">
           <Carousel>
-              <img className="flexboxImage" alt="image1" src={Image1} />
-              <img className="flexboxImage" alt="image2" src={Image2} />
-              <img className="flexboxImage" alt="image3"src={Image3} />
+              <img className="flexboxImage" alt="image1" src={Image4} />
+              <img className="flexboxImage" alt="image2" src={Image5} />
+              <img className="flexboxImage" alt="image3"src={Image6} />
           </Carousel>
         </div>
       </div>
@@ -309,7 +314,7 @@ function Shopping( {convertPrice} ) {
 
                     <div className='image'>
                         <div>
-                          <img className='img' src={Cat} alt='사진' />
+                          <img className='img' src={el.thumbnail} alt='사진' />
                         </div>
                     </div>
 

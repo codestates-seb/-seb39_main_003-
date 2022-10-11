@@ -213,7 +213,7 @@ function Cookie( { convertPrice } ) {
   const [itemList, setItemList] = useState(undefined);
   
     useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/item?itemCategoryId=12`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/item?itemCategoryId=12`)
     .then((res) => res.json())
     .then(res => {
       setItemList(res.data)
@@ -253,7 +253,7 @@ function Cookie( { convertPrice } ) {
 
                     <div className='image'>
                         <div>
-                          <img className='img' src={Cat} alt='사진' />
+                          <img className='img' src={el.thumbnail} alt='사진' />
                         </div>
                     </div>
 

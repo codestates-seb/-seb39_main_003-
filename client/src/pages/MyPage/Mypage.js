@@ -140,14 +140,14 @@ function Mypage() {
   const payload = Buffer.from(base64Payload, 'base64'); 
   const result = JSON.parse(payload.toString())
 
-  // console.log(result);
+  console.log(result);
 
 
     const [info, setInfo] = useState([]);
     
     useEffect(() => {
 
-      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
+      fetch(`https://shopforourpets.shop:8080/api/v1/member/${result.memberId}`)
 
       .then(res => res.json())
       .then(res => {
@@ -160,7 +160,7 @@ function Mypage() {
 
 
     const handleButtonLogout = () => {
-      axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
+      axios.post(`https://shopforourpets.shop:8080/logout?test@naver.com`, 
         sessionStorage.removeItem('refreshToken'),
         sessionStorage.removeItem('accessToken'),
         navigate('/'),
@@ -223,11 +223,11 @@ function Mypage() {
                   <div className='micontentbox'>
                     
                     {/* 사진 수정 */}
-                    <div className='micontent'>
+                    {/* <div className='micontent'>
                       <span className='misort'>사진</span>
-                      <span className='minow'>dd</span>
-                      {/* <button className='miedit'>수정</button> */}
-                    </div>
+                      <span className='minow'>{info.thummnail}</span>
+                      <button className='miedit'>수정</button>
+                    </div> */}
                     
                     {/* 이메일 수정 */}
                     <div className='micontent'>
@@ -241,7 +241,7 @@ function Mypage() {
                     {/* 비밀번호 수정 */}
                     <div className='micontent'>
                       <span className='misort'>비밀번호</span>
-                      <span className='minow'>dd</span>
+                      <span className='minow'>Secret</span>
                       {/* <button className='miedit'>수정</button> */}
                     </div>
 
@@ -255,14 +255,14 @@ function Mypage() {
                     {/* 실명 수정 */}
                     <div className='micontent'>
                       <span className='misort'>실명</span>
-                      <span className='minow'>dd</span>
+                      <span className='minow'>{info.memberName}</span>
                       {/* <button className='miedit'>수정</button> */}
                     </div>
 
                     {/* 전화번호 수정 */}
                     <div className='micontent'>
                       <span className='misort'>전화번호</span>
-                      <span className='minow'>dd</span>
+                      <span className='minow'>{info.phone}</span>
                       {/* <button className='miedit'>수정</button> */}
                     </div>
 

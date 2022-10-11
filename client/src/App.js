@@ -30,6 +30,7 @@ import Order from "./pages/MyPage/Category/Order";
 import SuccessLogin from "./components/SuccessLogin";
 import Addproduct from "./pages/Shopping/AddProduct";
 import { useState } from 'react';
+// import FAQPost from "./pages/FAQPost";
 import FAQPost from "./pages/FAQ/FAQPost";
 import FAQPage from "./pages/FAQ/FAQPage";
 import NoticePost from "./pages/Notice/NoticePost";

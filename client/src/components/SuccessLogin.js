@@ -184,6 +184,8 @@ const StyledLink = styled(Link)`
 
 const Nav = () => {
 
+  // console.log("success log")
+
   const token = sessionStorage.getItem('accessToken');
   const realToken = token.slice(7)
   // console.log(realToken)
@@ -199,7 +201,9 @@ const Nav = () => {
     const [info, setInfo] = useState([]);
     
     useEffect(() => {
-      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
+      fetch(`https://shopforourpets.shop:8080/api/v1/member/${result.memberId}`,{
+        method: "GET"
+      })
       .then(res => res.json())
       .then(res => {
         setInfo(res)

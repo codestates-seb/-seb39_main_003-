@@ -1,10 +1,12 @@
 /* eslint-disable no-use-before-define */
-import React, { useEffect,useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 // import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import SocialLogin from './SocialLogin';
+
 
 
 const Wrapper = styled.div`
@@ -109,7 +111,12 @@ function SignIn() {
   
   const onSubmit = (data) => {
 
-    axios.post(`https://seb39-main-003-jh2mgoy3l-nomga.vercel.app/login`, data)
+    axios({
+      method: 'post',
+      data: data,
+      mode: 'no-cors',
+      url: 'https://shopforourpets.shop:8080/login',
+    })
     .then(response => {
       const accessToken = response.headers.authorization;
       const refreshToken = response.headers.refresh;
@@ -117,6 +124,8 @@ function SignIn() {
       // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
       axios.defaults.headers.common['Authorization'] = `${accessToken}`;
       axios.defaults.headers.common['Authorization'] = `${refreshToken}`;
+      // fetch.defaults.headers.common['Authorization'] = `${accessToken}`;
+      // fetch.defaults.headers.common['Authorization'] = `${refreshToken}`;
       
       sessionStorage.setItem('accessToken', `${accessToken}`);
       sessionStorage.setItem('refreshToken', `${refreshToken}`);
@@ -130,7 +139,6 @@ function SignIn() {
       alert("이메일 혹은 비밀번호를 확인하세요") ;
     })
   }
-
 
   return (
     <Wrapper>
@@ -154,17 +162,17 @@ function SignIn() {
                 </div>
             </div>
 
-            <div>
-              <a href='https://seb39-main-003-jh2mgoy3l-nomga.vercel.app/login'>구글 로그인</a>
-            </div>
             {/* <div>
+              <a href='https://shopforourpets.shop:8080/oauth2/authorization/google'>구글 로그인</a>
+            </div>
+            <div>
               <a href='http://localhost:8080/oauth2/authorization/kakao'>카카오 로그인</a>
             </div>
             <div>
               <a href='http://localhost:8080/oauth2/authorization/naver'>네이버 로그인</a>
             </div> */}
 
-
+            <SocialLogin></SocialLogin>
 
               {/* 로그인 버튼 */}
               <input className='siButton' type="submit"></input>

@@ -110,6 +110,9 @@ function AddProduct() {
   const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm();
+  
+  // const Token = sessionStorage.getItem('accessToken')
+
 
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -119,14 +122,14 @@ function AddProduct() {
     formData.delete("mainImg");
     formData.append("mainImg", data.mainImg[0]);
 
-    fetch(`http://211.58.40.128:8080/api/v1/item`, {
+    fetch(`https://shopforourpets.shop:8080/api/v1/item`, {
       method: "POST",
       body: formData
     })
 
       .then(() => {
         navigate('/shopping/meal')
-        window.location.reload();
+        // window.location.reload();
       })
       .catch(() => {
         console.log("오류남 다시하셈")

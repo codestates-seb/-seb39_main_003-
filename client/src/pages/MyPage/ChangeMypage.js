@@ -112,7 +112,7 @@ function SignUp() {
     formData.delete("multipartFiles");
     formData.append("multipartFiles", data.multipartFiles[0]);
 
-    fetch(`http://211.58.40.128:8080/api/v1/member`, {
+    fetch(`https://shopforourpets.shop:8080/api/v1/member`, {
     method: "PATCH",
     body: formData
   })
@@ -137,12 +137,12 @@ function SignUp() {
   const base64Payload = realToken.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
   const payload = Buffer.from(base64Payload, 'base64'); 
   const result = JSON.parse(payload.toString())
-  console.log(result);
+  // console.log(result);
 
     const [info, setInfo] = useState([]);
     
     React.useEffect(() => {
-      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
+      fetch(`https://shopforourpets.shop:8080/api/v1/member/${result.memberId}`)
       .then(res => res.json())
       .then(res => {
         setInfo(res)

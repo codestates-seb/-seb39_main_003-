@@ -317,7 +317,7 @@ const Wrapper = styled.div`
 
 function Items( { convertPrice, cart, setCart } ) {
 
-  const [change, setChange] = useState("");
+  const [change, setChange] = useState("리뷰");
   const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState({});
@@ -325,16 +325,16 @@ function Items( { convertPrice, cart, setCart } ) {
   const [clickHeart, setClickHeart] = useState(false)
 
   const location = useLocation();
-  console.log(location)
+  // console.log(location)
 
   const [itemInfo, setItemInfo] = useState([])
 
     useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/item/${location.state.id}`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/item/${location.state.id}`)
     .then((res) => res.json())
     .then(res => {
       setItemInfo(res.data)
-      console.log(res.data)
+      // console.log(res.data)
     })
     .catch((err) => {
       console.log(err)
@@ -345,7 +345,7 @@ function Items( { convertPrice, cart, setCart } ) {
 
   const handleCart = () => {
 
-    fetch(`http://211.58.40.128:8080/api/v1/cart`, {
+    fetch(`https://shopforourpets.shop:8080/api/v1/cart`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -355,7 +355,7 @@ function Items( { convertPrice, cart, setCart } ) {
         itemId: itemInfo.itemId,
         name: itemInfo.itemName, 
         price: itemInfo.itemPrice,
-        image: `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${itemInfo.thumbnail}`,
+        image: location.state.thumbnail,
         itemCnt: count,
         memberId: "000001"
       }),
@@ -368,7 +368,7 @@ function Items( { convertPrice, cart, setCart } ) {
   };
 
   const handleButtonWish = () => {
-    fetch(`http://211.58.40.128:8080/api/v1/wish`, {
+    fetch(`https://shopforourpets.shop:8080/api/v1/wish`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -389,8 +389,8 @@ function Items( { convertPrice, cart, setCart } ) {
   }
 
   const Delete = () => {
-    fetch(`http://211.58.40.128:8080/api/v1/item/${itemInfo.itemId}`, {
-      method: 'DELETE'
+    fetch(`https://shopforourpets.shop:8080/api/v1/item/${itemInfo.itemId}`, {
+     method: 'DELETE'
     })
     .then(() => {
       navigate('/shopping/meal')
@@ -419,7 +419,7 @@ function Items( { convertPrice, cart, setCart } ) {
     <div className="item_top">
           <>
             <div className="item_imagebox">
-              <img src={Cat} // {final} 로 바꿔야함
+              <img src={itemInfo.thumbnail}
                className="itemImage" alt="cat"></img>
             </div>
             

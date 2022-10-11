@@ -126,7 +126,7 @@ function FAQ() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/board?categoryId=31`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/board?categoryId=31`)
       .then((res) => res.json())
       .then((res) => {
         setList(res.data);
@@ -147,7 +147,7 @@ console.log(list)
           <div className="faqtop">
             <span className="faqtext">작성자</span>
             <span className="faqtext">제목</span>
-            <span className="faqtext">순번</span>
+            {/* <span className="faqtext">순번</span> */}
             {/* <span className="faqtext">날짜</span> */}
           </div>
 

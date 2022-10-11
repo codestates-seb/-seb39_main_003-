@@ -112,12 +112,14 @@ function SignUp() {
     formData.delete("multipartFiles");
     formData.append("multipartFiles", data.multipartFiles[0]);
 
-    fetch(`http://211.58.40.128:8080/api/v1/member`, {
-    method: "POST",
+    fetch(`https://shopforourpets.shop:8080/api/v1/member`, {
+      mode: 'no-cors',
+     method: "POST",
     body: formData
   })
 
     .then(() => {
+      alert('회원가입이 완료되었습니다')
       navigate('/')
     })
     .catch(() => {

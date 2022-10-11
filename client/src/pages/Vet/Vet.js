@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Ready from '../../assets/준비중.png';
 
 const Wrapper = styled.div`
 box-sizing: border-box;
@@ -13,7 +14,8 @@ box-sizing: border-box;
     align-items: center;
 }
 .img{
-    width: 40%;
+    width: 20rem;
+    height: 20rem;
 }
 .text1{
     margin-top: 50px;
@@ -23,11 +25,11 @@ box-sizing: border-box;
 .text2{
     margin-top: 20px;
     font-size: larger;
-    font-weight: 300;
+    font-weight: 600;
 }
 .text3{
     font-size: larger;
-    font-weight: 300;
+    font-weight: 600;
 }
 `
 
@@ -35,7 +37,7 @@ function Vet() {
   return (
     <Wrapper>
         <div className='background'>
-            <img className='img' src='https://cdn.discordapp.com/attachments/1020944788419248179/1027630572492832769/-001.png'/>
+            <img className='img' src={Ready}/>
             <div className='text1'>서비스 준비중입니다.</div>
             <div className='text2'>보다 나은 서비스 제공을 위해 페이지 준비중에 있습니다.</div>
             <div className='text3'>빠른 시일 내에 찾아뵙겠습니다.</div>

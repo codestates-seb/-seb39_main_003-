@@ -88,7 +88,7 @@ function Wish( {convertPrice} ) {
   const [wishList, setWishList] = useState([])
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/item/wish?memberId=000001&page=1&size=8`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/item/wish?memberId=000001&page=1&size=8`)
     .then(res => res.json())
     .then(res => {
       setWishList(res.data)
@@ -116,7 +116,7 @@ function Wish( {convertPrice} ) {
             return (
                 <div className='wishlistBox' key={idx}>
                     <span>
-                      <img src={Cat} alt='상품 사진' className='img'/>
+                      <img src={el.thumbnail} alt='상품 사진' className='img'/>
                     </span>
                     <span className='wishname'>{el.itemName}</span>
                     <span className='wishprice'>{convertPrice(el.price)} 원</span>

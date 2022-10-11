@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Reply from "../Community/detail/Reply";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
+import NoticeDelete from "./NoticeDelete";
 
 const Wrapper = styled.div`
   //게시글 확인 화면
@@ -100,7 +101,7 @@ function NoticePage() {
   const [noticeList, setNoticeList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/board/${location.state.id}`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/board/${location.state.id}`)
       .then((res) => res.json())
       .then((res) => {
         setNoticeList(res.data);
@@ -126,6 +127,7 @@ function NoticePage() {
             <span className="article">{noticeList.boardContents}</span>
           </div>
 
+          <NoticeDelete boardId={location.state.id}></NoticeDelete>
           {/* 댓글 작성란 및 작성된 댓글 목록 */}
           <Reply boardId={location.state.id}/>
         </div>

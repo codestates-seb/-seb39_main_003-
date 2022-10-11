@@ -136,7 +136,7 @@ function Hospital() {
   const [hlist, setHList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/board?categoryId=13`, {
+    fetch(`https://shopforourpets.shop:8080/api/v1/board?categoryId=13`, {
       method: "GET",
       headers: {
         "content-Type": "application/json",

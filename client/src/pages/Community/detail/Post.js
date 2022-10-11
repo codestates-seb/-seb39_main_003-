@@ -4,6 +4,7 @@ import Reply from "./Reply";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router";
+import Delete from "./Delete";
 
 const Wrapper = styled.div`
   //게시글 확인 화면
@@ -102,13 +103,13 @@ function Post() {
   const [communityList, setCommunityList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/board/${location.state.id}`)
-    .then((res) => res.json())
-    .then((res) => {
-      setCommunityList(res.data);
-      // console.log(res.data);
-    })
-    .catch((err) => console.log(err));
+    fetch(`https://shopforourpets.shop:8080/api/v1/board/${location.state.id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setCommunityList(res.data);
+        // console.log(res.data);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   return (
@@ -144,8 +145,9 @@ function Post() {
           {/* ); */}
           {/* })} */}
 
+          <Delete boardId={location.state.id}></Delete>
           {/* 댓글 작성란 및 작성된 댓글 목록 */}
-          <Reply boardId={location.state.id}/>
+          <Reply boardId={location.state.id} />
         </div>
       </div>
     </Wrapper>

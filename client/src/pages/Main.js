@@ -153,17 +153,31 @@ const StyledLink = styled(Link)`
 
 function Main() {
 
-  // let test = window.location.search;
-  // console.log(test);
+  // useEffect(() => {
+    let test = window.location.search;
+    console.log(test);
 
-  // const Host = `https://shopforourpets.shop:8080`
+    let param = new URLSearchParams(test);
+    console.log(param);
 
-  // let param = new URLSearchParams(test);
-  // let access = param.get("access_token");
+    let access = param.get("access_token");
+    console.log(access);
 
-  // console.log(access);
+    let refresh = param.get("refresh_token");
+    console.log(access);
 
-  // sessionStorage.setItem("accessToken", `${access}`)
+    if(access !== null) {
+      sessionStorage.setItem("accessToken", `${access}`)
+      sessionStorage.setItem("refreshToken", `${refresh}`)
+      document.location.href = '/'
+    }
+
+    // ** 로그인 랜딩 페이지 사용 권장 **
+
+    // else {
+    //   sessionStorage.removeItem("accessToken");
+    // }
+  // }, []);
 
   // window.Buffer = window.Buffer || require("buffer").Buffer;
 
@@ -175,7 +189,7 @@ function Main() {
   // const [info, setInfo] = useState([]);
 
   // useEffect(() => {
-  //   fetch(`${Host}/api/v1/member/$%7Bresult.memberId%7D%60`)
+  //   fetch(`https://shopforourpets.shop:8080/api/v1/member/$%7Bresult.memberId%7D%60`)
   //     .then((res) => res.json())
   //     .then((res) => {
   //       setInfo(res);

@@ -3,6 +3,7 @@ import React from "react";
 import Reply from "./Reply";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
+import InfoDelete from "./InfoDelete";
 
 const Wrapper = styled.div`
   //게시글 확인 화면
@@ -65,7 +66,7 @@ function InfoPost() {
   const [infoList, setInfoList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/board/${location.state.id}`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/board/${location.state.id}`)
     .then((res) => res.json())
     .then((res) => {
       setInfoList(res.data);
@@ -87,7 +88,8 @@ function InfoPost() {
             </div>
               <span className="article">{infoList.boardContents}</span>
           </div>
-
+          
+          <InfoDelete boardId={location.state.id}></InfoDelete>
           {/* 댓글 작성란 및 작성된 댓글 목록 */}
           <Reply boardId={location.state.id}/>
         </div>
