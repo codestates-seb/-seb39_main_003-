@@ -100,7 +100,6 @@ box-sizing: border-box;
 
 function SignUp() {
   
-  
   const { register, handleSubmit, formState:{errors} } = useForm();
   
     const onSubmit = (data) => {
