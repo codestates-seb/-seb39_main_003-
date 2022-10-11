@@ -126,7 +126,7 @@ export default function Reply({ boardId }) {
   };
 
   const postReply = () => {
-    fetch(`https://shopforourpets.shop:8080/api/v1/comment`, {
+    fetch(`http://211.58.40.128:8080/api/v1/comment`, {
       method: "POST",
       headers: {
         "content-Type": "application/json",
@@ -147,7 +147,7 @@ export default function Reply({ boardId }) {
   };
 
   useEffect(() => {
-    fetch(`https://shopforourpets.shop:8080/api/v1/comment?boardId=${boardId}&memberId=000004&where=boards&page=1&size=10`)
+    fetch(`http://211.58.40.128:8080/api/v1/comment?boardId=${boardId}&memberId=000004&where=boards&page=1&size=10`)
       .then((res) => res.json())
       .then((res) => {
         setReply(res);

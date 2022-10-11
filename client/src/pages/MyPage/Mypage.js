@@ -147,7 +147,7 @@ function Mypage() {
     
     useEffect(() => {
 
-      fetch(`https://shopforourpets.shop:8080/api/v1/member/${result.memberId}`)
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
 
       .then(res => res.json())
       .then(res => {
@@ -160,7 +160,7 @@ function Mypage() {
 
 
     const handleButtonLogout = () => {
-      axios.post(`https://shopforourpets.shop:8080/logout?test@naver.com`, 
+      axios.post(`http://211.58.40.128:8080/logout?test@naver.com`, 
         sessionStorage.removeItem('refreshToken'),
         sessionStorage.removeItem('accessToken'),
         navigate('/'),

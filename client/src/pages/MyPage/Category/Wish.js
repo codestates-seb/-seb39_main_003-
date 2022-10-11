@@ -88,7 +88,7 @@ function Wish( {convertPrice} ) {
   const [wishList, setWishList] = useState([])
 
   useEffect(() => {
-    fetch(`https://shopforourpets.shop:8080/api/v1/item/wish?memberId=000001&page=1&size=8`)
+    fetch(`http://211.58.40.128:8080/api/v1/item/wish?memberId=000001&page=1&size=8`)
     .then(res => res.json())
     .then(res => {
       setWishList(res.data)
