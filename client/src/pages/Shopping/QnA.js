@@ -70,8 +70,8 @@ function Review( {itemId, memberId} ) {
   const [comment, setComment] = useState([])
   // console.log(comment)
 
-  const handleButtonReview = () => {
-    fetch(`http://211.58.40.128:8080/api/v1/qna/question`, {
+  const handleButtonQnA = () => {
+    fetch(`https://shopforourpets.shop:8080/api/v1/qna/question`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -100,7 +100,7 @@ function Review( {itemId, memberId} ) {
   };
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/qna/question?itemId=${itemId}&page=1&size=8`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/qna/question?itemId=${itemId}&page=1&size=8`)
     .then(res => res.json())
     .then(res => {
       setComment(res.data)
@@ -115,12 +115,12 @@ function Review( {itemId, memberId} ) {
       <div className='commentAllBox'>
         <div className='commentBox'>
           <input type="text" placeholder='질문을 등록해주세요' className='comment' onChange={textInput} />
-          <span className='commentButton' onClick={handleButtonReview}>등록</span>
+          <span className='commentButton' onClick={handleButtonQnA}>등록</span>
         </div>
 
         {comment && comment.map((el, idx) => {
           const Delete = () => {
-            fetch(`http://211.58.40.128:8080/api/v1/qna/question/${el.questionId}`, {
+            fetch(`https://shopforourpets.shop:8080/api/v1/qna/question/${el.questionId}`, {
              method: 'DELETE'
             })
             .then(() => {

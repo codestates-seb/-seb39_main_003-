@@ -123,7 +123,7 @@ function Notice() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/board?page=1&size=10&categoryId=21`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/board?page=1&size=10&categoryId=21`)
       .then((res) => res.json())
       .then((res) => {
         setList(res.data);

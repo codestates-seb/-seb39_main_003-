@@ -214,7 +214,7 @@ function Shopping( {convertPrice} ) {
   const [itemList, setItemList] = useState(undefined);
   
   useEffect(() => {
-  fetch(`http://211.58.40.128:8080/api/v1/item/wish?memberId=000001&page=1&size=8`)
+  fetch(`https://shopforourpets.shop:8080/api/v1/item/wish?memberId=000001&page=1&size=8`)
   .then((res) => res.json())
   .then(res => {
     setItemList(res.data)
@@ -243,7 +243,7 @@ function Shopping( {convertPrice} ) {
   // const [info, setInfo] = useState(undefined);
 
   // useEffect(() => {
-  //   fetch(`http://211.58.40.128:8080/api/v1/member/000001`)
+  //   fetch(`https://shopforourpets.shop:8080/api/v1/member/000001`)
   //   .then(res => res.json())
   //   .then(res => {
   //     setInfo(res)

@@ -76,7 +76,7 @@ function Review( {itemId, memberId} ) {
   // console.log(reviewList)
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/review?itemId=${itemId}&page=1&size=8`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/review?itemId=${itemId}&page=1&size=8`)
       .then(res => res.json())
       .then(res => {
         setReviewList(res.data)
@@ -86,7 +86,7 @@ function Review( {itemId, memberId} ) {
   
   
   const handleButtonReview = () => {
-    fetch(`http://211.58.40.128:8080/api/v1/review`, {
+    fetch(`https://shopforourpets.shop:8080/api/v1/review`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -117,7 +117,7 @@ function Review( {itemId, memberId} ) {
   };
   
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/review?itemId=${itemId}&page=1&size=8`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/review?itemId=${itemId}&page=1&size=8`)
     .then(res => res.json())
     .then(res => {
       setComment(res.data)
@@ -129,7 +129,7 @@ function Review( {itemId, memberId} ) {
 
 
     // useEffect(() => {
-    // fetch(`http://211.58.40.128:8080/api/v1/review/${itemId}`)
+    // fetch(`https://shopforourpets.shop:8080/api/v1/review/${itemId}`)
     // .then((res) => {
     //   setReviewList(res.data)
     //   window.location.reload();
@@ -156,7 +156,7 @@ function Review( {itemId, memberId} ) {
         {comment && comment.map((el, idx) => {
 
           const Delete = () => {
-            fetch(`http://211.58.40.128:8080/api/v1/review/${el.reviewId}`, {
+            fetch(`https://shopforourpets.shop:8080/api/v1/review/${el.reviewId}`, {
             method: 'DELETE'
             })
             .then(() => {

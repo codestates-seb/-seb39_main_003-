@@ -115,7 +115,7 @@ function SignIn() {
       method: 'post',
       data: data,
       mode: 'no-cors',
-      url: 'http://211.58.40.128:8080/login',
+      url: 'https://shopforourpets.shop:8080/login',
     })
     .then(response => {
       const accessToken = response.headers.authorization;
@@ -163,7 +163,7 @@ function SignIn() {
             </div>
 
             {/* <div>
-              <a href='http://211.58.40.128:8080/oauth2/authorization/google'>구글 로그인</a>
+              <a href='https://shopforourpets.shop:8080/oauth2/authorization/google'>구글 로그인</a>
             </div>
             <div>
               <a href='http://localhost:8080/oauth2/authorization/kakao'>카카오 로그인</a>

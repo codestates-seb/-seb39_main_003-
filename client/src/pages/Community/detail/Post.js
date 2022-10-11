@@ -103,7 +103,7 @@ function Post() {
   const [communityList, setCommunityList] = useState([]);
 
   useEffect(() => {
-    fetch(`http://211.58.40.128:8080/api/v1/board/${location.state.id}`)
+    fetch(`https://shopforourpets.shop:8080/api/v1/board/${location.state.id}`)
       .then((res) => res.json())
       .then((res) => {
         setCommunityList(res.data);

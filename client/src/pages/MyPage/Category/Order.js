@@ -260,7 +260,7 @@ function Order( {convertPrice} ) {
     const [info, setInfo] = useState([]);
     
     React.useEffect(() => {
-      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
+      fetch(`https://shopforourpets.shop:8080/api/v1/member/${result.memberId}`)
       .then(res => res.json())
       .then(res => {
         setInfo(res)
@@ -286,7 +286,7 @@ function Order( {convertPrice} ) {
     }
 
     const orderItem = () => {
-      fetch(`http://211.58.40.128:8080/api/v1/pay`,{
+      fetch(`https://shopforourpets.shop:8080/api/v1/pay`,{
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

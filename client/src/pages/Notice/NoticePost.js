@@ -123,7 +123,7 @@ function NoticePost() {
   };
 
   const postContent = () => {
-    fetch(`http://211.58.40.128:8080/api/v1/board`, {
+    fetch(`https://shopforourpets.shop:8080/api/v1/board`, {
       method: "POST",
       headers: {
         "content-Type": "application/json",
