@@ -52,7 +52,7 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .scheme("https")
 //                .host("localhost")
 //                .host("seb39-main-003-bsihsudrk-nomga.vercel.app")
-                .host("seb39-main-003-4ywpcwaqv-nomga.vercel.app")
+                .host("page.shopforourpets.shop")
 //                .port("3000")
                 .path("/")
                 .queryParams(queryParmas)
