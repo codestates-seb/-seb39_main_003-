@@ -32,7 +32,6 @@ jobs:
     - name: Make Directory for deliver
       run: mkdir deploy
       
-
     - name: Jar File Copy
       run: cp ./*.jar ./deploy
 
@@ -58,8 +57,3 @@ jobs:
         --deployment-config-name CodeDeployDefault.AllAtOnce
         --deployment-group-name mypet-deploy-group
         --s3-location bucket=mypet-cicd,bundleType=zip,key=mypet-deploy.zip
-        
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        arguments: build
