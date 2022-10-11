@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 import Reply from "./Reply";
+import ProtectDelete from "./ProtectDelete";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
 
@@ -88,6 +89,7 @@ function ProtectPost() {
               <span className="article">{protectList.boardContents}</span>
           </div>
 
+          <ProtectDelete boardId={location.state.id}></ProtectDelete>
           {/* 댓글 작성란 및 작성된 댓글 목록 */}
           <Reply boardId={location.state.id}/>
         </div>
