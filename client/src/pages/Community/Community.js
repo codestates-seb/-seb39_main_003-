@@ -173,7 +173,7 @@ function Community() {
           <div className="cposttop">
             <span className="cposttext">작성자</span>
             <span className="cposttext">글 제목</span>
-            <span className="cposttext">내용</span>
+            <span className="cposttext"> 내용</span>
           </div>
 
           <div>
