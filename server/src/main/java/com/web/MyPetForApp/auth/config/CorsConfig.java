@@ -15,8 +15,8 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
 //        config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedOrigin("https://seb39-main-003-bsihsudrk-nomga.vercel.app");
-//        config.addAllowedOrigin("https://page.shopforourpets.shop");
+//        config.addAllowedOrigin("https://seb39-main-003-bsihsudrk-nomga.vercel.app");
+        config.addAllowedOrigin("https://page.shopforourpets.shop");
 //        config.addAllowedOrigin("https://seb39-main-003-rjwfp0sdz-main003.vercel.app:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
