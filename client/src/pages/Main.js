@@ -155,16 +155,16 @@ function Main() {
 
   // useEffect(() => {
     let test = window.location.search;
-    console.log(test);
+    // console.log(test);
 
     let param = new URLSearchParams(test);
-    console.log(param);
+    // console.log(param);
 
     let access = param.get("access_token");
-    console.log(access);
+    // console.log(access);
 
     let refresh = param.get("refresh_token");
-    console.log(access);
+    // console.log(access);
 
     if(access !== null) {
       sessionStorage.setItem("accessToken", `${access}`)
