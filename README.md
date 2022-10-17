@@ -35,7 +35,7 @@
   
 ## 🔎 [요구사항 명세서](https://docs.google.com/spreadsheets/d/10A_OVETxs4MMVz9bb-l9PbH-4gBJvXAy1vHKStk5auw/edit#gid=0)
 ## 💻 [테이블 명세서](https://docs.google.com/spreadsheets/d/1W4ntaUjgMV2KYUmQAwriEsGxL1W-KVYHuGzaB1rIwiY/edit#gid=136126072)
-## 📂 [API 문서](https://shopforourpets.shop:8080/swagger-ui/index.html)  
+## 📂 [API 문서](http://211.58.40.128:8080/swagger-ui/index.html)  
 <br/>
   
 # 🙆 팀 문화
