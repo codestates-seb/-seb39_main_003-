@@ -322,14 +322,16 @@ function Items( { convertPrice, cart, setCart } ) {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [count, setCount] = useState(1);
-  const [clickHeart, setClickHeart] = useState(false)
+  // const [clickHeart, setClickHeart] = useState("찜 제거")
 
   const location = useLocation();
   // console.log(location)
 
+  const [checkWish, setCheckWish] = useState([])
+
   const [itemInfo, setItemInfo] = useState([])
 
-    useEffect(() => {
+  useEffect(() => {
     fetch(`http://211.58.40.128:8080/api/v1/item/${location.state.id}`)
     .then((res) => res.json())
     .then(res => {
@@ -340,6 +342,43 @@ function Items( { convertPrice, cart, setCart } ) {
       console.log(err)
     })
   } , [])
+
+
+  const token = sessionStorage.getItem('accessToken');
+  const realToken = token.slice(7)
+  // console.log(realToken)
+  
+  window.Buffer = window.Buffer || require("buffer").Buffer; 
+  
+  const base64Payload = realToken.split('.')[1]; //value 0 -> header, 1 -> payload, 2 -> VERIFY SIGNATURE
+  const payload = Buffer.from(base64Payload, 'base64'); 
+  const result = JSON.parse(payload.toString())
+
+  // console.log(result);
+
+
+    const [info, setInfo] = useState([]);
+    
+    useEffect(() => {
+
+      fetch(`http://211.58.40.128:8080/api/v1/member/${result.memberId}`)
+
+      .then(res => res.json())
+      .then(res => {
+        setInfo(res)
+        // console.log(res)
+      })
+    } , [])
+
+    const checkWishlist = () => {
+      fetch(`http://211.58.40.128:8080/api/v1/wish?itemId=${itemInfo.itemId}&memberId=${info.memberId}`)
+      .then(res => res.json())
+      .then(res => {
+        setCheckWish(res.data)
+        // console.log(res.data)
+      })
+      .catch( err => console.log(err))
+    }
 
   const final = `https://mypet-imaga.s3.ap-northeast-2.amazonaws.com/items/${location.state.thumbnail}`
 
@@ -375,15 +414,21 @@ function Items( { convertPrice, cart, setCart } ) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        memberId: "000001",
+        memberId: info.memberId,
         itemId: itemInfo.itemId
       }),
     })
     .then((res) => res.json())  
-    // .then(res => console.log(res))
     .then(() => {
-      alert("찜 목록에 추가되었습니다")
-      navigate(`/mypage/wish`)
+      checkWishlist();
+      // window.location.reload();
+    })
+    .then(() => {
+      if(checkWish.wished === false ) {
+        alert('찜 목록에 추가되었습니다!')
+      }
+      else alert('찜 목록에서 제거되었습니다!')
+      // window.location.reload();
     })
     .catch(err => console.log(err))
   }
@@ -404,9 +449,19 @@ function Items( { convertPrice, cart, setCart } ) {
     })
   }
 
+  // const addWishList = () => {
+  //   fetch(`http://211.58.40.128:8080/api/v1/wish`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: 
+  //   })
+  // }
+
   return (
     <Wrapper>
-      
+
     {sessionStorage.getItem('accessToken') ?
       <div className='deleteBox'>
       {/* <span className='patch' onClick={Patch}>상품 수정</span> */}
@@ -458,11 +513,12 @@ function Items( { convertPrice, cart, setCart } ) {
                         장바구니
                       </button>
 
-                      <span className='wish' onClick={() => {
-                        handleButtonWish(setClickHeart(!clickHeart))
-                      }}>
-                      {clickHeart === false ? <BsHeart /> : <BsHeartFill />}
+                      <span className='wish' onClick={() => 
+                      handleButtonWish()
+                    }>
+                        {checkWish.wished === true ? <BsHeartFill /> : <BsHeart /> }
                       </span>
+
                 </div>
 
             </div>
